@@ -366,9 +366,15 @@ h2 {
   border-radius: 999px;
   border: 1px solid var(--line);
   padding: 0.58rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.trust-ticker-track {
   display: flex;
   gap: 0.5rem;
-  overflow: hidden;
+  width: max-content;
+  animation: ticker-scroll 4.2s linear infinite;
 }
 
 .trust-ticker span {
@@ -380,7 +386,6 @@ h2 {
   padding: 0.3rem 0.7rem;
   background: rgba(6, 20, 33, 0.82);
   font-size: 0.8rem;
-  animation: slide 8.5s linear infinite;
 }
 
 .split {
@@ -567,6 +572,53 @@ h2 {
   gap: 0.9rem;
 }
 
+.deep-dive .lead {
+  margin-bottom: 1rem;
+}
+
+.deep-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.deep-card {
+  padding: 1.05rem;
+}
+
+.deep-card h3 {
+  font-size: 1.03rem;
+}
+
+.deep-card p {
+  margin-top: 0.45rem;
+}
+
+.deep-card .mini-list {
+  margin: 0.6rem 0 0;
+  padding-left: 1rem;
+  color: #c2d8ea;
+  display: grid;
+  gap: 0.28rem;
+  font-size: 0.84rem;
+}
+
+.deep-card.variant-0 {
+  background: linear-gradient(180deg, rgba(16, 30, 47, 0.95), rgba(11, 22, 35, 0.95));
+}
+
+.deep-card.variant-1 {
+  background: linear-gradient(160deg, rgba(33, 24, 10, 0.75), rgba(16, 26, 40, 0.95));
+}
+
+.deep-card.variant-2 {
+  background: linear-gradient(180deg, rgba(11, 26, 39, 0.95), rgba(15, 31, 28, 0.9));
+}
+
+.deep-card.variant-3 {
+  background: linear-gradient(180deg, rgba(14, 19, 35, 0.95), rgba(23, 34, 50, 0.95));
+}
+
 .list {
   margin: 0.8rem 0 0;
   padding: 0;
@@ -613,7 +665,8 @@ h2 {
 
   .feature-grid,
   .kpi-band,
-  .testimonial-grid {
+  .testimonial-grid,
+  .deep-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -658,7 +711,8 @@ h2 {
   .kpi-band,
   .metric-grid,
   .pain-grid,
-  .testimonial-grid {
+  .testimonial-grid,
+  .deep-grid {
     grid-template-columns: 1fr;
   }
 
@@ -667,7 +721,7 @@ h2 {
   }
 }
 
-@keyframes slide {
+@keyframes ticker-scroll {
   from { transform: translateX(0); }
-  to { transform: translateX(-36px); }
+  to { transform: translateX(-50%); }
 }
