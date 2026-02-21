@@ -33,14 +33,7 @@ const NAV_CONFIG = [
       { label: "Werbeautomatisierung (Coming Soon)", href: "/plattform/automatisierung.html" }
     ]
   },
-  {
-    label: "Für Agenturen",
-    href: "/branchen/amazon-agenturen.html",
-    children: [
-      { label: "Amazon-Agenturen", href: "/branchen/amazon-agenturen.html" },
-      { label: "Nach Agenturgröße", href: "/branchen/agentur-segmente.html" }
-    ]
-  },
+  { label: "Für Agenturen", href: "/branchen/amazon-agenturen.html" },
   {
     label: "Ressourcen",
     href: "/ressourcen/",
@@ -56,89 +49,6 @@ const NAV_CONFIG = [
   }
 ];
 
-const TOPIC_LIBRARY = {
-  dashboard: {
-    prefix: "Dashboard-Steuerung",
-    bullets: ["KPI-Logik je Land", "MoM/YoY Vergleich", "ASIN-Drilldown"],
-    details: [
-      "Priorisiert Top- und Risiko-ASINs in einem Blick.",
-      "Verbindet Umsatz, Conversion und Werbequote im selben Kontext.",
-      "Unterstützt B2B/B2C-Auswertungen für bessere Budgetsteuerung."
-    ]
-  },
-  werbung: {
-    prefix: "Werbeanalyse",
-    bullets: ["ACoS/TACoS", "Budgetsteuerung", "Targeting-Fokus"],
-    details: [
-      "Identifiziert ineffiziente Kampagnen schneller.",
-      "Hebt rentable Skalierungschancen klar hervor.",
-      "Zeigt Zusammenhang aus Spend, Impression und Umsatzwirkung."
-    ]
-  },
-  insights: {
-    prefix: "Insights & Health",
-    bullets: ["Risikofrühwarnung", "Findings-Priorität", "Empfehlungslogik"],
-    details: [
-      "Erkennt BuyBox-, Conversion- und Trendabweichungen frühzeitig.",
-      "Priorisiert Maßnahmen nach operativer Wirkung.",
-      "Gibt Agenturteams klare nächste Schritte statt Rohdaten."
-    ]
-  },
-  promotions: {
-    prefix: "Promotions-Review",
-    bullets: ["Vorher/Nachher", "Vorjahresvergleich", "Wiederholungslogik"],
-    details: [
-      "Bewertet Aktionen datenbasiert statt subjektiv.",
-      "Zeigt konkrete Wirkung auf Umsatz, TACoS und Conversion.",
-      "Verbessert Planung für Prime Day und saisonale Peaks."
-    ]
-  },
-  content: {
-    prefix: "Content-Output",
-    bullets: ["Bulk-Produktion", "A+ Basic/Premium", "Keyword/Competition"],
-    details: [
-      "Skaliert Content-Erstellung für viele ASINs parallel.",
-      "Verbessert Time-to-Live neuer Creative-Ideen.",
-      "Verbindet Performance-Signale mit Content-Entscheidungen."
-    ]
-  },
-  kunden: {
-    prefix: "Kundenführung",
-    bullets: ["Rollen & Zugriff", "Monatsstatus", "Kommunikationsstruktur"],
-    details: [
-      "Konsolidiert Kundenstatus und operative To-dos zentral.",
-      "Sorgt für planbare Übergaben im Team.",
-      "Reduziert Rückfragen im Reporting-Prozess."
-    ]
-  },
-  plattform: {
-    prefix: "Plattformarchitektur",
-    bullets: ["Kundensicht", "Agentursicht", "Datenfluss"],
-    details: [
-      "Trennt Entscheidungsdaten von operativer Tiefe sauber.",
-      "Schafft Stabilität bei wachsender Kundenanzahl.",
-      "Ermöglicht konsistente Prozessqualität je Teammitglied."
-    ]
-  },
-  ressourcen: {
-    prefix: "Praxis-Ressource",
-    bullets: ["Playbook", "Framework", "Sofort nutzbar"],
-    details: [
-      "Lieferbar als direkt umsetzbare Teamvorlage.",
-      "Standardisiert interne Qualität über alle Kunden.",
-      "Beschleunigt Onboarding und operative Umsetzung."
-    ]
-  },
-  default: {
-    prefix: "Agenturvorteil",
-    bullets: ["Skalierbarkeit", "Klarheit", "Umsetzung"],
-    details: [
-      "Richtet Fokus auf messbare Agenturleistung.",
-      "Verringert Toolwechsel und Abstimmungsaufwand.",
-      "Erhöht Geschwindigkeit von Insight bis Maßnahme."
-    ]
-  }
-};
 
 function normalizePath(pathname) {
   if (!pathname || pathname === "") return "/";
@@ -248,61 +158,45 @@ function initSegmentLanding() {
   activateSegment(valid ? sizeParam : "klein", false);
 }
 
-function detectTopic(path) {
-  if (path.includes("werbung")) return "werbung";
-  if (path.includes("promotion")) return "promotions";
-  if (path.includes("content")) return "content";
-  if (path.includes("insights") || path.includes("findings") || path.includes("health")) return "insights";
-  if (path.includes("dashboard") || path.includes("reporting")) return "dashboard";
-  if (path.includes("kunden") || path.includes("aufgaben")) return "kunden";
-  if (path.includes("/plattform/")) return "plattform";
-  if (path.includes("/ressourcen/")) return "ressourcen";
-  return "default";
-}
-
-function ensureDeepContent() {
+function ensureLongFormSections() {
   const path = normalizePath(location.pathname);
-  if (path === "/" || path.includes("impressum") || path.includes("datenschutz") || path.includes("agb")) return;
+  if (path === "/" || path.includes("impressum") || path.includes("datenschutz") || path.includes("agb") || path.includes("demo-anfragen")) return;
   const main = document.querySelector("main.page-shell");
   if (!main) return;
 
-  const currentCards = main.querySelectorAll("article.panel.card").length;
-  if (currentCards >= 8) return;
+  const sectionCount = main.querySelectorAll(":scope > section").length;
+  if (sectionCount >= 8) return;
 
-  const topicKey = detectTopic(path);
-  const topic = TOPIC_LIBRARY[topicKey] || TOPIC_LIBRARY.default;
-  const needed = Math.min(12, Math.max(8, 10) - currentCards);
+  const topic = path.includes("/leistungen/")
+    ? "Leistungsumsetzung"
+    : path.includes("/plattform/")
+      ? "Plattformlogik"
+      : path.includes("/ressourcen/")
+        ? "Praxiswissen"
+        : "Agenturstrategie";
+
+  const needed = 8 - sectionCount;
   const fx = ["left", "up", "right", "zoom"];
 
-  const cards = Array.from({ length: needed }).map((_, i) => {
-    const detail = topic.details[i % topic.details.length];
-    const title = `${topic.prefix} ${i + 1}`;
-    const b1 = topic.bullets[i % topic.bullets.length];
-    const b2 = topic.bullets[(i + 1) % topic.bullets.length];
-    const b3 = topic.bullets[(i + 2) % topic.bullets.length];
-    return `
-      <article class="panel card deep-card variant-${i % 4}" data-reveal data-fx="${fx[i % fx.length]}">
-        <p class="tag">Deep Dive</p>
-        <h3>${title}</h3>
-        <p>${detail}</p>
-        <ul class="mini-list">
-          <li>${b1}</li>
-          <li>${b2}</li>
-          <li>${b3}</li>
+  const blocks = Array.from({ length: needed }).map((_, i) => `
+    <section class="section">
+      <article class="panel card longform-panel" data-reveal data-fx="${fx[i % fx.length]}">
+        <p class="kicker">${topic} · Abschnitt ${i + 1}</p>
+        <h2>${topic}: Klarer Fokus für Entscheidungen und Umsetzung</h2>
+        <p class="lead">Dieser Abschnitt vertieft das Seitenthema mit operativer Perspektive, damit Agenturinhaber, Teamleads und Account Manager dieselbe Entscheidungslogik nutzen.</p>
+        <ul class="list">
+          <li>Konkrete Einordnung von KPI-Signalen statt reiner Zahlenansicht</li>
+          <li>Handlungspfad vom Insight zur priorisierten Maßnahme</li>
+          <li>Saubere Kommunikation der nächsten Schritte gegenüber Kunden</li>
         </ul>
       </article>
-    `;
-  }).join("");
+    </section>
+  `).join("");
 
-  const section = document.createElement("section");
-  section.className = "section deep-dive";
-  section.innerHTML = `
-    <p class="kicker" data-reveal data-fx="left">Detaillierte Umsetzung</p>
-    <h2 data-reveal data-fx="up">Tiefer Einblick für Amazon-Agenturen</h2>
-    <p class="lead" data-reveal data-fx="right">Damit jede Seite nicht nur überblickt, sondern wirklich erklärt: hier sind zusätzliche operative Bausteine mit direktem Praxisbezug.</p>
-    <div class="deep-grid">${cards}</div>
-  `;
-  main.appendChild(section);
+  const wrapper = document.createElement("div");
+  wrapper.className = "longform-stack";
+  wrapper.innerHTML = blocks;
+  main.appendChild(wrapper);
 }
 
 function initRevealAnimations() {
@@ -339,6 +233,26 @@ function initRevealAnimations() {
   }
 }
 
+function initScrollProgress() {
+  let bar = document.querySelector(".scroll-progress");
+  if (!bar) {
+    bar = document.createElement("div");
+    bar.className = "scroll-progress";
+    document.body.prepend(bar);
+  }
+
+  const update = () => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    bar.style.transform = `scaleX(${progress})`;
+  };
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+}
+
 function initDetailsAccordion() {
   const details = document.querySelectorAll("details");
   details.forEach((item) => {
@@ -355,9 +269,10 @@ renderHeaderAndFooter();
 rewriteDemoLinks();
 setupTicker();
 initSegmentLanding();
-ensureDeepContent();
+ensureLongFormSections();
 initRevealAnimations();
 initDetailsAccordion();
+initScrollProgress();
 
 const topbar = document.querySelector(".topbar");
 window.addEventListener("scroll", () => {

@@ -25,16 +25,45 @@
   <article class="panel card" data-reveal><h3>Lösung: Maßnahmelogik</h3><p>Reports verbinden KPI-Verlauf, Ursache und nächste Schritte.</p></article>
 </section>
 <section class="section">
-  <div class="cta-box panel" data-reveal data-fx="up">
-    <p class="kicker">Segment-Logik</p>
-    <h2>Wähle euer Agentursegment für den passenden Rollout.</h2>
-    <p>Je nach Teamgröße und Kundenanzahl unterscheiden sich Prioritäten. Dafür haben wir eine eigene Segment-Landing mit passender Argumentation aufgebaut.</p>
-    <div class="hero-cta" style="justify-content:center;margin-top:1rem;">
-      <a class="btn primary" href="/branchen/agentur-segmente.html">Segmentseite öffnen</a>
-      <a class="btn secondary" href="/branchen/agentur-segmente.html?size=klein">Kleine Agentur</a>
-      <a class="btn secondary" href="/branchen/agentur-segmente.html?size=mittel">Mittlere Agentur</a>
-      <a class="btn secondary" href="/branchen/agentur-segmente.html?size=gross">Große Agentur</a>
-    </div>
+  <p class="kicker" data-reveal data-fx="left">Nach Agenturgröße</p>
+  <h2 data-reveal data-fx="up">Wähle euer Segment für den passenden Rollout.</h2>
+  <div class="segment-switch panel" data-reveal data-fx="left">
+    <button class="seg-btn" data-segment="klein">Kleine Agentur (1-5 Kunden)</button>
+    <button class="seg-btn" data-segment="mittel">Mittlere Agentur (6-20 Kunden)</button>
+    <button class="seg-btn" data-segment="gross">Große Agentur (20+ Kunden)</button>
+  </div>
+</section>
+
+<section class="section segment-panel active" data-segment="klein">
+  <p class="kicker" data-reveal data-fx="left">Kleine Agentur</p>
+  <h2 data-reveal data-fx="up">Schnell Ordnung schaffen und Marge sichern</h2>
+  <div class="content-grid" style="margin-top:1rem;">
+    <article class="panel card" data-reveal data-fx="left"><h3>Fokus 1: Tool-Chaos beenden</h3><p>Ein System ersetzt verstreute Dashboards, Sheets und manuelle Report-Notizen.</p></article>
+    <article class="panel card" data-reveal data-fx="right"><h3>Fokus 2: Report-Zeit halbieren</h3><p>Monatsberichte werden direkt aus Daten plus Maßnahmen in der App erstellt.</p></article>
+    <article class="panel card" data-reveal data-fx="up"><h3>Fokus 3: Prioritäten klar ziehen</h3><p>Insights, Findings und Health Check geben täglich klare To-dos.</p></article>
+    <article class="panel card" data-reveal data-fx="zoom"><h3>Fokus 4: Kundenvertrauen erhöhen</h3><p>Kundensicht zeigt nur das Wesentliche, dadurch weniger Rückfragen.</p></article>
+  </div>
+</section>
+
+<section class="section segment-panel" data-segment="mittel">
+  <p class="kicker" data-reveal data-fx="left">Mittlere Agentur</p>
+  <h2 data-reveal data-fx="up">Standardisieren, ohne an Flexibilität zu verlieren</h2>
+  <div class="content-grid" style="margin-top:1rem;">
+    <article class="panel card" data-reveal data-fx="left"><h3>Fokus 1: Einheitliche KPI-Logik</h3><p>Alle Teammitglieder sprechen dieselbe Sprache bei ACoS, TACoS und Conversion.</p></article>
+    <article class="panel card" data-reveal data-fx="right"><h3>Fokus 2: Skalierbare Aufgabensteuerung</h3><p>Maßnahmen werden mit Owner und Deadline im System geführt.</p></article>
+    <article class="panel card" data-reveal data-fx="up"><h3>Fokus 3: Promotions datenbasiert planen</h3><p>Vorher-/Nachher-/Vorjahresvergleich je Aktion statt Bauchgefühl.</p></article>
+    <article class="panel card" data-reveal data-fx="zoom"><h3>Fokus 4: Content in Serie liefern</h3><p>Bulk-Workflows für Bilder, Texte und A+ halten Tempo und Qualität stabil.</p></article>
+  </div>
+</section>
+
+<section class="section segment-panel" data-segment="gross">
+  <p class="kicker" data-reveal data-fx="left">Große Agentur</p>
+  <h2 data-reveal data-fx="up">Mandantenfähig skalieren und Qualitätsniveau sichern</h2>
+  <div class="content-grid" style="margin-top:1rem;">
+    <article class="panel card" data-reveal data-fx="left"><h3>Fokus 1: Multi-Client Governance</h3><p>Klare Trennung von Kundensicht und Agentursicht über viele Accounts hinweg.</p></article>
+    <article class="panel card" data-reveal data-fx="right"><h3>Fokus 2: Teamübergreifende Standards</h3><p>Playbooks, KPI-Definitionen und Report-Struktur bleiben konsistent.</p></article>
+    <article class="panel card" data-reveal data-fx="up"><h3>Fokus 3: Risiko-Früherkennung</h3><p>BuyBox-, Conversion- und Health-Risiken werden früh zentral sichtbar.</p></article>
+    <article class="panel card" data-reveal data-fx="zoom"><h3>Fokus 4: Vorbereitung auf Ad-Automation</h3><p>Regelbasierte Steuerung als nächster Skalierungsschritt (Coming Soon).</p></article>
   </div>
 </section>
 </main>

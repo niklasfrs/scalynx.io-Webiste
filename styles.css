@@ -47,6 +47,19 @@ body {
   mask-image: radial-gradient(circle at 50% 35%, black, transparent 88%);
 }
 
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #ff9800, #ffb547);
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.45);
+  z-index: 120;
+}
+
 .page-shell,
 .topbar,
 .footer {
@@ -649,6 +662,32 @@ h2 {
 
 .segment-panel.active {
   display: block;
+}
+
+.segment-panel .content-grid {
+  align-items: stretch;
+}
+
+.segment-panel h2 {
+  max-width: 20ch;
+  margin-bottom: 1rem;
+}
+
+.longform-stack {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.longform-panel {
+  padding: 1.1rem;
+}
+
+.longform-panel .lead {
+  margin: 0.55rem 0 0.8rem;
+}
+
+.longform-panel .list {
+  margin-top: 0.4rem;
 }
 
 .list {
