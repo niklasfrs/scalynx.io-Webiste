@@ -92,7 +92,7 @@ function renderHeaderAndFooter() {
     if (nav) nav.innerHTML = buildNavHTML(currentPath);
     const cta = topbar.querySelector(".btn.primary");
     if (cta) {
-      cta.href = "mailto:info@scalynx.io?subject=Demo-Anfrage%20scalynx.io";
+      cta.href = "/demo-anfragen.html";
       cta.textContent = "Demo anfragen";
     }
   }
@@ -112,6 +112,13 @@ function renderHeaderAndFooter() {
 }
 
 renderHeaderAndFooter();
+
+document.querySelectorAll("a").forEach((link) => {
+  const label = (link.textContent || "").trim().toLowerCase();
+  if (label === "demo anfragen" || label === "live-demo buchen" || label === "live demo buchen") {
+    link.setAttribute("href", "/demo-anfragen.html");
+  }
+});
 
 const topbar = document.querySelector(".topbar");
 window.addEventListener("scroll", () => {
