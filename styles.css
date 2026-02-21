@@ -32,6 +32,7 @@ body {
     radial-gradient(70% 45% at 12% -5%, rgba(255, 152, 0, 0.24), transparent 60%),
     radial-gradient(42% 35% at 88% 0%, rgba(20, 97, 145, 0.28), transparent 70%),
     linear-gradient(180deg, #070d15 0%, #0a121d 42%, #0c1420 100%);
+  overflow-x: clip;
 }
 
 .bg-layer {
@@ -157,6 +158,14 @@ h4 {
   margin: 0;
   font-family: "Space Grotesk", sans-serif;
   line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+p,
+li,
+a,
+small {
+  overflow-wrap: anywhere;
 }
 
 h1 {
