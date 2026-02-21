@@ -343,6 +343,12 @@ h2 {
   gap: 0.8rem;
 }
 
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+}
+
 .card {
   padding: 1rem;
   border-radius: 16px;
@@ -365,6 +371,13 @@ h2 {
   margin: 0.45rem 0 0;
   color: var(--muted);
   line-height: 1.55;
+}
+
+.quote-meta {
+  margin-top: 0.65rem;
+  color: #d6e9f8;
+  font-size: 0.84rem;
+  font-weight: 600;
 }
 
 .card:hover {
@@ -546,7 +559,8 @@ h2 {
   }
 
   .feature-grid,
-  .kpi-band {
+  .kpi-band,
+  .testimonial-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -569,7 +583,8 @@ h2 {
   .feature-grid,
   .kpi-band,
   .metric-grid,
-  .pain-grid {
+  .pain-grid,
+  .testimonial-grid {
     grid-template-columns: 1fr;
   }
 
