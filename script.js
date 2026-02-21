@@ -33,7 +33,14 @@ const NAV_CONFIG = [
       { label: "Werbeautomatisierung (Coming Soon)", href: "/plattform/automatisierung.html" }
     ]
   },
-  { label: "Für Agenturen", href: "/branchen/amazon-agenturen.html" },
+  {
+    label: "Für Agenturen",
+    href: "/branchen/amazon-agenturen.html",
+    children: [
+      { label: "Amazon-Agenturen", href: "/branchen/amazon-agenturen.html" },
+      { label: "Nach Agenturgröße", href: "/branchen/agentur-segmente.html" }
+    ]
+  },
   {
     label: "Ressourcen",
     href: "/ressourcen/",
@@ -214,6 +221,32 @@ function setupTicker() {
   ticker.innerHTML = `<div class="trust-ticker-track">${html}${html}</div>`;
 }
 
+function initSegmentLanding() {
+  const switcher = document.querySelector(".segment-switch");
+  if (!switcher) return;
+
+  const buttons = Array.from(switcher.querySelectorAll("[data-segment]"));
+  const panels = Array.from(document.querySelectorAll(".segment-panel[data-segment]"));
+  if (!buttons.length || !panels.length) return;
+
+  function activateSegment(segment, updateUrl = true) {
+    buttons.forEach((btn) => btn.classList.toggle("active", btn.dataset.segment === segment));
+    panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.segment === segment));
+    if (!updateUrl) return;
+    const url = new URL(location.href);
+    url.searchParams.set("size", segment);
+    history.replaceState({}, "", url.toString());
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => activateSegment(btn.dataset.segment));
+  });
+
+  const sizeParam = new URLSearchParams(location.search).get("size");
+  const valid = buttons.some((b) => b.dataset.segment === sizeParam);
+  activateSegment(valid ? sizeParam : "klein", false);
+}
+
 function detectTopic(path) {
   if (path.includes("werbung")) return "werbung";
   if (path.includes("promotion")) return "promotions";
@@ -320,6 +353,7 @@ function initDetailsAccordion() {
 renderHeaderAndFooter();
 rewriteDemoLinks();
 setupTicker();
+initSegmentLanding();
 ensureDeepContent();
 initRevealAnimations();
 initDetailsAccordion();

@@ -619,6 +619,38 @@ h2 {
   background: linear-gradient(180deg, rgba(14, 19, 35, 0.95), rgba(23, 34, 50, 0.95));
 }
 
+.segment-switch {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  padding: 0.7rem;
+}
+
+.segment-switch .seg-btn {
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: #d6e9f8;
+  font-weight: 700;
+  font-size: 0.86rem;
+  padding: 0.52rem 0.86rem;
+  cursor: pointer;
+}
+
+.segment-switch .seg-btn.active {
+  color: #09121e;
+  background: linear-gradient(120deg, var(--orange), var(--orange-2));
+  border-color: rgba(255, 193, 116, 0.8);
+}
+
+.segment-panel {
+  display: none;
+}
+
+.segment-panel.active {
+  display: block;
+}
+
 .list {
   margin: 0.8rem 0 0;
   padding: 0;
