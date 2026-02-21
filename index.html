@@ -27,9 +27,9 @@
 
   <main id="top">
     <section class="hero section">
-      <div class="hero-copy">
+      <div class="hero-copy" data-reveal>
         <p class="kicker">Amazon Agentur Betriebssystem</p>
-        <h1>Eine App fuer alles, was deine Amazon Agentur steuern muss.</h1>
+        <h1>Eine App fuer alles, was deine Amazon Agentur <span class="ink">exzellent</span> steuern muss.</h1>
         <p class="lead">
           Kundendashboards, Werbeauswertung, Reports, Health Checks, Insights, Content Engine und API-automatisierte Datenfluesse in einem einzigen System.
         </p>
@@ -37,14 +37,22 @@
           <a class="btn solid" href="#cta">Kostenlose Live-Demo</a>
           <a class="btn ghost" href="#modules">Plattform ansehen</a>
         </div>
+        <div class="hero-proof">
+          <article><strong>1 App</strong><span>fuer Agentur + Kunde</span></article>
+          <article><strong>Daily AI</strong><span>Insights & Empfehlungen</span></article>
+          <article><strong>Live KPIs</strong><span>pro Land, Kanal, Produkt</span></article>
+        </div>
         <div class="trust-strip">
           <span>B2B + B2C Sicht</span>
           <span>Seller + Vendor Daten</span>
           <span>Mehrlaenderfaehig</span>
         </div>
       </div>
-      <div class="hero-visual glass">
-        <h2>Live Performance Pulse</h2>
+      <div class="hero-visual glass" data-reveal>
+        <div class="pulse-head">
+          <h2>Live Performance Pulse</h2>
+          <span class="live-dot">Live</span>
+        </div>
         <div class="metric-grid">
           <article><span>Umsatz</span><strong>+18.4%</strong></article>
           <article><span>TACOS</span><strong>9.7%</strong></article>
@@ -61,25 +69,39 @@
           <span style="--h:78"></span>
           <span style="--h:95"></span>
         </div>
+        <div class="sparkline" aria-hidden="true"><span></span></div>
         <p class="mini-note">Vergleichbar nach Monat, Quartal, Jahr, Land und Kanal.</p>
       </div>
     </section>
 
+    <section class="section mini-band">
+      <div class="band-track">
+        <span>Dashboard Intelligence</span>
+        <span>Buybox Monitoring</span>
+        <span>Ranking Analytics</span>
+        <span>Report Automation</span>
+        <span>Content Engine</span>
+        <span>Bid Rule System</span>
+        <span>Dashboard Intelligence</span>
+        <span>Buybox Monitoring</span>
+      </div>
+    </section>
+
     <section id="features" class="section">
-      <div class="section-head">
+      <div class="section-head" data-reveal>
         <p class="kicker">Was scalynx.io liefert</p>
         <h2>Klare Rollenlogik: Agentur-Admin und Kundenportal in einem.</h2>
       </div>
       <div class="feature-grid">
-        <article class="glass card"><h3>Kundenportal</h3><p>Umsatz, Werbung, organisch, KPI-Vergleiche pro Land und Zeitraum. Klar, direkt, live.</p></article>
-        <article class="glass card"><h3>Agentursteuerung</h3><p>Insights, Empfehlungen, Findings, Health Check und Alerting ueber alle Kundenaccounts.</p></article>
-        <article class="glass card"><h3>Automatisierte Reports</h3><p>Agentur erstellt Reports in Minuten. Kunden sehen alles jederzeit aktuell in der App.</p></article>
-        <article class="glass card"><h3>Content Engine</h3><p>Bulk-Erstellung fuer Bilder, Listingtexte, A+ Content, Keywords und Konkurrenzanalysen.</p></article>
+        <article class="glass card" data-reveal><p class="card-tag">Portal</p><h3>Kundenportal</h3><p>Umsatz, Werbung, organisch, KPI-Vergleiche pro Land und Zeitraum. Klar, direkt, live.</p></article>
+        <article class="glass card" data-reveal><p class="card-tag">Admin</p><h3>Agentursteuerung</h3><p>Insights, Empfehlungen, Findings, Health Check und Alerting ueber alle Kundenaccounts.</p></article>
+        <article class="glass card" data-reveal><p class="card-tag">Reporting</p><h3>Automatisierte Reports</h3><p>Agentur erstellt Reports in Minuten. Kunden sehen alles jederzeit aktuell in der App.</p></article>
+        <article class="glass card" data-reveal><p class="card-tag">Execution</p><h3>Content Engine</h3><p>Bulk-Erstellung fuer Bilder, Listingtexte, A+ Content, Keywords und Konkurrenzanalysen.</p></article>
       </div>
     </section>
 
     <section id="modules" class="section split">
-      <div>
+      <div data-reveal>
         <p class="kicker">Modularchitektur</p>
         <h2>Jeder Kernprozess von Amazon in einer Plattform.</h2>
         <ul class="checklist">
@@ -90,7 +112,7 @@
           <li>Kundenverwaltung: Vertrage, Monatswerte, Account-Status, Teamzuordnung</li>
         </ul>
       </div>
-      <div class="glass timeline">
+      <div class="glass timeline" data-reveal>
         <h3>Tageszyklus</h3>
         <ol>
           <li><span>01</span><div><strong>API Sync</strong><p>Daten werden automatisch von Amazon gezogen.</p></div></li>
@@ -101,8 +123,23 @@
       </div>
     </section>
 
+    <section class="section persona">
+      <div class="glass persona-grid">
+        <article data-reveal>
+          <p class="kicker">Kundensicht</p>
+          <h3>Transparenz ohne Komplexitaet</h3>
+          <p>Deine Kunden sehen genau das, was zaehlt: Umsatz, Werbedaten, Reports und Trends. Keine Admin-Overload, nur Entscheidungsrelevanz.</p>
+        </article>
+        <article data-reveal>
+          <p class="kicker">Agentursicht</p>
+          <h3>Operative Tiefe mit Handlungsempfehlungen</h3>
+          <p>Insights, Findings, Health Alerts, Content-Produktion und Kundenverwaltung in einem operativen Workspace fuer dein Team.</p>
+        </article>
+      </div>
+    </section>
+
     <section class="section spotlight">
-      <div class="glass spotlight-box">
+      <div class="glass spotlight-box" data-reveal>
         <p class="chip">Coming Soon</p>
         <h2>Werbeautomatisierung fuer Kampagnenmanagement</h2>
         <p>
@@ -116,14 +153,14 @@
     </section>
 
     <section id="roadmap" class="section kpi-band">
-      <article><strong>1 Plattform</strong><span>statt 5+ Tools pro Agenturkunde</span></article>
-      <article><strong>100% API Sync</strong><span>keine manuellen Datenuploads</span></article>
-      <article><strong>Daily Insights</strong><span>fuer schnellere Entscheidungen</span></article>
-      <article><strong>Bulk Content</strong><span>fuer skalierbare Produktpflege</span></article>
+      <article data-reveal><strong>1 Plattform</strong><span>statt 5+ Tools pro Agenturkunde</span></article>
+      <article data-reveal><strong>100% API Sync</strong><span>keine manuellen Datenuploads</span></article>
+      <article data-reveal><strong>Daily Insights</strong><span>fuer schnellere Entscheidungen</span></article>
+      <article data-reveal><strong>Bulk Content</strong><span>fuer skalierbare Produktpflege</span></article>
     </section>
 
     <section id="faq" class="section faq">
-      <div class="section-head">
+      <div class="section-head" data-reveal>
         <p class="kicker">FAQ</p>
         <h2>Die wichtigsten Fragen auf einen Blick</h2>
       </div>
@@ -134,7 +171,7 @@
     </section>
 
     <section id="cta" class="section cta">
-      <div class="glass cta-box">
+      <div class="glass cta-box" data-reveal>
         <p class="kicker">Jetzt skalieren</p>
         <h2>Bereit fuer ein echtes Amazon Command Center?</h2>
         <p>Buche eine Demo und wir zeigen dir, wie du Kundenreporting, Account Health und Content-Produktion in einem Stack zusammenfuehrst.</p>
