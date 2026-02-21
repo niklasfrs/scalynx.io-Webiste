@@ -3,199 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>scalynx.io | Amazon Agentur Command Center</title>
-  <meta name="description" content="scalynx.io ist die All-in-One Plattform fuer Amazon Agenturen: Dashboards, Reports, Insights, Health Checks, Content Engine und vollautomatisierte Daten via Amazon API.">
+  <title>scalynx.io | Das Betriebssystem für Amazon-Agenturen</title>
+  <meta name="description" content="scalynx.io ist die zentrale Plattform für Amazon-Agenturen: Kunden-Dashboards, Reports, Insights, Findings, Werbeanalysen, Content-Produktion und tägliche Handlungsempfehlungen in einem System.">
   <link rel="canonical" href="https://scalynx.io/">
-  <script>
-    (function () {
-      if (location.hostname === "www.scalynx.io") {
-        location.replace("https://scalynx.io" + location.pathname + location.search + location.hash);
-      }
-    })();
-  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <div class="site-bg" aria-hidden="true"></div>
+  <div class="bg-layer" aria-hidden="true"></div>
+
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="scalynx.io Startseite">
-      <span class="brand-main">scaly<span>nx</span></span><span class="brand-dot">.io</span>
-    </a>
+    <a class="brand" href="/" aria-label="scalynx.io Startseite"><span class="main">scaly<span>nx</span></span><span class="dot">.io</span></a>
     <nav class="nav">
-      <a href="#features">Features</a>
-      <a href="#modules">Module</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#faq">FAQ</a>
+      <a class="active" href="/">Start</a>
+      <a href="/leistungen/">Leistungen</a>
+      <a href="/plattform/">Plattform</a>
+      <a href="/branchen/amazon-agenturen.html">Für Agenturen</a>
+      <a href="/ressourcen/">Ressourcen</a>
     </nav>
-    <a class="btn ghost" href="#cta">Demo anfragen</a>
+    <a class="btn primary" href="#demo">Demo anfragen</a>
   </header>
 
-  <main id="top">
+  <main class="page-shell">
     <section class="hero section">
-      <div class="hero-copy" data-reveal>
-        <p class="kicker">Amazon Agentur Betriebssystem</p>
-        <h1>Eine App fuer alles, was deine Amazon Agentur <span class="ink">exzellent</span> steuern muss.</h1>
-        <p class="lead">
-          Kundendashboards, Werbeauswertung, Reports, Health Checks, Insights, Content Engine und API-automatisierte Datenfluesse in einem einzigen System.
-        </p>
+      <div data-reveal>
+        <p class="kicker">SaaS für Amazon-Agenturen</p>
+        <h1>Aus operativem Chaos wird <strong class="accent">skalierbare Agenturleistung</strong>.</h1>
+        <p class="lead">scalynx.io bündelt alles, was Amazon-Agenturen täglich brauchen: Kunden-Dashboards, Werbe-KPIs, Insights, Findings, automatisierte Report-Erstellung, Health Checks und Content-Produktion. Ein Login. Ein Workflow. Eine Wahrheit.</p>
         <div class="hero-cta">
-          <a class="btn solid" href="#cta">Kostenlose Live-Demo</a>
-          <a class="btn ghost" href="#modules">Plattform ansehen</a>
+          <a class="btn primary" href="#demo">Live-Demo buchen</a>
+          <a class="btn secondary" href="/plattform/agentursicht.html">Agenturansicht ansehen</a>
         </div>
-        <div class="hero-proof">
-          <article><strong>1 App</strong><span>fuer Agentur + Kunde</span></article>
-          <article><strong>Daily AI</strong><span>Insights & Empfehlungen</span></article>
-          <article><strong>Live KPIs</strong><span>pro Land, Kanal, Produkt</span></article>
-        </div>
-        <div class="trust-strip">
-          <span>B2B + B2C Sicht</span>
-          <span>Seller + Vendor Daten</span>
-          <span>Mehrlaenderfaehig</span>
+        <div class="pain-grid">
+          <article><strong>Zu viele Tools</strong><span>Dashboard, Ads, Reporting und Content in einem Stack.</span></article>
+          <article><strong>Zu wenig Zeit</strong><span>Tägliche Insights mit konkreten To-dos statt Blindflug.</span></article>
+          <article><strong>Zu viel Druck</strong><span>Kundenergebnisse klar sichtbar und sauber kommunizierbar.</span></article>
         </div>
       </div>
-      <div class="hero-visual glass" data-reveal>
-        <div class="pulse-head">
-          <h2>Live Performance Pulse</h2>
-          <span class="live-dot">Live</span>
+
+      <aside class="hero-panel panel" data-reveal>
+        <div class="metric-head">
+          <h2>Agentur-Performance</h2>
+          <span class="live">Live</span>
         </div>
         <div class="metric-grid">
-          <article><span>Umsatz</span><strong>+18.4%</strong></article>
-          <article><span>TACOS</span><strong>9.7%</strong></article>
-          <article><span>ACOS</span><strong>17.9%</strong></article>
-          <article><span>Ad Spend</span><strong>€124k</strong></article>
+          <article><span>Umsatz</span><strong>+18,4%</strong></article>
+          <article><span>TACoS</span><strong>9,7%</strong></article>
+          <article><span>ACoS</span><strong>17,9%</strong></article>
+          <article><span>Ad Spend</span><strong>124.000 €</strong></article>
         </div>
-        <div class="chart-row" aria-hidden="true">
-          <span style="--h:58"></span>
-          <span style="--h:74"></span>
-          <span style="--h:52"></span>
-          <span style="--h:86"></span>
-          <span style="--h:67"></span>
-          <span style="--h:91"></span>
-          <span style="--h:78"></span>
-          <span style="--h:95"></span>
+        <div class="spark-bars" aria-hidden="true">
+          <span style="--v:58"></span><span style="--v:76"></span><span style="--v:64"></span><span style="--v:84"></span>
+          <span style="--v:69"></span><span style="--v:91"></span><span style="--v:83"></span><span style="--v:96"></span>
         </div>
-        <div class="sparkline" aria-hidden="true"><span></span></div>
-        <p class="mini-note">Vergleichbar nach Monat, Quartal, Jahr, Land und Kanal.</p>
+        <p class="lead" style="margin-top:.8rem;font-size:.9rem;">Vergleichbar nach Monat, Quartal, Jahr, Land, B2B/B2C und ASIN-Ebene.</p>
+      </aside>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="trust-ticker">
+        <span>Dashboard & KPI-Steuerung</span>
+        <span>Insights & Empfehlungen</span>
+        <span>Findings & Health Checks</span>
+        <span>Report-Automatisierung</span>
+        <span>Promotions-Auswertung</span>
+        <span>Content-Produktion in Serie</span>
+        <span>Kundenverwaltung</span>
       </div>
     </section>
 
-    <section class="section mini-band">
-      <div class="band-track">
-        <span>Dashboard Intelligence</span>
-        <span>Buybox Monitoring</span>
-        <span>Ranking Analytics</span>
-        <span>Report Automation</span>
-        <span>Content Engine</span>
-        <span>Bid Rule System</span>
-        <span>Dashboard Intelligence</span>
-        <span>Buybox Monitoring</span>
+    <section class="section">
+      <p class="kicker" data-reveal>Die Kernmodule</p>
+      <h2 data-reveal>Von Agenturen für Agenturen gedacht.</h2>
+      <div class="feature-grid" style="margin-top:1rem;">
+        <article class="card" data-reveal><p class="tag">Kundenarbeit</p><h3>Dashboard & Werbe-Dashboard</h3><p>Alle relevanten KPIs für Kundentermine: Umsatz, Werbeumsatz, organischer Umsatz, TACoS, ACoS, ROAS, Trends und Zeitvergleiche.</p></article>
+        <article class="card" data-reveal><p class="tag">Proaktivität</p><h3>Insights, Findings & Health</h3><p>BuyBox-Verluste, Conversion-Einbrüche, Budget-Risiken und Konto-Anomalien werden erkannt und priorisiert angezeigt.</p></article>
+        <article class="card" data-reveal><p class="tag">Kommunikation</p><h3>Report-Erstellung</h3><p>Berichte inklusive KPI- und Maßnahmenlogik direkt in der App erstellen und für Kunden sauber bereitstellen.</p></article>
+        <article class="card" data-reveal><p class="tag">Wachstum</p><h3>Promotions-Analyse</h3><p>Prime Day, Black Friday, Coupons und Aktionen im Vorher-/Nachher-/Vorjahresvergleich auswerten und Maßnahmen ableiten.</p></article>
+        <article class="card" data-reveal><p class="tag">Produktion</p><h3>Content Studio & Bulk Content</h3><p>Texte, Bilder, Videos, A+ Inhalte, Keyword-Recherche und Wettbewerbsanalysen zentral und skalierbar erzeugen.</p></article>
+        <article class="card" data-reveal><p class="tag">Operations</p><h3>Kundenverwaltung</h3><p>Kundenstatus, Abrechnung, Account-Übersicht, Rollen und Zugriffe in einer klaren operativen Struktur verwalten.</p></article>
       </div>
     </section>
 
-    <section id="features" class="section">
-      <div class="section-head" data-reveal>
-        <p class="kicker">Was scalynx.io liefert</p>
-        <h2>Klare Rollenlogik: Agentur-Admin und Kundenportal in einem.</h2>
-      </div>
-      <div class="feature-grid">
-        <article class="glass card" data-reveal><p class="card-tag">Portal</p><h3>Kundenportal</h3><p>Umsatz, Werbung, organisch, KPI-Vergleiche pro Land und Zeitraum. Klar, direkt, live.</p></article>
-        <article class="glass card" data-reveal><p class="card-tag">Admin</p><h3>Agentursteuerung</h3><p>Insights, Empfehlungen, Findings, Health Check und Alerting ueber alle Kundenaccounts.</p></article>
-        <article class="glass card" data-reveal><p class="card-tag">Reporting</p><h3>Automatisierte Reports</h3><p>Agentur erstellt Reports in Minuten. Kunden sehen alles jederzeit aktuell in der App.</p></article>
-        <article class="glass card" data-reveal><p class="card-tag">Execution</p><h3>Content Engine</h3><p>Bulk-Erstellung fuer Bilder, Listingtexte, A+ Content, Keywords und Konkurrenzanalysen.</p></article>
-      </div>
-    </section>
-
-    <section id="modules" class="section split">
+    <section class="section split">
       <div data-reveal>
-        <p class="kicker">Modularchitektur</p>
-        <h2>Jeder Kernprozess von Amazon in einer Plattform.</h2>
-        <ul class="checklist">
-          <li>Performance Dashboard: B2B, B2C, Produkt-, Markt- und Zeitebene</li>
-          <li>Werbe-Dashboard: ACOS, TACOS, Budget, Bid-Movements, Targeting</li>
-          <li>Insights & Health: Buybox, Conversion, Ranking, Trendfrueherkennung</li>
-          <li>Promo-Analyse: Prime Day, Black Friday, Coupons, Deals im Vorher/Nachher/LJ-Vergleich</li>
-          <li>Kundenverwaltung: Vertrage, Monatswerte, Account-Status, Teamzuordnung</li>
+        <p class="kicker">Wie Agenturen arbeiten</p>
+        <h2>Ein täglicher Prozess statt isolierter Einzelaktionen.</h2>
+        <ul class="list">
+          <li>Amazon-Daten werden automatisiert geladen und aufbereitet.</li>
+          <li>Insights und Findings zeigen sofort, wo Handlungsbedarf besteht.</li>
+          <li>Empfehlungen werden in operative Aufgaben und Kundenmaßnahmen übersetzt.</li>
+          <li>Berichte werden direkt in der App erstellt und für Kunden freigegeben.</li>
+          <li>Content- und Werbemaßnahmen werden zentral umgesetzt und dokumentiert.</li>
         </ul>
       </div>
-      <div class="glass timeline" data-reveal>
-        <h3>Tageszyklus</h3>
+      <div class="timeline panel" data-reveal>
+        <h3>Täglicher Agentur-Zyklus</h3>
         <ol>
-          <li><span>01</span><div><strong>API Sync</strong><p>Daten werden automatisch von Amazon gezogen.</p></div></li>
-          <li><span>02</span><div><strong>Analyse Layer</strong><p>Trends, Abweichungen und Risiken werden erkannt.</p></div></li>
-          <li><span>03</span><div><strong>Empfehlungen</strong><p>Konkrete To-dos fuer Agenturen entstehen automatisch.</p></div></li>
-          <li><span>04</span><div><strong>Report Push</strong><p>Kunden sehen aktualisierte Reports direkt im Portal.</p></div></li>
+          <li><span>1</span><div><strong>Sync</strong><p>Seller-Central- und Werbedaten laufen automatisiert ein.</p></div></li>
+          <li><span>2</span><div><strong>Analyse</strong><p>System erkennt Risiken, Chancen und KPI-Abweichungen.</p></div></li>
+          <li><span>3</span><div><strong>Aktion</strong><p>Team setzt Empfehlungen, Content und Kampagnenanpassungen um.</p></div></li>
+          <li><span>4</span><div><strong>Kommunikation</strong><p>Kunden sehen Reports und Entwicklung transparent im Portal.</p></div></li>
         </ol>
       </div>
     </section>
 
-    <section class="section persona">
-      <div class="glass persona-grid">
-        <article data-reveal>
-          <p class="kicker">Kundensicht</p>
-          <h3>Transparenz ohne Komplexitaet</h3>
-          <p>Deine Kunden sehen genau das, was zaehlt: Umsatz, Werbedaten, Reports und Trends. Keine Admin-Overload, nur Entscheidungsrelevanz.</p>
-        </article>
-        <article data-reveal>
-          <p class="kicker">Agentursicht</p>
-          <h3>Operative Tiefe mit Handlungsempfehlungen</h3>
-          <p>Insights, Findings, Health Alerts, Content-Produktion und Kundenverwaltung in einem operativen Workspace fuer dein Team.</p>
-        </article>
-      </div>
+    <section class="section kpi-band">
+      <article data-reveal><strong>1 Plattform</strong><span>statt fragmentierter Tool-Landschaft</span></article>
+      <article data-reveal><strong>100% Fokus</strong><span>auf Amazon-Agentur-Workflows</span></article>
+      <article data-reveal><strong>Tägliche Signale</strong><span>für schnelle Entscheidungen</span></article>
+      <article data-reveal><strong>Mehr Marge</strong><span>durch effizientere Prozesse pro Kunde</span></article>
     </section>
 
-    <section class="section spotlight">
-      <div class="glass spotlight-box" data-reveal>
-        <p class="chip">Coming Soon</p>
-        <h2>Werbeautomatisierung fuer Kampagnenmanagement</h2>
-        <p>
-          Regelbasierte und templatebasierte Automation fuer Bids, Budgets, Keywords und Targeting.
-          Eigene Rule Sets oder vordefinierte Best-Practice Engines.
-        </p>
-        <div class="pill-row">
-          <span>Bid Optimizer</span><span>Budget Guardrails</span><span>Negative Targeting AI</span><span>Rule Templates</span>
+    <section class="section faq">
+      <p class="kicker" data-reveal>FAQ für Agenturen</p>
+      <h2 data-reveal>Was Entscheider:innen in Agenturen wissen wollen</h2>
+      <details class="panel" data-reveal><summary>Ist scalynx.io für reine Amazon-Agenturen optimiert?</summary><p>Ja. Die gesamte Informationsarchitektur, KPI-Logik und die Module sind explizit auf den Agenturalltag im Amazon-Umfeld ausgerichtet.</p></details>
+      <details class="panel" data-reveal><summary>Können Kunden und Agentur-Team unterschiedliche Ansichten nutzen?</summary><p>Ja. Es gibt eine klare Trennung zwischen Kundensicht (Transparenz) und Agentursicht (operative Tiefe, Insights, Steuerung).</p></details>
+      <details class="panel" data-reveal><summary>Wird auch Content-Produktion unterstützt?</summary><p>Ja. Neben Analytics und Reporting bietet die Plattform ein Content Studio inklusive Bulk-Prozessen für skalierbare Auslieferung.</p></details>
+      <details class="panel" data-reveal><summary>Ist Werbeautomatisierung enthalten?</summary><p>Die Werbeautomatisierung befindet sich als klar kommuniziertes Coming-Soon-Modul in der finalen Produkt-Roadmap.</p></details>
+    </section>
+
+    <section id="demo" class="section">
+      <div class="cta-box panel" data-reveal>
+        <p class="kicker">Nächster Schritt</p>
+        <h2>Wenn du Agenturleistung skalieren willst, brauchst du ein System statt Workarounds.</h2>
+        <p>Wir zeigen dir in einer Live-Demo, wie du Reporting, KPI-Steuerung, Kundenkommunikation und operative Umsetzung in einem Ablauf zusammenführst.</p>
+        <div class="hero-cta" style="justify-content:center;margin-top:1rem;">
+          <a class="btn primary" href="mailto:info@scalynx.io?subject=Demo-Anfrage%20scalynx.io">Demo anfragen</a>
+          <a class="btn secondary" href="/ressourcen/">Ressourcen ansehen</a>
         </div>
-      </div>
-    </section>
-
-    <section id="roadmap" class="section kpi-band">
-      <article data-reveal><strong>1 Plattform</strong><span>statt 5+ Tools pro Agenturkunde</span></article>
-      <article data-reveal><strong>100% API Sync</strong><span>keine manuellen Datenuploads</span></article>
-      <article data-reveal><strong>Daily Insights</strong><span>fuer schnellere Entscheidungen</span></article>
-      <article data-reveal><strong>Bulk Content</strong><span>fuer skalierbare Produktpflege</span></article>
-    </section>
-
-    <section id="faq" class="section faq">
-      <div class="section-head" data-reveal>
-        <p class="kicker">FAQ</p>
-        <h2>Die wichtigsten Fragen auf einen Blick</h2>
-      </div>
-      <details class="glass"><summary>Fuer wen ist scalynx.io gebaut?</summary><p>Primar fuer Amazon Agenturen mit mehreren Kundenaccounts, die operativ, analytisch und reportseitig zentral steuern wollen.</p></details>
-      <details class="glass"><summary>Sehen Endkunden alles?</summary><p>Nein. Es gibt eine getrennte Kundenansicht und eine erweiterte Agentur-Admin-Sicht mit Insights, Findings und Content-Tools.</p></details>
-      <details class="glass"><summary>Wie kommen die Daten in die Plattform?</summary><p>Direkt via Amazon API. Das reduziert manuellen Aufwand und sorgt fuer taeglich aktualisierte Daten.</p></details>
-      <details class="glass"><summary>Kann ich Kampagnenregeln selbst bauen?</summary><p>Ja, das ist Teil der Coming-Soon-Werbeautomatisierung. Eigene Regeln plus vorgefertigte Templates.</p></details>
-    </section>
-
-    <section id="cta" class="section cta">
-      <div class="glass cta-box" data-reveal>
-        <p class="kicker">Jetzt skalieren</p>
-        <h2>Bereit fuer ein echtes Amazon Command Center?</h2>
-        <p>Buche eine Demo und wir zeigen dir, wie du Kundenreporting, Account Health und Content-Produktion in einem Stack zusammenfuehrst.</p>
-        <a class="btn solid" href="mailto:hello@scalynx.io?subject=Demo%20Anfrage%20scalynx.io">Demo anfragen</a>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <a class="brand" href="#top"><span class="brand-main">scaly<span>nx</span></span><span class="brand-dot">.io</span></a>
-    <div class="footer-links">
+    <a class="brand" href="/"><span class="main">scaly<span>nx</span></span><span class="dot">.io</span></a>
+    <div class="links">
       <a href="/impressum.html">Impressum</a>
       <a href="/datenschutz.html">Datenschutz</a>
       <a href="/agb.html">AGB</a>
     </div>
-    <p class="disclaimer">Hinweis: Rechtstexte bitte vor Live-Schaltung juristisch pruefen.</p>
+    <small>© 2026 scalynx.io – gebaut für Amazon-Agenturen.</small>
   </footer>
 
   <script src="/script.js"></script>
