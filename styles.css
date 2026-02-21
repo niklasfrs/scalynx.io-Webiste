@@ -374,7 +374,7 @@ h2 {
   display: flex;
   gap: 0.5rem;
   width: max-content;
-  animation: ticker-scroll 4.2s linear infinite;
+  animation: ticker-scroll 16s linear infinite;
 }
 
 .trust-ticker span {
