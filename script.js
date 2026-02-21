@@ -176,6 +176,7 @@ function buildNavHTML(currentPath) {
 }
 
 function renderHeaderAndFooter() {
+  const currentYear = new Date().getFullYear();
   const currentPath = normalizePath(location.pathname);
   const topbar = document.querySelector(".topbar");
   if (topbar) {
@@ -197,7 +198,7 @@ function renderHeaderAndFooter() {
         <a href="/datenschutz.html">Datenschutz</a>
         <a href="/agb.html">AGB</a>
       </div>
-      <small>© 2026 scalynx.io – gebaut für Amazon-Agenturen.</small>
+      <small>© ${currentYear} scalynx.io – gebaut für Amazon-Agenturen.</small>
     `;
   }
 }
