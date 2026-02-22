@@ -523,27 +523,64 @@ function getModelForPath(path) {
 
 function ensureLongFormSections() {
   const path = normalizePath(location.pathname);
-  if (path === "/" || path.includes("impressum") || path.includes("datenschutz") || path.includes("agb")) return;
+  if (path === "/") return;
   const main = document.querySelector("main.page-shell");
   if (!main) return;
 
   const model = getModelForPath(path);
   if (!model) return;
 
-  const minSections = path.includes("demo-anfragen") ? 9 : 10;
-  const sectionCount = main.querySelectorAll(":scope > section").length;
-  if (sectionCount >= minSections) return;
-
-  const needed = minSections - sectionCount;
+  const minSections = path.includes("demo-anfragen") ? 10 : 12;
+  const minScrollableViewports = path.includes("demo-anfragen") ? 4.3 : 4.8;
+  const requiredScrollableHeight = Math.round(window.innerHeight * minScrollableViewports);
   const fx = ["left", "up", "right", "zoom"];
+  const storyline = [
+    "Strategischer Kontext",
+    "Operatives Raster",
+    "Team-Rhythmus",
+    "Kundengespräch",
+    "Maßnahmen-Backlog",
+    "Entscheidungsqualität",
+    "Skalierungspfad",
+    "Rollout-Timeline",
+    "Umsetzungscontrolling",
+    "Qualitätssicherung",
+    "Wirkungsnachweis",
+    "Nächste Ausbaustufe"
+  ];
+  const angle = [
+    "klare Prioritäten statt KPI-Überfrachtung",
+    "schnellere Umsetzung mit dokumentierter Verantwortlichkeit",
+    "weniger Tool-Wechsel und sauberere Teamübergaben",
+    "mehr Verbindlichkeit in Kundenterminen",
+    "stabilere Prozesse auch bei wachsender Kundenanzahl",
+    "messbarer Fortschritt pro Woche"
+  ];
+  const headlinePool = [
+    `${model.topic}: von Datenpunkten zu klaren Entscheidungen`,
+    `${model.topic}: wie Agenturteams operative Qualität absichern`,
+    `${model.topic}: strukturierte Umsetzung über Rollen hinweg`,
+    `${model.topic}: Kundennutzen nachvollziehbar kommunizieren`,
+    `${model.topic}: wiederholbarer Ablauf statt Einzelaktionen`,
+    `${model.topic}: Priorisierung mit direkter Wirkung`,
+    `${model.topic}: schneller vom Signal zur Maßnahme`,
+    `${model.topic}: Entscheidungen konsistent im Team verankern`,
+    `${model.topic}: operativer Takt mit messbarem Ergebnis`,
+    `${model.topic}: Effizienz und Qualität parallel steigern`
+  ];
+
+  const makeHeadline = (seed) => headlinePool[seed % headlinePool.length];
+  const makeLead = (seed) => `${model.promise} Schwerpunkt: ${angle[seed % angle.length]}.`;
+  const detailSeed = (seed) => storyline[(hashString(path) + seed) % storyline.length];
+
   const variations = [
     (i) => `
       <section class="section longform-section">
         <div class="split">
           <div data-reveal data-fx="${fx[i % fx.length]}">
-            <p class="kicker">${model.topic} · Strategischer Kontext</p>
-            <h2>${model.focus}</h2>
-            <p class="lead">${model.promise}</p>
+            <p class="kicker">${model.topic} · ${detailSeed(i)}</p>
+            <h2>${makeHeadline(i)}</h2>
+            <p class="lead">${makeLead(i)}</p>
             <ul class="list">
               <li>${model.topic} ${model.audience}</li>
               <li>Schwerpunkt: ${model.signals[0]} und ${model.signals[1]}</li>
@@ -561,8 +598,8 @@ function ensureLongFormSections() {
     `,
     (i) => `
       <section class="section longform-section">
-        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · Teamablauf</p>
-        <h2 data-reveal data-fx="up">${model.topic}: operative Umsetzung mit klaren Rollen im Team</h2>
+        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · ${detailSeed(i + 1)}</p>
+        <h2 data-reveal data-fx="up">${makeHeadline(i + 1)}</h2>
         <div class="content-grid" style="margin-top:1rem;">
           <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
             <h3>Schritt 1: Ausgangslage klären</h3>
@@ -578,8 +615,8 @@ function ensureLongFormSections() {
     (i) => `
       <section class="section longform-section">
         <article class="panel longform-panel" data-reveal data-fx="${fx[i % fx.length]}">
-          <p class="kicker">${model.topic} · KPI-Raster</p>
-          <h2>${model.topic}: Kennzahlen mit direktem Bezug zur Entscheidung</h2>
+          <p class="kicker">${model.topic} · ${detailSeed(i + 2)}</p>
+          <h2>${makeHeadline(i + 2)}</h2>
           <p class="lead">Diese KPI-Perspektive hilft, Diskussionen im Kundencall auf Wirkung und nächste Schritte zu lenken.</p>
           <div class="kpi-band" style="margin-top:1rem;">
             <article><strong>${model.signals[0]}</strong><span>Frühindikator für Handlungsbedarf</span></article>
@@ -594,8 +631,8 @@ function ensureLongFormSections() {
       <section class="section longform-section">
         <div class="content-grid">
           <article class="panel card longform-panel interactive-card" data-reveal data-fx="${fx[i % fx.length]}">
-            <p class="tag">Sprintfokus</p>
-            <h3>${model.topic}: Wochenablauf im operativen Alltag</h3>
+            <p class="tag">${detailSeed(i + 3)}</p>
+            <h3>${makeHeadline(i + 3)}</h3>
             <ul class="list">
               <li>Montag: ${model.steps[0]} und Signalcheck</li>
               <li>Mittwoch: ${model.steps[1]} mit Teamabgleich</li>
@@ -615,8 +652,8 @@ function ensureLongFormSections() {
       <section class="section longform-section">
         <div class="split">
           <article class="panel timeline" data-reveal data-fx="${fx[i % fx.length]}">
-            <p class="kicker">${model.topic} · Entscheidungsrhythmus</p>
-            <h2>${model.topic}: vom Signal zur klaren Kundenentscheidung</h2>
+            <p class="kicker">${model.topic} · ${detailSeed(i + 4)}</p>
+            <h2>${makeHeadline(i + 4)}</h2>
             <ol>
               <li><span>1</span><div><strong>Erkennen</strong><p>${model.signals[0]} und ${model.signals[1]} werden als Signalquelle priorisiert.</p></div></li>
               <li><span>2</span><div><strong>Bewerten</strong><p>${model.steps[0]} und ${model.steps[1]} sichern einheitliche Bewertung im Team.</p></div></li>
@@ -638,8 +675,8 @@ function ensureLongFormSections() {
     `,
     (i) => `
       <section class="section longform-section">
-        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · Qualitätsabsicherung</p>
-        <h2 data-reveal data-fx="up">${model.topic}: welche Punkte vor jeder Freigabe geprüft werden</h2>
+        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · ${detailSeed(i + 5)}</p>
+        <h2 data-reveal data-fx="up">${makeHeadline(i + 5)}</h2>
         <div class="feature-grid" style="margin-top:1rem;">
           <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
             <h3>Inhalt</h3>
@@ -658,8 +695,8 @@ function ensureLongFormSections() {
     `,
     (i) => `
       <section class="section longform-section">
-        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · Einführungsplan</p>
-        <h2 data-reveal data-fx="up">${model.topic}: realistischer Rollout in den ersten 30 Tagen</h2>
+        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · ${detailSeed(i + 6)}</p>
+        <h2 data-reveal data-fx="up">${makeHeadline(i + 6)}</h2>
         <div class="split">
           <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
             <p class="tag">Woche 1</p>
@@ -685,7 +722,7 @@ function ensureLongFormSections() {
     (i) => `
       <section class="section longform-section">
         <article class="panel cta-box" data-reveal data-fx="${fx[i % fx.length]}">
-          <p class="kicker">${model.topic} · Entscheidungsgrundlage</p>
+          <p class="kicker">${model.topic} · ${detailSeed(i + 7)}</p>
           <h2>Warum Agenturen damit schneller liefern und überzeugender verkaufen</h2>
           <p class="lead">${model.promise} Dadurch entsteht ein klarer Vorteil in Akquise, Kundenführung und operativer Umsetzung.</p>
           <div class="kpi-band" style="margin-top:1.1rem;">
@@ -700,15 +737,86 @@ function ensureLongFormSections() {
           </div>
         </article>
       </section>
+    `,
+    (i) => `
+      <section class="section longform-section">
+        <article class="panel reveal-shell" data-click-reveal data-reveal data-fx="${fx[i % fx.length]}">
+          <p class="kicker">${model.topic} · ${detailSeed(i + 8)}</p>
+          <h2>${makeHeadline(i + 7)}</h2>
+          <p class="lead">Interaktive Vertiefung für Entscheider in Amazon-Agenturen: pro Klick ein konkreter Umsetzungshebel.</p>
+          <div class="reveal-tabs">
+            <button class="reveal-tab active" type="button" data-reveal-target="prozess-${i}">Prozess</button>
+            <button class="reveal-tab" type="button" data-reveal-target="qualität-${i}">Qualität</button>
+            <button class="reveal-tab" type="button" data-reveal-target="ergebnis-${i}">Ergebnis</button>
+          </div>
+          <div class="reveal-panels">
+            <article class="reveal-panel active" data-reveal-panel="prozess-${i}">
+              <h3>Prozessklarheit im Tagesgeschäft</h3>
+              <p>${model.steps[0]}, ${model.steps[1]} und ${model.steps[2]} werden mit fester Verantwortlichkeit im Team umgesetzt.</p>
+            </article>
+            <article class="reveal-panel" data-reveal-panel="qualität-${i}">
+              <h3>Qualitätskriterien pro Kundenkonto</h3>
+              <p>${model.signals[0]}, ${model.signals[1]} und ${model.signals[2]} bilden das Standard-Raster für Priorisierung und Report-Freigabe.</p>
+            </article>
+            <article class="reveal-panel" data-reveal-panel="ergebnis-${i}">
+              <h3>Messbares Ergebnisbild</h3>
+              <p>${model.outcome} Dadurch steigt die Verbindlichkeit in Kundengesprächen und die Umsetzungsquote im Team.</p>
+            </article>
+          </div>
+        </article>
+      </section>
+    `,
+    (i) => `
+      <section class="section longform-section">
+        <div class="split">
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[i % fx.length]}">
+            <p class="tag">Praxis-Snapshot</p>
+            <h3>${makeHeadline(i + 8)}</h3>
+            <p>Diese Perspektive fokussiert ${model.signals[0]} und ${model.signals[3]} für Entscheidungen mit direkter Kundenwirkung.</p>
+            <ul class="list">
+              <li>Klare Priorität je ASIN und Zeitraum</li>
+              <li>Nachvollziehbare Entscheidung im Teamprotokoll</li>
+              <li>Messbare Auswirkung bis zum Folgetermin</li>
+            </ul>
+          </article>
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
+            <p class="tag">Operativer Hebel</p>
+            <h3>Wie der Block in der Agentur direkt genutzt wird</h3>
+            <p>${model.steps[1]} und ${model.steps[3]} geben dem Team einen festen Ablauf für Umsetzung und Reporting.</p>
+            <p class="interactive-note">Klicke auf die Karte, um den Fokus zu markieren und im Team zu vergleichen.</p>
+          </article>
+        </div>
+      </section>
     `
   ];
 
-  const orderedVariations = rotateArray(variations, hashString(path) % variations.length);
-  const blocks = Array.from({ length: needed })
-    .map((_, i) => orderedVariations[i % orderedVariations.length](i))
-    .join("");
+  const orderedVariations = rotateArray(variations, hashString(path) % variations.length).map((render, idx) => ({
+    id: idx,
+    family: idx % 5,
+    render
+  }));
 
-  main.insertAdjacentHTML("beforeend", blocks);
+  let lastFamily = -1;
+  let added = 0;
+  let guard = 0;
+
+  const needsMoreDepth = () => {
+    const sectionCount = main.querySelectorAll(":scope > section").length;
+    const scrollableHeight = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    return sectionCount < minSections || scrollableHeight < requiredScrollableHeight;
+  };
+
+  while (needsMoreDepth() && guard < 36) {
+    const seed = hashString(`${path}:${guard}:${added}`);
+    let candidate = orderedVariations[(seed + added) % orderedVariations.length];
+    if (candidate.family === lastFamily) {
+      candidate = orderedVariations.find((item) => item.family !== lastFamily) || candidate;
+    }
+    main.insertAdjacentHTML("beforeend", candidate.render(added + guard));
+    lastFamily = candidate.family;
+    added += 1;
+    guard += 1;
+  }
 }
 
 function initRevealAnimations() {
@@ -716,10 +824,10 @@ function initRevealAnimations() {
   if (!revealItems.length) return;
 
   const baseTransforms = {
-    left: "translateX(-28px)",
-    right: "translateX(28px)",
-    up: "translateY(24px)",
-    zoom: "scale(.94) translateY(12px)"
+    left: "translateX(-14px)",
+    right: "translateX(14px)",
+    up: "translateY(14px)",
+    zoom: "scale(.985) translateY(8px)"
   };
 
   revealItems.forEach((item, idx) => {
