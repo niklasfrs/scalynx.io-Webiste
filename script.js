@@ -470,7 +470,7 @@ function ensureLongFormSections() {
     (i) => `
       <section class="section longform-section">
         <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · Teamablauf</p>
-        <h2 data-reveal data-fx="up">Operative Umsetzung mit klaren Rollen im Team</h2>
+        <h2 data-reveal data-fx="up">${model.topic}: operative Umsetzung mit klaren Rollen im Team</h2>
         <div class="content-grid" style="margin-top:1rem;">
           <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
             <h3>Schritt 1: Ausgangslage klären</h3>
@@ -487,7 +487,7 @@ function ensureLongFormSections() {
       <section class="section longform-section">
         <article class="panel longform-panel" data-reveal data-fx="${fx[i % fx.length]}">
           <p class="kicker">${model.topic} · KPI-Raster</p>
-          <h2>Kennzahlen mit direktem Bezug zur Entscheidung</h2>
+          <h2>${model.topic}: Kennzahlen mit direktem Bezug zur Entscheidung</h2>
           <p class="lead">Diese KPI-Perspektive hilft, Diskussionen im Kundencall auf Wirkung und nächste Schritte zu lenken.</p>
           <div class="kpi-band" style="margin-top:1rem;">
             <article><strong>${model.signals[0]}</strong><span>Frühindikator für Handlungsbedarf</span></article>
@@ -503,7 +503,7 @@ function ensureLongFormSections() {
         <div class="content-grid">
           <article class="panel card longform-panel interactive-card" data-reveal data-fx="${fx[i % fx.length]}">
             <p class="tag">Sprintfokus</p>
-            <h3>Wie der Wochenablauf in der Praxis aussieht</h3>
+            <h3>${model.topic}: Wochenablauf im operativen Alltag</h3>
             <ul class="list">
               <li>Montag: ${model.steps[0]} und Signalcheck</li>
               <li>Mittwoch: ${model.steps[1]} mit Teamabgleich</li>
@@ -524,7 +524,7 @@ function ensureLongFormSections() {
         <div class="split">
           <article class="panel timeline" data-reveal data-fx="${fx[i % fx.length]}">
             <p class="kicker">${model.topic} · Entscheidungsrhythmus</p>
-            <h2>Vom Signal zur klaren Kundenentscheidung</h2>
+            <h2>${model.topic}: vom Signal zur klaren Kundenentscheidung</h2>
             <ol>
               <li><span>1</span><div><strong>Erkennen</strong><p>${model.signals[0]} und ${model.signals[1]} werden als Signalquelle priorisiert.</p></div></li>
               <li><span>2</span><div><strong>Bewerten</strong><p>${model.steps[0]} und ${model.steps[1]} sichern einheitliche Bewertung im Team.</p></div></li>
@@ -547,7 +547,7 @@ function ensureLongFormSections() {
     (i) => `
       <section class="section longform-section">
         <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · Qualitätsabsicherung</p>
-        <h2 data-reveal data-fx="up">Welche Punkte vor jeder Freigabe geprüft werden</h2>
+        <h2 data-reveal data-fx="up">${model.topic}: welche Punkte vor jeder Freigabe geprüft werden</h2>
         <div class="feature-grid" style="margin-top:1rem;">
           <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
             <h3>Inhalt</h3>
