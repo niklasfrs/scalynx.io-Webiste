@@ -39,7 +39,7 @@ const NAV_CONFIG = [
     href: "/ressourcen/",
     children: [
       { label: "Ressourcenübersicht", href: "/ressourcen/" },
-      { label: "Case Studies", href: "/ressourcen/case-studies" },
+      { label: "Case Studies", href: "/ressourcen/case-studies.html" },
       { label: "Reporting-Playbook", href: "/ressourcen/playbooks/reporting-playbook.html" },
       { label: "Ads-Audit-Playbook", href: "/ressourcen/playbooks/ads-audit.html" },
       { label: "KPI-Glossar", href: "/ressourcen/guides/kpi-glossar.html" },
@@ -119,6 +119,10 @@ function rewriteDemoLinks() {
     if (label === "demo anfragen" || label === "live-demo buchen" || label === "live demo buchen") {
       link.setAttribute("href", "/demo-anfragen.html");
     }
+    const href = link.getAttribute("href") || "";
+    if (href === "/ressourcen/case-studies") {
+      link.setAttribute("href", "/ressourcen/case-studies.html");
+    }
   });
 }
 
@@ -160,12 +164,13 @@ function initSegmentLanding() {
 
 function ensureLongFormSections() {
   const path = normalizePath(location.pathname);
-  if (path === "/" || path.includes("impressum") || path.includes("datenschutz") || path.includes("agb") || path.includes("demo-anfragen")) return;
+  if (path === "/" || path.includes("impressum") || path.includes("datenschutz") || path.includes("agb")) return;
   const main = document.querySelector("main.page-shell");
   if (!main) return;
 
+  const minSections = path.includes("demo-anfragen") ? 4 : 8;
   const sectionCount = main.querySelectorAll(":scope > section").length;
-  if (sectionCount >= 8) return;
+  if (sectionCount >= minSections) return;
 
   const topic = path.includes("/leistungen/")
     ? "Leistungsumsetzung"
@@ -175,28 +180,90 @@ function ensureLongFormSections() {
         ? "Praxiswissen"
         : "Agenturstrategie";
 
-  const needed = 8 - sectionCount;
+  const needed = minSections - sectionCount;
   const fx = ["left", "up", "right", "zoom"];
 
-  const blocks = Array.from({ length: needed }).map((_, i) => `
-    <section class="section">
-      <article class="panel card longform-panel" data-reveal data-fx="${fx[i % fx.length]}">
-        <p class="kicker">${topic} · Abschnitt ${i + 1}</p>
-        <h2>${topic}: Klarer Fokus für Entscheidungen und Umsetzung</h2>
-        <p class="lead">Dieser Abschnitt vertieft das Seitenthema mit operativer Perspektive, damit Agenturinhaber, Teamleads und Account Manager dieselbe Entscheidungslogik nutzen.</p>
-        <ul class="list">
-          <li>Konkrete Einordnung von KPI-Signalen statt reiner Zahlenansicht</li>
-          <li>Handlungspfad vom Insight zur priorisierten Maßnahme</li>
-          <li>Saubere Kommunikation der nächsten Schritte gegenüber Kunden</li>
-        </ul>
-      </article>
-    </section>
-  `).join("");
+  const variants = [
+    (i) => `
+      <section class="section longform-section">
+        <div class="split">
+          <div data-reveal data-fx="${fx[i % fx.length]}">
+            <p class="kicker">${topic} · Prozessblock ${i + 1}</p>
+            <h2>Vom Signal zur Entscheidung ohne Kontextverlust</h2>
+            <p class="lead">Jeder Schritt ist so aufgebaut, dass dein Team direkt zwischen Diagnose, Priorisierung und Maßnahme wechseln kann.</p>
+            <ul class="list">
+              <li>Frühindikatoren mit klarer Schwellenlogik</li>
+              <li>Verantwortung mit Owner und Termin pro Maßnahme</li>
+              <li>Kommunizierbare Argumentation für Kunden-Calls</li>
+            </ul>
+          </div>
+          <article class="panel card longform-panel interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
+            <p class="tag">Umsetzung</p>
+            <h3>Operativer Vorteil für Agenturen</h3>
+            <p>Du arbeitest in einem durchgängigen Ablauf statt zwischen mehreren Tools und Tabellen zu wechseln.</p>
+          </article>
+        </div>
+      </section>
+    `,
+    (i) => `
+      <section class="section longform-section">
+        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${topic} · Teamsteuerung ${i + 1}</p>
+        <h2 data-reveal data-fx="up">Mehr Klarheit für Owner, Teamlead und Account Manager</h2>
+        <div class="content-grid" style="margin-top:1rem;">
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
+            <h3>Leitfrage 1</h3>
+            <p>Welche Kennzahl kippt gerade, und was ist die wahrscheinlichste Ursache?</p>
+          </article>
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 2) % fx.length]}">
+            <h3>Leitfrage 2</h3>
+            <p>Welche Maßnahme erzeugt im nächsten Zyklus die höchste Wirkung?</p>
+          </article>
+        </div>
+      </section>
+    `,
+    (i) => `
+      <section class="section longform-section">
+        <article class="panel longform-panel" data-reveal data-fx="${fx[i % fx.length]}">
+          <p class="kicker">${topic} · Qualitätsblock ${i + 1}</p>
+          <h2>Standardisierung ohne Verlust an Kundenspezifik</h2>
+          <p class="lead">Die Struktur bleibt über Kunden hinweg gleich, während Inhalte und Prioritäten je Account individuell gesteuert werden.</p>
+          <div class="kpi-band" style="margin-top:1rem;">
+            <article><strong>Signal</strong><span>Was ist konkret auffällig?</span></article>
+            <article><strong>Ursache</strong><span>Was treibt die Entwicklung?</span></article>
+            <article><strong>Aktion</strong><span>Was wird als Nächstes umgesetzt?</span></article>
+            <article><strong>Wirkung</strong><span>Wie wird Erfolg gemessen?</span></article>
+          </div>
+        </article>
+      </section>
+    `,
+    (i) => `
+      <section class="section longform-section">
+        <div class="content-grid">
+          <article class="panel card longform-panel interactive-card" data-reveal data-fx="${fx[i % fx.length]}">
+            <p class="tag">Praxis</p>
+            <h3>Typischer Sprint-Ablauf</h3>
+            <ul class="list">
+              <li>Montag: KPI-Scan + Risiko-Priorisierung</li>
+              <li>Mittwoch: Maßnahmenstatus und Anpassung</li>
+              <li>Freitag: Report-Update und Kundenkommunikation</li>
+            </ul>
+          </article>
+          <article class="panel card longform-panel interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
+            <p class="tag">Outcome</p>
+            <h3>Was sich im Alltag verbessert</h3>
+            <p>Weniger Rückfragen, kürzere Abstimmungsschleifen und höhere Umsetzungsgeschwindigkeit über alle Kunden hinweg.</p>
+            <p class="interactive-note">Tipp: Klicke Karten an, um Fokus und Priorisierung visuell hervorzuheben.</p>
+          </article>
+        </div>
+      </section>
+    `
+  ];
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "longform-stack";
-  wrapper.innerHTML = blocks;
-  main.appendChild(wrapper);
+  const blocks = Array.from({ length: needed })
+    .map((_, i) => variants[i % variants.length](i))
+    .join("");
+
+  main.insertAdjacentHTML("beforeend", blocks);
 }
 
 function initRevealAnimations() {
@@ -265,6 +332,45 @@ function initDetailsAccordion() {
   });
 }
 
+function initMouseGlow() {
+  const finePointer = window.matchMedia("(pointer: fine)").matches;
+  if (!finePointer) return;
+  document.body.classList.add("has-mouse-glow");
+  let raf = 0;
+  const update = (x, y) => {
+    document.body.style.setProperty("--mx", `${x}px`);
+    document.body.style.setProperty("--my", `${y}px`);
+    document.body.style.setProperty("--glow-opacity", "1");
+  };
+  window.addEventListener("pointermove", (event) => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      update(event.clientX, event.clientY);
+      raf = 0;
+    });
+  }, { passive: true });
+  window.addEventListener("pointerleave", () => {
+    document.body.style.setProperty("--glow-opacity", "0");
+  });
+  update(window.innerWidth * 0.5, window.innerHeight * 0.25);
+}
+
+function initClickInteractions() {
+  const interactiveCards = Array.from(document.querySelectorAll(".card, .panel.interactive-card"));
+  interactiveCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const container = card.closest(".content-grid, .feature-grid, .deep-grid, .split, .section") || document;
+      container.querySelectorAll(".card.is-active").forEach((active) => {
+        if (active !== card) active.classList.remove("is-active");
+      });
+      card.classList.add("is-active");
+      card.classList.remove("click-pulse");
+      void card.offsetWidth;
+      card.classList.add("click-pulse");
+    });
+  });
+}
+
 renderHeaderAndFooter();
 rewriteDemoLinks();
 setupTicker();
@@ -273,6 +379,8 @@ ensureLongFormSections();
 initRevealAnimations();
 initDetailsAccordion();
 initScrollProgress();
+initMouseGlow();
+initClickInteractions();
 
 const topbar = document.querySelector(".topbar");
 window.addEventListener("scroll", () => {

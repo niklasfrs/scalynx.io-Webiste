@@ -35,6 +35,21 @@ body {
   overflow-x: clip;
 }
 
+body.has-mouse-glow::after {
+  content: "";
+  position: fixed;
+  left: var(--mx, 50vw);
+  top: var(--my, 50vh);
+  width: 340px;
+  height: 340px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: -2;
+  background: radial-gradient(circle, rgba(255, 152, 0, 0.16), rgba(255, 152, 0, 0) 70%);
+  opacity: var(--glow-opacity, 0);
+  transition: left 120ms linear, top 120ms linear, opacity 220ms ease;
+}
+
 .bg-layer {
   position: fixed;
   inset: 0;
@@ -63,7 +78,7 @@ body {
 .page-shell,
 .topbar,
 .footer {
-  width: min(1200px, calc(100vw - 2.4rem));
+  width: min(1200px, calc(100% - 2.4rem));
   margin-inline: auto;
 }
 
@@ -387,7 +402,7 @@ h2 {
   display: flex;
   gap: 0.5rem;
   width: max-content;
-  animation: ticker-scroll 16s linear infinite;
+  animation: ticker-scroll 24s linear infinite;
 }
 
 .trust-ticker span {
@@ -405,13 +420,14 @@ h2 {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: 1rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.8rem;
+  align-items: stretch;
 }
 
 .testimonial-grid {
@@ -454,6 +470,38 @@ h2 {
 .card:hover {
   transform: translateY(-3px);
   border-color: rgba(255, 180, 93, 0.6);
+}
+
+.card {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card.is-active {
+  border-color: rgba(255, 184, 106, 0.9);
+  box-shadow: 0 14px 36px rgba(255, 152, 0, 0.2);
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 10px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 180, 93, 0.9), transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s ease;
+}
+
+.card.is-active::after {
+  transform: scaleX(1);
+}
+
+.card.click-pulse {
+  animation: card-pulse 420ms ease;
 }
 
 .timeline {
@@ -583,6 +631,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.9rem;
+  align-items: stretch;
 }
 
 .deep-dive .lead {
@@ -666,16 +715,22 @@ h2 {
 
 .segment-panel .content-grid {
   align-items: stretch;
+  margin-top: 0.35rem;
 }
 
 .segment-panel h2 {
   max-width: 20ch;
-  margin-bottom: 1rem;
+  margin-bottom: 1.6rem;
 }
 
 .longform-stack {
   display: grid;
   gap: 0.9rem;
+}
+
+.longform-section {
+  padding-top: 3.8rem;
+  padding-bottom: 3.8rem;
 }
 
 .longform-panel {
@@ -688,6 +743,16 @@ h2 {
 
 .longform-panel .list {
   margin-top: 0.4rem;
+}
+
+.interactive-note {
+  margin-top: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 184, 106, 0.35);
+  background: rgba(255, 152, 0, 0.07);
+  color: #f5d7a5;
+  font-size: 0.84rem;
 }
 
 .list {
@@ -778,6 +843,11 @@ h2 {
     padding: 3.5rem 0;
   }
 
+  .longform-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
   .feature-grid,
   .kpi-band,
   .metric-grid,
@@ -795,4 +865,10 @@ h2 {
 @keyframes ticker-scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+
+@keyframes card-pulse {
+  0% { transform: translateY(0) scale(1); }
+  45% { transform: translateY(-2px) scale(1.01); }
+  100% { transform: translateY(0) scale(1); }
 }
