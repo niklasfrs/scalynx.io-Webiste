@@ -85,6 +85,87 @@ function buildNavHTML(currentPath) {
   }).join("");
 }
 
+function buildMobileMenuHTML(currentPath) {
+  return NAV_CONFIG.map((item) => {
+    const children = item.children || [];
+    const active = isActiveLink(item.href, currentPath) || children.some((child) => isActiveLink(child.href, currentPath));
+    if (!children.length) {
+      return `<a class="mobile-link ${active ? "active" : ""}" href="${item.href}">${item.label}</a>`;
+    }
+    const childrenHTML = children
+      .map((child) => `<a class="mobile-sublink ${isActiveLink(child.href, currentPath) ? "active" : ""}" href="${child.href}">${child.label}</a>`)
+      .join("");
+    return `
+      <details class="mobile-group" ${active ? "open" : ""}>
+        <summary>${item.label}</summary>
+        <div class="mobile-submenu">${childrenHTML}</div>
+      </details>
+    `;
+  }).join("");
+}
+
+function initMobileMenu(topbar, currentPath) {
+  if (!topbar) return;
+  const cta = topbar.querySelector(".btn.primary");
+  if (!cta) return;
+
+  let actions = topbar.querySelector(".topbar-actions");
+  if (!actions) {
+    actions = document.createElement("div");
+    actions.className = "topbar-actions";
+    topbar.appendChild(actions);
+  }
+
+  if (cta.parentElement !== actions) actions.prepend(cta);
+
+  let toggle = actions.querySelector(".mobile-menu-toggle");
+  if (!toggle) {
+    toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "mobile-menu-toggle";
+    toggle.setAttribute("aria-label", "Menü öffnen");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.innerHTML = "<span></span><span></span><span></span>";
+    actions.appendChild(toggle);
+  }
+
+  let panel = topbar.querySelector(".mobile-menu");
+  if (!panel) {
+    panel = document.createElement("div");
+    panel.className = "mobile-menu";
+    panel.setAttribute("aria-hidden", "true");
+    topbar.appendChild(panel);
+  }
+  panel.innerHTML = buildMobileMenuHTML(currentPath);
+
+  const closeMenu = () => {
+    topbar.classList.remove("menu-open");
+    toggle.setAttribute("aria-expanded", "false");
+    panel.setAttribute("aria-hidden", "true");
+  };
+  const openMenu = () => {
+    topbar.classList.add("menu-open");
+    toggle.setAttribute("aria-expanded", "true");
+    panel.setAttribute("aria-hidden", "false");
+  };
+
+  toggle.onclick = () => {
+    if (topbar.classList.contains("menu-open")) closeMenu();
+    else openMenu();
+  };
+
+  panel.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!topbar.contains(event.target)) closeMenu();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+}
+
 function renderHeaderAndFooter() {
   const currentYear = new Date().getFullYear();
   const currentPath = normalizePath(location.pathname);
@@ -97,6 +178,7 @@ function renderHeaderAndFooter() {
       cta.href = "/demo-anfragen.html";
       cta.textContent = "Demo anfragen";
     }
+    initMobileMenu(topbar, currentPath);
   }
 
   const footer = document.querySelector(".footer");
