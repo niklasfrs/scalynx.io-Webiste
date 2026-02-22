@@ -902,7 +902,7 @@ h2 {
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 1024px) {
   .topbar {
     border-radius: 16px;
     flex-wrap: nowrap;
@@ -1013,7 +1013,9 @@ h2 {
     color: #fff;
     background: rgba(255, 152, 0, 0.14);
   }
+}
 
+@media (max-width: 760px) {
   .section {
     padding: 3.5rem 0;
   }
