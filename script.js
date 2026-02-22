@@ -520,7 +520,7 @@ function ensureLongFormSections() {
   const model = PAGE_MODELS[path];
   if (!model) return;
 
-  const minSections = path.includes("demo-anfragen") ? 7 : 8;
+  const minSections = path.includes("demo-anfragen") ? 9 : 10;
   const sectionCount = main.querySelectorAll(":scope > section").length;
   if (sectionCount >= minSections) return;
 
@@ -644,6 +644,51 @@ function ensureLongFormSections() {
             <p>Ist eindeutig, wer bis wann was umsetzt und wie Erfolg gemessen wird?</p>
           </article>
         </div>
+      </section>
+    `,
+    (i) => `
+      <section class="section longform-section">
+        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · Einführungsplan</p>
+        <h2 data-reveal data-fx="up">${model.topic}: realistischer Rollout in den ersten 30 Tagen</h2>
+        <div class="split">
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
+            <p class="tag">Woche 1</p>
+            <h3>Setup und Zielbild</h3>
+            <ul class="list">
+              <li>${model.steps[0]} mit klarer Zieldefinition</li>
+              <li>Verantwortlichkeiten je Rolle sauber verteilen</li>
+              <li>Kritische KPI-Signale für den Start festlegen</li>
+            </ul>
+          </article>
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 2) % fx.length]}">
+            <p class="tag">Woche 2-4</p>
+            <h3>Stabilisierung und Skalierung</h3>
+            <ul class="list">
+              <li>${model.steps[1]} und ${model.steps[2]} in festen Routinen</li>
+              <li>Reporting-Rhythmus für Kundenkommunikation etablieren</li>
+              <li>Ergebnisse aus ${model.signals[2]} und ${model.signals[3]} messbar machen</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    `,
+    (i) => `
+      <section class="section longform-section">
+        <article class="panel cta-box" data-reveal data-fx="${fx[i % fx.length]}">
+          <p class="kicker">${model.topic} · Entscheidungsgrundlage</p>
+          <h2>Warum Agenturen damit schneller liefern und überzeugender verkaufen</h2>
+          <p class="lead">${model.promise} Dadurch entsteht ein klarer Vorteil in Akquise, Kundenführung und operativer Umsetzung.</p>
+          <div class="kpi-band" style="margin-top:1.1rem;">
+            <article><strong>Schnelleres Onboarding</strong><span>Weniger Abstimmung bis zum ersten verwertbaren Report</span></article>
+            <article><strong>Stabilere Prozesse</strong><span>Weniger Toolwechsel und geringere Fehleranfälligkeit</span></article>
+            <article><strong>Klarere Kundencalls</strong><span>Entscheidungen statt KPI-Overload im Gespräch</span></article>
+            <article><strong>Höherer Durchsatz</strong><span>Mehr umgesetzte Maßnahmen pro Kunde und Monat</span></article>
+          </div>
+          <div class="hero-cta" style="justify-content:center;margin-top:1.1rem;">
+            <a class="btn primary" href="/demo-anfragen.html">Demo anfragen</a>
+            <a class="btn secondary" href="/branchen/amazon-agenturen.html">Für Agenturen ansehen</a>
+          </div>
+        </article>
       </section>
     `
   ];
