@@ -511,13 +511,23 @@ function rotateArray(items, shift) {
   return items.slice(offset).concat(items.slice(0, offset));
 }
 
+function getModelForPath(path) {
+  if (PAGE_MODELS[path]) return PAGE_MODELS[path];
+  if (!path.endsWith("/") && !path.endsWith(".html") && PAGE_MODELS[`${path}.html`]) return PAGE_MODELS[`${path}.html`];
+  if (path.endsWith(".html")) {
+    const clean = path.replace(/\.html$/, "");
+    if (PAGE_MODELS[clean]) return PAGE_MODELS[clean];
+  }
+  return null;
+}
+
 function ensureLongFormSections() {
   const path = normalizePath(location.pathname);
   if (path === "/" || path.includes("impressum") || path.includes("datenschutz") || path.includes("agb")) return;
   const main = document.querySelector("main.page-shell");
   if (!main) return;
 
-  const model = PAGE_MODELS[path];
+  const model = getModelForPath(path);
   if (!model) return;
 
   const minSections = path.includes("demo-anfragen") ? 9 : 10;
