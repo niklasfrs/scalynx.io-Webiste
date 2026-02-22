@@ -511,6 +511,34 @@ function rotateArray(items, shift) {
   return items.slice(offset).concat(items.slice(0, offset));
 }
 
+function stripHtmlToText(html) {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizeComparableText(value) {
+  return (value || "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function textSimilarity(a, b) {
+  const aa = new Set(normalizeComparableText(a).split(" ").filter((token) => token.length > 2));
+  const bb = new Set(normalizeComparableText(b).split(" ").filter((token) => token.length > 2));
+  if (!aa.size || !bb.size) return 0;
+  let intersection = 0;
+  aa.forEach((token) => {
+    if (bb.has(token)) intersection += 1;
+  });
+  return intersection / Math.max(aa.size, bb.size);
+}
+
 function getModelForPath(path) {
   if (PAGE_MODELS[path]) return PAGE_MODELS[path];
   if (!path.endsWith("/") && !path.endsWith(".html") && PAGE_MODELS[`${path}.html`]) return PAGE_MODELS[`${path}.html`];
@@ -556,22 +584,58 @@ function ensureLongFormSections() {
     "stabilere Prozesse auch bei wachsender Kundenanzahl",
     "messbarer Fortschritt pro Woche"
   ];
-  const headlinePool = [
-    `${model.topic}: von Datenpunkten zu klaren Entscheidungen`,
-    `${model.topic}: wie Agenturteams operative Qualität absichern`,
-    `${model.topic}: strukturierte Umsetzung über Rollen hinweg`,
-    `${model.topic}: Kundennutzen nachvollziehbar kommunizieren`,
-    `${model.topic}: wiederholbarer Ablauf statt Einzelaktionen`,
-    `${model.topic}: Priorisierung mit direkter Wirkung`,
-    `${model.topic}: schneller vom Signal zur Maßnahme`,
-    `${model.topic}: Entscheidungen konsistent im Team verankern`,
-    `${model.topic}: operativer Takt mit messbarem Ergebnis`,
-    `${model.topic}: Effizienz und Qualität parallel steigern`
+  const headlineVerbs = [
+    "priorisiert",
+    "synchronisiert",
+    "strukturiert",
+    "stabilisiert",
+    "beschleunigt",
+    "verbindet",
+    "standardisiert",
+    "verdichtet",
+    "orchestriert",
+    "fokussiert",
+    "vereinheitlicht",
+    "absichert"
+  ];
+  const headlineObjects = [
+    "KPI-Signale und Maßnahmen",
+    "Reporting und operative Umsetzung",
+    "Teamrollen und Kundenkommunikation",
+    "Entscheidungswege im Tagesgeschäft",
+    "Analyse und Handlungspfad",
+    "Prioritäten und Verantwortlichkeiten",
+    "Rollout-Logik und Qualitätskontrolle",
+    "Kundensicht und Agentursicht",
+    "Backlog-Steuerung und Ergebnisnachweis",
+    "Risikoerkennung und Maßnahmentakt"
+  ];
+  const headlineOutcomes = [
+    "messbare Kundenwirkung",
+    "klarere Entscheidungen",
+    "stabilere Prozesse",
+    "höhere Teamgeschwindigkeit",
+    "weniger Reibung im Alltag",
+    "saubere Skalierung",
+    "bessere Reportqualität",
+    "höhere Umsetzungsquote",
+    "weniger Abstimmungsaufwand",
+    "stärkere Kundenbindung"
   ];
 
-  const makeHeadline = (seed) => headlinePool[seed % headlinePool.length];
+  const makeHeadline = (seed) => {
+    const a = headlineVerbs[seed % headlineVerbs.length];
+    const b = headlineObjects[Math.floor(seed / headlineVerbs.length) % headlineObjects.length];
+    const c = headlineOutcomes[Math.floor(seed / (headlineVerbs.length * headlineObjects.length)) % headlineOutcomes.length];
+    return `${model.topic}: ${a} ${b} für ${c}`;
+  };
   const makeLead = (seed) => `${model.promise} Schwerpunkt: ${angle[seed % angle.length]}.`;
-  const detailSeed = (seed) => storyline[(hashString(path) + seed) % storyline.length];
+  const detailSeed = (seed) => {
+    const base = storyline[(hashString(path) + seed) % storyline.length];
+    const round = Math.floor(seed / storyline.length);
+    if (round === 0) return base;
+    return `${base} ${round + 1}`;
+  };
 
   const variations = [
     (i) => `
@@ -792,11 +856,13 @@ function ensureLongFormSections() {
 
   const orderedVariations = rotateArray(variations, hashString(path) % variations.length).map((render, idx) => ({
     id: idx,
-    family: idx,
+    layout: idx % 6,
     render
   }));
 
-  let lastFamily = -1;
+  const seenSignatures = new Set();
+  const recentTexts = [];
+  let lastLayout = -1;
   let added = 0;
   let guard = 0;
 
@@ -808,49 +874,123 @@ function ensureLongFormSections() {
 
   while (needsMoreDepth() && guard < 36) {
     const seed = hashString(`${path}:${guard}:${added}`);
-    let candidate = orderedVariations[(seed + added) % orderedVariations.length];
-    if (candidate.family === lastFamily) {
-      candidate = orderedVariations.find((item) => item.family !== lastFamily) || candidate;
+    const startIndex = (seed + added) % orderedVariations.length;
+    let candidate = orderedVariations[startIndex];
+    let candidateHtml = candidate.render(added + guard);
+    let candidateText = stripHtmlToText(candidateHtml);
+    let candidateSignature = normalizeComparableText(candidateText).slice(0, 240);
+    let attempts = 0;
+
+    while (attempts < orderedVariations.length * 2) {
+      const tooSimilarRecent = recentTexts.some((existing) => textSimilarity(existing, candidateText) >= 0.72);
+      const isKnownSignature = seenSignatures.has(candidateSignature);
+      const sameLayoutAsLast = candidate.layout === lastLayout;
+      if (!tooSimilarRecent && !isKnownSignature && !sameLayoutAsLast) break;
+      attempts += 1;
+      const next = orderedVariations[(startIndex + attempts) % orderedVariations.length];
+      candidate = next;
+      candidateHtml = candidate.render(added + guard + attempts);
+      candidateText = stripHtmlToText(candidateHtml);
+      candidateSignature = normalizeComparableText(candidateText).slice(0, 240);
     }
-    main.insertAdjacentHTML("beforeend", candidate.render(added + guard));
-    lastFamily = candidate.family;
+
+    main.insertAdjacentHTML("beforeend", candidateHtml);
+    seenSignatures.add(candidateSignature);
+    recentTexts.push(candidateText);
+    if (recentTexts.length > 3) recentTexts.shift();
+    lastLayout = candidate.layout;
     added += 1;
     guard += 1;
   }
 
-  dedupeAdjacentSectionHeadings(main, model.topic);
+  enforceNoRepeatCopy(main, model.topic);
 }
 
-function dedupeAdjacentSectionHeadings(main, topic) {
+function enforceNoRepeatCopy(main, topic) {
   const sections = Array.from(main.querySelectorAll(":scope > section"));
   if (!sections.length) return;
-  const suffixes = [
-    "Strategie",
-    "Umsetzung",
-    "Priorisierung",
-    "Qualität",
-    "Skalierung",
-    "Governance",
-    "Rollout",
-    "Wirkung"
+  const headlineAlternatives = [
+    "operative Prioritäten mit klarer Reihenfolge steuern",
+    "Kundenkommunikation auf Maßnahmen statt nur Zahlen ausrichten",
+    "Teamabläufe ohne Tool-Brüche konsistent zusammenführen",
+    "Entscheidungen datenbasiert und nachvollziehbar dokumentieren",
+    "KPI-Signale schneller in konkrete Schritte überführen",
+    "Umsetzungsqualität pro Kunde strukturiert absichern",
+    "Skalierung mit stabilen Standards im Tagesgeschäft verankern",
+    "Risiken früh erkennen und priorisiert bearbeiten",
+    "Reporting und Umsetzung in einem Ablauf verbinden",
+    "Account-Verantwortung rollenbasiert und transparent steuern",
+    "Backlog und Kundenwirkung in einem Takt synchronisieren",
+    "Team-Alignment über einheitliche Entscheidungslogik stärken"
   ];
+  const kickerAlternatives = [
+    "Operative Priorisierung",
+    "Kundenorientierte Umsetzung",
+    "Standardisierte Steuerung",
+    "Team-Alignment",
+    "Maßnahmen-Backlog",
+    "Qualitätssicherung",
+    "Ergebniskontrolle",
+    "Skalierungsrahmen",
+    "Risikomanagement",
+    "Rollout-Planung"
+  ];
+  const usedHeadings = new Map();
+  const usedKickers = new Map();
   let lastNormalized = "";
-  let suffixIdx = 0;
+  let altIdx = 0;
+
+  const makeUniqueHeading = (excludedKey) => {
+    let attempts = 0;
+    while (attempts < headlineAlternatives.length * 2) {
+      const candidate = `${topic}: ${headlineAlternatives[(altIdx + attempts) % headlineAlternatives.length]}`;
+      const candidateKey = normalizeComparableText(candidate);
+      if (!usedHeadings.has(candidateKey) && candidateKey !== excludedKey && candidateKey !== lastNormalized) {
+        altIdx += attempts + 1;
+        return candidate;
+      }
+      attempts += 1;
+    }
+    altIdx += 1;
+    return `${topic}: ${headlineAlternatives[altIdx % headlineAlternatives.length]}`;
+  };
+
+  const makeUniqueKicker = () => {
+    let attempts = 0;
+    while (attempts < kickerAlternatives.length * 2) {
+      const candidate = `${topic} · ${kickerAlternatives[(altIdx + attempts) % kickerAlternatives.length]}`;
+      const candidateKey = normalizeComparableText(candidate);
+      if (!usedKickers.has(candidateKey)) return candidate;
+      attempts += 1;
+    }
+    return `${topic} · ${kickerAlternatives[(altIdx + 1) % kickerAlternatives.length]}`;
+  };
 
   sections.forEach((section) => {
     const heading = section.querySelector("h2, h3");
+    const kicker = section.querySelector(".kicker");
+    if (kicker) {
+      const rawKicker = (kicker.textContent || "").trim();
+      const kickerKey = normalizeComparableText(rawKicker);
+      const kickerCount = usedKickers.get(kickerKey) || 0;
+      if (kickerCount > 0) {
+        kicker.textContent = makeUniqueKicker();
+      }
+      usedKickers.set(normalizeComparableText(kicker.textContent || rawKicker), kickerCount + 1);
+    }
     if (!heading) return;
     const text = (heading.textContent || "").trim();
     const normalized = text.toLowerCase().replace(/\s+/g, " ").trim();
     if (!normalized) return;
-    if (normalized === lastNormalized) {
-      const suffix = suffixes[suffixIdx % suffixes.length];
-      suffixIdx += 1;
-      heading.textContent = `${text} · ${topic} ${suffix}`;
-      lastNormalized = `${normalized} · ${suffix.toLowerCase()}`;
+    const headingCount = usedHeadings.get(normalized) || 0;
+    if (normalized === lastNormalized || headingCount > 0) {
+      heading.textContent = makeUniqueHeading(normalized);
+      lastNormalized = normalizeComparableText(heading.textContent);
+      usedHeadings.set(lastNormalized, 1);
       return;
     }
     lastNormalized = normalized;
+    usedHeadings.set(normalized, headingCount + 1);
   });
 }
 
