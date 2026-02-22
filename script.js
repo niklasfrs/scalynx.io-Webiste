@@ -162,61 +162,323 @@ function initSegmentLanding() {
   activateSegment(valid ? sizeParam : "klein", false);
 }
 
+const PAGE_MODELS = {
+  "/demo-anfragen.html": {
+    topic: "Demo-Rollout",
+    audience: "für Amazon-Agenturen",
+    focus: "Warteliste, Priorisierung und frühes Onboarding",
+    promise: "Kein Leerlauf bis zum Release: frühe Interessenten werden strukturiert vorbereitet.",
+    signals: ["Dringlichkeit im Team", "Anzahl aktiver Kunden", "Fokus auf Werbung oder Content", "Technische Systemlandschaft"],
+    steps: ["Use Case aufnehmen", "Teamrolle definieren", "Pilotkunden priorisieren", "Go-Live-Kriterien festlegen"],
+    outcome: "Schnellerer Start mit klaren Erwartungen statt unklarem Vorlauf."
+  },
+  "/branchen/amazon-agenturen.html": {
+    topic: "Amazon-Agentur-Fit",
+    audience: "für Agenturinhaber und Teamleads",
+    focus: "Skalierbare Struktur statt Tool-Chaos",
+    promise: "Die Plattform passt sich an Agenturgröße, Teamstruktur und Kundenportfolio an.",
+    signals: ["Marge pro Kunde", "Zeitaufwand pro Monatsreport", "Reaktionsgeschwindigkeit bei Risiken", "Umsetzungsquote im Team"],
+    steps: ["Segment wählen", "KPI-Standard setzen", "Rollen zuordnen", "Review-Rhythmus etablieren"],
+    outcome: "Mehr operative Ruhe, schnellere Entscheidungen und nachvollziehbare Kundenergebnisse."
+  },
+  "/leistungen/": {
+    topic: "Leistungsportfolio",
+    audience: "für operative Amazon-Agenturen",
+    focus: "Von KPI-Analyse bis Maßnahmenumsetzung",
+    promise: "Jede Leistung ist direkt mit einem konkreten Agentur-Output verbunden.",
+    signals: ["Reporting-Qualität", "Werbeeffizienz", "Risikofrüherkennung", "Liefergeschwindigkeit im Team"],
+    steps: ["Leistung auswählen", "Untermodul vertiefen", "Teamprozess zuordnen", "Kundennutzen kommunizieren"],
+    outcome: "Klarer Leistungsnachweis im Kundengespräch und weniger interne Reibung."
+  },
+  "/leistungen/dashboard-reporting.html": {
+    topic: "Dashboard & Reporting",
+    audience: "für Entscheider in Amazon-Agenturen",
+    focus: "Saubere KPI-Lesbarkeit für Kunden-Calls",
+    promise: "Reports erklären nicht nur Zahlen, sondern auch Ursache, Maßnahme und nächste Entscheidung.",
+    signals: ["Umsatztrend", "TACoS-Entwicklung", "ACoS-Abweichung", "BuyBox-Stabilität"],
+    steps: ["Abweichung markieren", "Ursache belegen", "Maßnahme priorisieren", "Kommunikation vorbereiten"],
+    outcome: "Mehr Vertrauen im Termin und weniger Rückfragen nach dem Report."
+  },
+  "/leistungen/werbung-analytics.html": {
+    topic: "Werbung & Analytics",
+    audience: "für Performance-Teams",
+    focus: "Budget, Gebote und Targets mit klarer Steuerlogik",
+    promise: "Werbeentscheidungen basieren auf Effizienzsignalen statt auf Bauchgefühl.",
+    signals: ["ROAS je Kampagne", "ACoS je Ziel", "Klickkosten-Trend", "Conversion je ASIN"],
+    steps: ["Ineffizienz clustern", "Budget anpassen", "Targets verschieben", "Wirkung prüfen"],
+    outcome: "Weniger Streuverlust und stabilere Skalierung profitabler Kampagnen."
+  },
+  "/leistungen/insights-health.html": {
+    topic: "Insights & Health",
+    audience: "für proaktive Account-Teams",
+    focus: "Risiken erkennen, bevor Kunden sie melden",
+    promise: "Findings und Health-Signale werden in klare Prioritäten für das Team übersetzt.",
+    signals: ["BuyBox-Verlust", "Conversion-Einbruch", "Traffic ohne Umsatz", "Budgetwarnungen"],
+    steps: ["Signal bewerten", "Schadenspotenzial einschätzen", "Sofortmaßnahme planen", "Status nachhalten"],
+    outcome: "Reaktionsstarkes Kundenmanagement statt reaktiver Feuerwehr."
+  },
+  "/leistungen/insights/buybox-monitoring.html": {
+    topic: "BuyBox-Monitoring",
+    audience: "für kritische Umsatzkontrolle",
+    focus: "Frühwarnung bei Sichtbarkeitsverlust",
+    promise: "BuyBox-Abweichungen werden früh erkannt und priorisiert eskaliert.",
+    signals: ["BuyBox-Quote", "betroffene ASINs", "Marktplatzvergleich", "Zeitliche Muster"],
+    steps: ["Abfall identifizieren", "Ursache eingrenzen", "Gegenmaßnahme starten", "Erholung prüfen"],
+    outcome: "Schnelleres Gegensteuern bei Umsatzrisiken auf Produktebene."
+  },
+  "/leistungen/promotions-erfolgsmessung.html": {
+    topic: "Promotion-Auswertung",
+    audience: "für datenbasierte Aktionsplanung",
+    focus: "Vorher/Während/Nachher/Vorjahr in einer Logik",
+    promise: "Deals werden anhand echter Wirkung bewertet, nicht anhand kurzfristiger Peaks.",
+    signals: ["Umsatzhebel", "Conversion-Delta", "Werbekostenquote", "organischer Anteil"],
+    steps: ["Aktion dokumentieren", "Vergleichsfenster wählen", "Ergebnis interpretieren", "Wiederholung entscheiden"],
+    outcome: "Bessere Promotionsplanung mit klarer Profitabilitätsbewertung."
+  },
+  "/leistungen/content-studio.html": {
+    topic: "Content Studio",
+    audience: "für skalierbare Produktionsteams",
+    focus: "Texte, Bilder, A+ und Video in einem Workflow",
+    promise: "Von Einzel-Asset bis Bulk-Output bleibt die Qualitätslogik stabil.",
+    signals: ["Produktionstempo", "Freigabedauer", "Qualitätskonsistenz", "Wiederverwendbarkeit"],
+    steps: ["Input definieren", "Assets produzieren", "Qualitätscheck durchführen", "Kundenfreigabe steuern"],
+    outcome: "Höherer Output ohne Qualitätsverlust bei wachsender Kundenanzahl."
+  },
+  "/leistungen/kundenmanagement.html": {
+    topic: "Kundenmanagement",
+    audience: "für Agenturführung und Operations",
+    focus: "Status, Abrechnung und Rollen sauber steuern",
+    promise: "Kundenstruktur ist transparent und operativ nutzbar statt in Nebensystemen verteilt.",
+    signals: ["Aktiv/Pause-Status", "Monatsbetrag", "Zugriffsrechte", "Onboarding-Stand"],
+    steps: ["Kunde anlegen", "Rollen zuweisen", "Status pflegen", "Abrechnung prüfen"],
+    outcome: "Weniger Admin-Reibung und bessere Steuerbarkeit im Tagesgeschäft."
+  },
+  "/leistungen/aufgaben-reports.html": {
+    topic: "Aufgaben & Reports",
+    audience: "für Teams mit hohem Umsetzungsdruck",
+    focus: "Insights direkt in umsetzbare Tasks überführen",
+    promise: "Jede Maßnahme ist mit Owner, Termin und Reporting-Kontext verbunden.",
+    signals: ["Offene Prioritäten", "Deadline-Risiken", "Umsetzungsquote", "Report-Vollständigkeit"],
+    steps: ["Task anlegen", "Owner setzen", "Status dokumentieren", "Report aktualisieren"],
+    outcome: "Besserer Durchsatz zwischen Analyse, Umsetzung und Kundenkommunikation."
+  },
+  "/leistungen/reporting/kundenreports.html": {
+    topic: "Kundenreports",
+    audience: "für überzeugende Monatsgespräche",
+    focus: "Von KPI-Verlauf zur klaren Entscheidung",
+    promise: "Berichte werden als Entscheidungsdokument genutzt statt als reine Datensammlung.",
+    signals: ["Kern-KPI je Ziel", "Top- und Flop-Treiber", "offene Risiken", "nächste Maßnahmen"],
+    steps: ["Kernaussage formulieren", "Beleg mit KPI liefern", "Maßnahme benennen", "Commitment festhalten"],
+    outcome: "Höhere Abschlusswahrscheinlichkeit für Empfehlungen im Kundencall."
+  },
+  "/plattform/": {
+    topic: "Plattformarchitektur",
+    audience: "für technisch orientierte Agenturen",
+    focus: "Ansichten, Datenfluss und Rollenmodell",
+    promise: "Die Plattformlogik erklärt, warum Prozesse stabil und skalierbar laufen.",
+    signals: ["Datenqualität", "Sync-Zyklus", "Rollenklarheit", "Mandantenfähigkeit"],
+    steps: ["Ansicht wählen", "Rechte definieren", "Datenfluss prüfen", "Governance festlegen"],
+    outcome: "Stabile Systembasis für konsistente Agenturleistung."
+  },
+  "/plattform/kundensicht.html": {
+    topic: "Kundensicht",
+    audience: "für klare Kundenerlebnisse",
+    focus: "Transparenz ohne operative Überforderung",
+    promise: "Kunden sehen genau die Informationen, die für Entscheidungen relevant sind.",
+    signals: ["Dashboard-Lesbarkeit", "Report-Verfügbarkeit", "Insights-Verständlichkeit", "Rückfragequote"],
+    steps: ["Ansicht strukturieren", "KPI priorisieren", "Report bereitstellen", "Feedback auswerten"],
+    outcome: "Weniger Rückfragen und professionellerer Auftritt im Kundenkontakt."
+  },
+  "/plattform/agentursicht.html": {
+    topic: "Agentursicht",
+    audience: "für operative Teams",
+    focus: "Tiefe Steuerung für Analyse, Umsetzung und Produktion",
+    promise: "Agenturen arbeiten mit allen Admin- und Produktionsmodulen in einer Oberfläche.",
+    signals: ["Prioritätenklarheit", "Teamdurchsatz", "Risikofrüherkennung", "Content-Output"],
+    steps: ["Kunde auswählen", "Signale priorisieren", "Maßnahmen steuern", "Ergebnisse dokumentieren"],
+    outcome: "Deutlich weniger Toolwechsel und mehr operative Geschwindigkeit."
+  },
+  "/plattform/funktionsumfang.html": {
+    topic: "Funktionsumfang",
+    audience: "für Evaluations- und Einkaufsteams",
+    focus: "Was heute live ist und was als Roadmap folgt",
+    promise: "Klarer Abgleich zwischen aktuellem Produktumfang und nächstem Ausbauschritt.",
+    signals: ["Live-Module", "Roadmap-Module", "Nutzungsreife", "Abdeckungsgrad"],
+    steps: ["Anforderung aufnehmen", "Modul zuordnen", "Reifegrad prüfen", "Einführung planen"],
+    outcome: "Verlässliche Entscheidungsgrundlage für Rollout und Erwartungsmanagement."
+  },
+  "/plattform/datenquellen-sync.html": {
+    topic: "Datenquellen & Sync",
+    audience: "für datengetriebene Agenturen",
+    focus: "Automatischer Datenfluss aus Amazon-Quellen",
+    promise: "KPI-Ansichten basieren auf laufend aktualisierten Daten statt auf manueller Pflege.",
+    signals: ["Sync-Häufigkeit", "Vollständigkeit", "Datenlatenz", "Fehlerstatus"],
+    steps: ["Quelle anbinden", "Sync prüfen", "Anomalien markieren", "Daten im Report nutzen"],
+    outcome: "Höhere Datensicherheit und weniger manuelle Nacharbeit."
+  },
+  "/plattform/rollen-rechte.html": {
+    topic: "Rollen & Rechte",
+    audience: "für Governance und Datenschutz",
+    focus: "Trennung von Kundensicht und Agentursteuerung",
+    promise: "Jeder Nutzer sieht exakt die Informationen, die zur Rolle passen.",
+    signals: ["Rollenabdeckung", "Zugriffsfehler", "Freigabeprozesse", "Auditierbarkeit"],
+    steps: ["Rolle definieren", "Rechte zuweisen", "Freigabe testen", "Regelwerk dokumentieren"],
+    outcome: "Sichere Zusammenarbeit ohne unklare Zugriffsgrenzen."
+  },
+  "/plattform/automatisierung.html": {
+    topic: "Werbeautomatisierung (Coming Soon)",
+    audience: "für skalierende Ads-Teams",
+    focus: "Regelsets für Gebote, Budgets und Targets",
+    promise: "Templates und individuelle Regeln reduzieren manuelle Kampagnenpflege deutlich.",
+    signals: ["Regelabdeckung", "Budgetabweichung", "Gebotsdynamik", "Targeting-Qualität"],
+    steps: ["Template wählen", "Grenzwerte setzen", "Regel aktivieren", "Wirkung kontrollieren"],
+    outcome: "Planbarer Ads-Betrieb bei wachsender Kundenzahl."
+  },
+  "/ressourcen/": {
+    topic: "Ressourcen-Hub",
+    audience: "für Teams in der Umsetzung",
+    focus: "Playbooks, Cases und Guides für den Agenturalltag",
+    promise: "Jede Ressource ist auf direkte Anwendung im Tagesgeschäft ausgelegt.",
+    signals: ["Nutzungsfrequenz", "Team-Standardisierung", "Onboarding-Tempo", "Entscheidungsqualität"],
+    steps: ["Ressource auswählen", "im Team ausrollen", "Ergebnisse messen", "Standard festschreiben"],
+    outcome: "Schnellere Einarbeitung und einheitliche Arbeitsqualität."
+  },
+  "/ressourcen/case-studies.html": {
+    topic: "Case Studies",
+    audience: "für strategische Entscheider",
+    focus: "Praxisbelege aus realen Agenturkonstellationen",
+    promise: "Die Cases zeigen, wie Teams Struktur, Tempo und Kundenwirkung verbessert haben.",
+    signals: ["Ausgangslage", "Umsetzungsweg", "Teamwirkung", "Kundenergebnis"],
+    steps: ["Case auswählen", "Muster erkennen", "auf eigenes Team übertragen", "Erfolg validieren"],
+    outcome: "Schnelleres Vertrauen in den Rollout auf Basis echter Beispiele."
+  },
+  "/ressourcen/cases/sellersprint.html": {
+    topic: "Case: sellersprint.de",
+    audience: "für wachstumsorientierte Agenturen",
+    focus: "Operative Struktur bei steigender Kundenanzahl",
+    promise: "Der Case zeigt, wie Reporting und Priorisierung im Team stabilisiert wurden.",
+    signals: ["Report-Zeit", "Rückfragequote", "Umsetzungsquote", "Klarheit im Team"],
+    steps: ["Ist-Stand erfassen", "Modul-Rollout starten", "Review-Rhythmus etablieren", "Wirkung auswerten"],
+    outcome: "Messbar stabilere Prozesse bei gleichzeitig höherer Liefergeschwindigkeit."
+  },
+  "/ressourcen/cases/conversion-studio.html": {
+    topic: "Case: Conversion Studio",
+    audience: "für Agenturen im Skalierungsmodus",
+    focus: "Einheitliche KPI-Logik über mehrere Accounts",
+    promise: "Der Case zeigt, wie Standards und Flexibilität gleichzeitig möglich werden.",
+    signals: ["Team-Alignment", "KPI-Konsistenz", "Task-Durchsatz", "Kundenzufriedenheit"],
+    steps: ["Standard definieren", "Rollenmodell einführen", "Taskfluss aufsetzen", "Qualität absichern"],
+    outcome: "Höhere Prozesssicherheit und bessere Skalierbarkeit im Tagesbetrieb."
+  },
+  "/ressourcen/playbooks/reporting-playbook.html": {
+    topic: "Reporting-Playbook",
+    audience: "für klare Monatsgespräche",
+    focus: "Struktur für Berichte mit Maßnahmenlogik",
+    promise: "Das Playbook hilft, Reports als Entscheidungsvorlage statt als Datenanhang zu nutzen.",
+    signals: ["KPI-Relevanz", "Argumentationslinie", "Maßnahmenklarheit", "Commitment"],
+    steps: ["Reportstruktur wählen", "Kernaussagen priorisieren", "Maßnahmen festlegen", "Folgetermin absichern"],
+    outcome: "Professionellere Kundenkommunikation mit höherer Verbindlichkeit."
+  },
+  "/ressourcen/playbooks/ads-audit.html": {
+    topic: "Ads-Audit-Playbook",
+    audience: "für PPC-Verantwortliche",
+    focus: "Systematische Prüfung von Kampagnenqualität",
+    promise: "Das Audit macht Ineffizienzen reproduzierbar sichtbar und priorisiert Verbesserungen.",
+    signals: ["Kostenstruktur", "Targeting-Qualität", "Keyword-Wirkung", "Skalierungspotenzial"],
+    steps: ["Datenfenster wählen", "Auffälligkeiten clustern", "Prioritäten setzen", "Maßnahmen tracken"],
+    outcome: "Schnellere Optimierung mit klarer Reihenfolge und messbarer Wirkung."
+  },
+  "/ressourcen/guides/kpi-glossar.html": {
+    topic: "KPI-Glossar",
+    audience: "für einheitliche Team-Sprache",
+    focus: "Definitionen für Amazon-Kennzahlen ohne Interpretationslücken",
+    promise: "Alle Rollen arbeiten mit denselben KPI-Bedeutungen und Entscheidungsregeln.",
+    signals: ["Definitionsklarheit", "Vergleichbarkeit", "Missverständnisse", "Anwendbarkeit"],
+    steps: ["KPI prüfen", "Bedeutung abstimmen", "Schwellen definieren", "im Report verankern"],
+    outcome: "Weniger Diskussionsaufwand und schnellere Entscheidungen im Team."
+  },
+  "/ressourcen/guides/onboarding-checkliste.html": {
+    topic: "Onboarding-Checkliste",
+    audience: "für neue Kundenaufnahmen",
+    focus: "Strukturierter Start vom Invite bis zum ersten Report",
+    promise: "Die Checkliste reduziert Reibung in den ersten Wochen deutlich.",
+    signals: ["Datenzugang", "Rollenzuordnung", "KPI-Abstimmung", "Erster Review-Termin"],
+    steps: ["Kickoff durchführen", "Daten anbinden", "Rollen setzen", "erste Maßnahmen priorisieren"],
+    outcome: "Schneller produktiver Start mit klaren Verantwortlichkeiten."
+  },
+  "/ressourcen/faq/agentur-faq.html": {
+    topic: "Agentur-FAQ",
+    audience: "für häufige Entscheidungsfragen",
+    focus: "Klarheit zu Einsatz, Umfang und Rollout",
+    promise: "Typische Einwände und Fragen werden kompakt und nachvollziehbar beantwortet.",
+    signals: ["Einführungsaufwand", "Funktionsfit", "Teamakzeptanz", "Kundennutzen"],
+    steps: ["Frage clustern", "Antwort standardisieren", "im Team teilen", "im Vertrieb nutzen"],
+    outcome: "Schnellere Entscheidungswege in Sales und Operations."
+  }
+};
+
+function hashString(value) {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  return hash;
+}
+
+function rotateArray(items, shift) {
+  if (!items.length) return items;
+  const offset = shift % items.length;
+  return items.slice(offset).concat(items.slice(0, offset));
+}
+
 function ensureLongFormSections() {
   const path = normalizePath(location.pathname);
   if (path === "/" || path.includes("impressum") || path.includes("datenschutz") || path.includes("agb")) return;
   const main = document.querySelector("main.page-shell");
   if (!main) return;
 
-  const minSections = path.includes("demo-anfragen") ? 4 : 8;
+  const model = PAGE_MODELS[path];
+  if (!model) return;
+
+  const minSections = path.includes("demo-anfragen") ? 7 : 8;
   const sectionCount = main.querySelectorAll(":scope > section").length;
   if (sectionCount >= minSections) return;
 
-  const topic = path.includes("/leistungen/")
-    ? "Leistungsumsetzung"
-    : path.includes("/plattform/")
-      ? "Plattformlogik"
-      : path.includes("/ressourcen/")
-        ? "Praxiswissen"
-        : "Agenturstrategie";
-
   const needed = minSections - sectionCount;
   const fx = ["left", "up", "right", "zoom"];
-
-  const variants = [
+  const variations = [
     (i) => `
       <section class="section longform-section">
         <div class="split">
           <div data-reveal data-fx="${fx[i % fx.length]}">
-            <p class="kicker">${topic} · Prozessblock ${i + 1}</p>
-            <h2>Vom Signal zur Entscheidung ohne Kontextverlust</h2>
-            <p class="lead">Jeder Schritt ist so aufgebaut, dass dein Team direkt zwischen Diagnose, Priorisierung und Maßnahme wechseln kann.</p>
+            <p class="kicker">${model.topic} · Strategischer Kontext</p>
+            <h2>${model.focus}</h2>
+            <p class="lead">${model.promise}</p>
             <ul class="list">
-              <li>Frühindikatoren mit klarer Schwellenlogik</li>
-              <li>Verantwortung mit Owner und Termin pro Maßnahme</li>
-              <li>Kommunizierbare Argumentation für Kunden-Calls</li>
+              <li>${model.topic} ${model.audience}</li>
+              <li>Schwerpunkt: ${model.signals[0]} und ${model.signals[1]}</li>
+              <li>Wirkung: ${model.outcome}</li>
             </ul>
           </div>
           <article class="panel card longform-panel interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
-            <p class="tag">Umsetzung</p>
-            <h3>Operativer Vorteil für Agenturen</h3>
-            <p>Du arbeitest in einem durchgängigen Ablauf statt zwischen mehreren Tools und Tabellen zu wechseln.</p>
+            <p class="tag">Entscheidungslogik</p>
+            <h3>Welche Signale zuerst bewertet werden</h3>
+            <p>${model.signals[0]}, ${model.signals[1]}, ${model.signals[2]} und ${model.signals[3]} bilden die Priorisierung im Tagesgeschäft.</p>
+            <p class="interactive-note">Klicke die Karte an, um Fokusblöcke visuell zu markieren.</p>
           </article>
         </div>
       </section>
     `,
     (i) => `
       <section class="section longform-section">
-        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${topic} · Teamsteuerung ${i + 1}</p>
-        <h2 data-reveal data-fx="up">Mehr Klarheit für Owner, Teamlead und Account Manager</h2>
+        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · Teamablauf</p>
+        <h2 data-reveal data-fx="up">Operative Umsetzung mit klaren Rollen im Team</h2>
         <div class="content-grid" style="margin-top:1rem;">
           <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
-            <h3>Leitfrage 1</h3>
-            <p>Welche Kennzahl kippt gerade, und was ist die wahrscheinlichste Ursache?</p>
+            <h3>Schritt 1: Ausgangslage klären</h3>
+            <p>${model.steps[0]} und ${model.steps[1]}, damit alle im Team dieselbe Priorität sehen.</p>
           </article>
           <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 2) % fx.length]}">
-            <h3>Leitfrage 2</h3>
-            <p>Welche Maßnahme erzeugt im nächsten Zyklus die höchste Wirkung?</p>
+            <h3>Schritt 2: Umsetzung absichern</h3>
+            <p>${model.steps[2]} und ${model.steps[3]}, damit Maßnahmen im Report sauber nachvollziehbar sind.</p>
           </article>
         </div>
       </section>
@@ -224,14 +486,14 @@ function ensureLongFormSections() {
     (i) => `
       <section class="section longform-section">
         <article class="panel longform-panel" data-reveal data-fx="${fx[i % fx.length]}">
-          <p class="kicker">${topic} · Qualitätsblock ${i + 1}</p>
-          <h2>Standardisierung ohne Verlust an Kundenspezifik</h2>
-          <p class="lead">Die Struktur bleibt über Kunden hinweg gleich, während Inhalte und Prioritäten je Account individuell gesteuert werden.</p>
+          <p class="kicker">${model.topic} · KPI-Raster</p>
+          <h2>Kennzahlen mit direktem Bezug zur Entscheidung</h2>
+          <p class="lead">Diese KPI-Perspektive hilft, Diskussionen im Kundencall auf Wirkung und nächste Schritte zu lenken.</p>
           <div class="kpi-band" style="margin-top:1rem;">
-            <article><strong>Signal</strong><span>Was ist konkret auffällig?</span></article>
-            <article><strong>Ursache</strong><span>Was treibt die Entwicklung?</span></article>
-            <article><strong>Aktion</strong><span>Was wird als Nächstes umgesetzt?</span></article>
-            <article><strong>Wirkung</strong><span>Wie wird Erfolg gemessen?</span></article>
+            <article><strong>${model.signals[0]}</strong><span>Frühindikator für Handlungsbedarf</span></article>
+            <article><strong>${model.signals[1]}</strong><span>Ursachenanalyse und Priorisierung</span></article>
+            <article><strong>${model.signals[2]}</strong><span>Maßnahmenauswahl im Team</span></article>
+            <article><strong>${model.signals[3]}</strong><span>Erfolgskontrolle im Folgereview</span></article>
           </div>
         </article>
       </section>
@@ -240,27 +502,73 @@ function ensureLongFormSections() {
       <section class="section longform-section">
         <div class="content-grid">
           <article class="panel card longform-panel interactive-card" data-reveal data-fx="${fx[i % fx.length]}">
-            <p class="tag">Praxis</p>
-            <h3>Typischer Sprint-Ablauf</h3>
+            <p class="tag">Sprintfokus</p>
+            <h3>Wie der Wochenablauf in der Praxis aussieht</h3>
             <ul class="list">
-              <li>Montag: KPI-Scan + Risiko-Priorisierung</li>
-              <li>Mittwoch: Maßnahmenstatus und Anpassung</li>
-              <li>Freitag: Report-Update und Kundenkommunikation</li>
+              <li>Montag: ${model.steps[0]} und Signalcheck</li>
+              <li>Mittwoch: ${model.steps[1]} mit Teamabgleich</li>
+              <li>Freitag: ${model.steps[2]} und Ergebnisdokumentation</li>
             </ul>
           </article>
           <article class="panel card longform-panel interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
-            <p class="tag">Outcome</p>
-            <h3>Was sich im Alltag verbessert</h3>
-            <p>Weniger Rückfragen, kürzere Abstimmungsschleifen und höhere Umsetzungsgeschwindigkeit über alle Kunden hinweg.</p>
-            <p class="interactive-note">Tipp: Klicke Karten an, um Fokus und Priorisierung visuell hervorzuheben.</p>
+            <p class="tag">Ergebnisbild</p>
+            <h3>Welcher Nutzen im Kundengeschäft entsteht</h3>
+            <p>${model.outcome}</p>
+            <p class="interactive-note">So bleibt die Seite interaktiv: Karten anklicken und Fokusblöcke vergleichen.</p>
+          </article>
+        </div>
+      </section>
+    `,
+    (i) => `
+      <section class="section longform-section">
+        <div class="split">
+          <article class="panel timeline" data-reveal data-fx="${fx[i % fx.length]}">
+            <p class="kicker">${model.topic} · Entscheidungsrhythmus</p>
+            <h2>Vom Signal zur klaren Kundenentscheidung</h2>
+            <ol>
+              <li><span>1</span><div><strong>Erkennen</strong><p>${model.signals[0]} und ${model.signals[1]} werden als Signalquelle priorisiert.</p></div></li>
+              <li><span>2</span><div><strong>Bewerten</strong><p>${model.steps[0]} und ${model.steps[1]} sichern einheitliche Bewertung im Team.</p></div></li>
+              <li><span>3</span><div><strong>Umsetzen</strong><p>${model.steps[2]} und ${model.steps[3]} machen Fortschritt reportfähig.</p></div></li>
+            </ol>
+          </article>
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
+            <p class="tag">Kommunikation</p>
+            <h3>Argumentation für Kundentermine</h3>
+            <p>In der Präsentation wird zuerst das relevante Signal gezeigt, danach Ursache, Maßnahme und erwartete Wirkung.</p>
+            <ul class="list">
+              <li>Klarer roter Faden ohne KPI-Überladung</li>
+              <li>Konkretes Commitment bis zum nächsten Review</li>
+              <li>Dokumentierte Verantwortlichkeit je Maßnahme</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    `,
+    (i) => `
+      <section class="section longform-section">
+        <p class="kicker" data-reveal data-fx="${fx[i % fx.length]}">${model.topic} · Qualitätsabsicherung</p>
+        <h2 data-reveal data-fx="up">Welche Punkte vor jeder Freigabe geprüft werden</h2>
+        <div class="feature-grid" style="margin-top:1rem;">
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 1) % fx.length]}">
+            <h3>Inhalt</h3>
+            <p>Ist die Aussage für den Kunden eindeutig und auf ein Ziel ausgerichtet?</p>
+          </article>
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 2) % fx.length]}">
+            <h3>Datenbasis</h3>
+            <p>Sind Kennzahlen, Zeiträume und Vergleiche konsistent dokumentiert?</p>
+          </article>
+          <article class="panel card interactive-card" data-reveal data-fx="${fx[(i + 3) % fx.length]}">
+            <h3>Maßnahme</h3>
+            <p>Ist eindeutig, wer bis wann was umsetzt und wie Erfolg gemessen wird?</p>
           </article>
         </div>
       </section>
     `
   ];
 
+  const orderedVariations = rotateArray(variations, hashString(path) % variations.length);
   const blocks = Array.from({ length: needed })
-    .map((_, i) => variants[i % variants.length](i))
+    .map((_, i) => orderedVariations[i % orderedVariations.length](i))
     .join("");
 
   main.insertAdjacentHTML("beforeend", blocks);
