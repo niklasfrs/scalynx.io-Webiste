@@ -530,8 +530,8 @@ function ensureLongFormSections() {
   const model = getModelForPath(path);
   if (!model) return;
 
-  const minSections = path.includes("demo-anfragen") ? 10 : 12;
-  const minScrollableViewports = path.includes("demo-anfragen") ? 4.3 : 4.8;
+  const minSections = path.includes("demo-anfragen") ? 12 : 14;
+  const minScrollableViewports = path.includes("demo-anfragen") ? 5.6 : 6.4;
   const requiredScrollableHeight = Math.round(window.innerHeight * minScrollableViewports);
   const fx = ["left", "up", "right", "zoom"];
   const storyline = [
@@ -792,7 +792,7 @@ function ensureLongFormSections() {
 
   const orderedVariations = rotateArray(variations, hashString(path) % variations.length).map((render, idx) => ({
     id: idx,
-    family: idx % 5,
+    family: idx,
     render
   }));
 
@@ -817,6 +817,41 @@ function ensureLongFormSections() {
     added += 1;
     guard += 1;
   }
+
+  dedupeAdjacentSectionHeadings(main, model.topic);
+}
+
+function dedupeAdjacentSectionHeadings(main, topic) {
+  const sections = Array.from(main.querySelectorAll(":scope > section"));
+  if (!sections.length) return;
+  const suffixes = [
+    "Strategie",
+    "Umsetzung",
+    "Priorisierung",
+    "Qualität",
+    "Skalierung",
+    "Governance",
+    "Rollout",
+    "Wirkung"
+  ];
+  let lastNormalized = "";
+  let suffixIdx = 0;
+
+  sections.forEach((section) => {
+    const heading = section.querySelector("h2, h3");
+    if (!heading) return;
+    const text = (heading.textContent || "").trim();
+    const normalized = text.toLowerCase().replace(/\s+/g, " ").trim();
+    if (!normalized) return;
+    if (normalized === lastNormalized) {
+      const suffix = suffixes[suffixIdx % suffixes.length];
+      suffixIdx += 1;
+      heading.textContent = `${text} · ${topic} ${suffix}`;
+      lastNormalized = `${normalized} · ${suffix.toLowerCase()}`;
+      return;
+    }
+    lastNormalized = normalized;
+  });
 }
 
 function initRevealAnimations() {
