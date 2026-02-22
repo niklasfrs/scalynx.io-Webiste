@@ -539,6 +539,17 @@ function textSimilarity(a, b) {
   return intersection / Math.max(aa.size, bb.size);
 }
 
+function extractTagTexts(html, tagName) {
+  const pattern = new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)<\\/${tagName}>`, "gi");
+  const out = [];
+  let match = pattern.exec(html);
+  while (match) {
+    out.push(stripHtmlToText(match[1]));
+    match = pattern.exec(html);
+  }
+  return out;
+}
+
 function getModelForPath(path) {
   if (PAGE_MODELS[path]) return PAGE_MODELS[path];
   if (!path.endsWith("/") && !path.endsWith(".html") && PAGE_MODELS[`${path}.html`]) return PAGE_MODELS[`${path}.html`];
@@ -624,17 +635,19 @@ function ensureLongFormSections() {
   ];
 
   const makeHeadline = (seed) => {
-    const a = headlineVerbs[seed % headlineVerbs.length];
-    const b = headlineObjects[Math.floor(seed / headlineVerbs.length) % headlineObjects.length];
-    const c = headlineOutcomes[Math.floor(seed / (headlineVerbs.length * headlineObjects.length)) % headlineOutcomes.length];
+    const base = hashString(`${path}:${seed}:headline`);
+    const a = headlineVerbs[base % headlineVerbs.length];
+    const b = headlineObjects[(base * 3) % headlineObjects.length];
+    const c = headlineOutcomes[(base * 5) % headlineOutcomes.length];
     return `${model.topic}: ${a} ${b} für ${c}`;
   };
   const makeLead = (seed) => `${model.promise} Schwerpunkt: ${angle[seed % angle.length]}.`;
   const detailSeed = (seed) => {
-    const base = storyline[(hashString(path) + seed) % storyline.length];
-    const round = Math.floor(seed / storyline.length);
-    if (round === 0) return base;
-    return `${base} ${round + 1}`;
+    const modifiers = ["Fokus", "Steuerung", "Praxis", "Framework", "Ablauf", "Review", "Plan", "Signal"];
+    const baseSeed = hashString(`${path}:${seed}:kicker`);
+    const base = storyline[baseSeed % storyline.length];
+    const mod = modifiers[(baseSeed * 7) % modifiers.length];
+    return `${base} · ${mod}`;
   };
 
   const variations = [
@@ -861,6 +874,16 @@ function ensureLongFormSections() {
   }));
 
   const seenSignatures = new Set();
+  const seenHeadings = new Set(
+    Array.from(main.querySelectorAll(":scope > section h1, :scope > section h2, :scope > section h3"))
+      .map((el) => normalizeComparableText(el.textContent || ""))
+      .filter(Boolean)
+  );
+  const seenKickers = new Set(
+    Array.from(main.querySelectorAll(":scope > section .kicker"))
+      .map((el) => normalizeComparableText(el.textContent || ""))
+      .filter(Boolean)
+  );
   const recentTexts = [];
   let lastLayout = -1;
   let added = 0;
@@ -879,119 +902,49 @@ function ensureLongFormSections() {
     let candidateHtml = candidate.render(added + guard);
     let candidateText = stripHtmlToText(candidateHtml);
     let candidateSignature = normalizeComparableText(candidateText).slice(0, 240);
+    let candidateHeadings = extractTagTexts(candidateHtml, "h2")
+      .concat(extractTagTexts(candidateHtml, "h3"))
+      .map(normalizeComparableText)
+      .filter(Boolean);
+    let candidateKickers = extractTagTexts(candidateHtml, "p")
+      .map(normalizeComparableText)
+      .filter((line) => line.startsWith(normalizeComparableText(model.topic)))
+      .slice(0, 2);
     let attempts = 0;
 
     while (attempts < orderedVariations.length * 2) {
       const tooSimilarRecent = recentTexts.some((existing) => textSimilarity(existing, candidateText) >= 0.72);
       const isKnownSignature = seenSignatures.has(candidateSignature);
       const sameLayoutAsLast = candidate.layout === lastLayout;
-      if (!tooSimilarRecent && !isKnownSignature && !sameLayoutAsLast) break;
+      const hasSeenHeading = candidateHeadings.some((h) => seenHeadings.has(h));
+      const hasSeenKicker = candidateKickers.some((k) => seenKickers.has(k));
+      if (!tooSimilarRecent && !isKnownSignature && !sameLayoutAsLast && !hasSeenHeading && !hasSeenKicker) break;
       attempts += 1;
       const next = orderedVariations[(startIndex + attempts) % orderedVariations.length];
       candidate = next;
       candidateHtml = candidate.render(added + guard + attempts);
       candidateText = stripHtmlToText(candidateHtml);
       candidateSignature = normalizeComparableText(candidateText).slice(0, 240);
+      candidateHeadings = extractTagTexts(candidateHtml, "h2")
+        .concat(extractTagTexts(candidateHtml, "h3"))
+        .map(normalizeComparableText)
+        .filter(Boolean);
+      candidateKickers = extractTagTexts(candidateHtml, "p")
+        .map(normalizeComparableText)
+        .filter((line) => line.startsWith(normalizeComparableText(model.topic)))
+        .slice(0, 2);
     }
 
     main.insertAdjacentHTML("beforeend", candidateHtml);
     seenSignatures.add(candidateSignature);
+    candidateHeadings.forEach((h) => seenHeadings.add(h));
+    candidateKickers.forEach((k) => seenKickers.add(k));
     recentTexts.push(candidateText);
     if (recentTexts.length > 3) recentTexts.shift();
     lastLayout = candidate.layout;
     added += 1;
     guard += 1;
   }
-
-  enforceNoRepeatCopy(main, model.topic);
-}
-
-function enforceNoRepeatCopy(main, topic) {
-  const sections = Array.from(main.querySelectorAll(":scope > section"));
-  if (!sections.length) return;
-  const headlineAlternatives = [
-    "operative Prioritäten mit klarer Reihenfolge steuern",
-    "Kundenkommunikation auf Maßnahmen statt nur Zahlen ausrichten",
-    "Teamabläufe ohne Tool-Brüche konsistent zusammenführen",
-    "Entscheidungen datenbasiert und nachvollziehbar dokumentieren",
-    "KPI-Signale schneller in konkrete Schritte überführen",
-    "Umsetzungsqualität pro Kunde strukturiert absichern",
-    "Skalierung mit stabilen Standards im Tagesgeschäft verankern",
-    "Risiken früh erkennen und priorisiert bearbeiten",
-    "Reporting und Umsetzung in einem Ablauf verbinden",
-    "Account-Verantwortung rollenbasiert und transparent steuern",
-    "Backlog und Kundenwirkung in einem Takt synchronisieren",
-    "Team-Alignment über einheitliche Entscheidungslogik stärken"
-  ];
-  const kickerAlternatives = [
-    "Operative Priorisierung",
-    "Kundenorientierte Umsetzung",
-    "Standardisierte Steuerung",
-    "Team-Alignment",
-    "Maßnahmen-Backlog",
-    "Qualitätssicherung",
-    "Ergebniskontrolle",
-    "Skalierungsrahmen",
-    "Risikomanagement",
-    "Rollout-Planung"
-  ];
-  const usedHeadings = new Map();
-  const usedKickers = new Map();
-  let lastNormalized = "";
-  let altIdx = 0;
-
-  const makeUniqueHeading = (excludedKey) => {
-    let attempts = 0;
-    while (attempts < headlineAlternatives.length * 2) {
-      const candidate = `${topic}: ${headlineAlternatives[(altIdx + attempts) % headlineAlternatives.length]}`;
-      const candidateKey = normalizeComparableText(candidate);
-      if (!usedHeadings.has(candidateKey) && candidateKey !== excludedKey && candidateKey !== lastNormalized) {
-        altIdx += attempts + 1;
-        return candidate;
-      }
-      attempts += 1;
-    }
-    altIdx += 1;
-    return `${topic}: ${headlineAlternatives[altIdx % headlineAlternatives.length]}`;
-  };
-
-  const makeUniqueKicker = () => {
-    let attempts = 0;
-    while (attempts < kickerAlternatives.length * 2) {
-      const candidate = `${topic} · ${kickerAlternatives[(altIdx + attempts) % kickerAlternatives.length]}`;
-      const candidateKey = normalizeComparableText(candidate);
-      if (!usedKickers.has(candidateKey)) return candidate;
-      attempts += 1;
-    }
-    return `${topic} · ${kickerAlternatives[(altIdx + 1) % kickerAlternatives.length]}`;
-  };
-
-  sections.forEach((section) => {
-    const heading = section.querySelector("h2, h3");
-    const kicker = section.querySelector(".kicker");
-    if (kicker) {
-      const rawKicker = (kicker.textContent || "").trim();
-      const kickerKey = normalizeComparableText(rawKicker);
-      const kickerCount = usedKickers.get(kickerKey) || 0;
-      if (kickerCount > 0) {
-        kicker.textContent = makeUniqueKicker();
-      }
-      usedKickers.set(normalizeComparableText(kicker.textContent || rawKicker), kickerCount + 1);
-    }
-    if (!heading) return;
-    const text = (heading.textContent || "").trim();
-    const normalized = text.toLowerCase().replace(/\s+/g, " ").trim();
-    if (!normalized) return;
-    const headingCount = usedHeadings.get(normalized) || 0;
-    if (normalized === lastNormalized || headingCount > 0) {
-      heading.textContent = makeUniqueHeading(normalized);
-      lastNormalized = normalizeComparableText(heading.textContent);
-      usedHeadings.set(lastNormalized, 1);
-      return;
-    }
-    lastNormalized = normalized;
-    usedHeadings.set(normalized, headingCount + 1);
-  });
 }
 
 function initRevealAnimations() {
