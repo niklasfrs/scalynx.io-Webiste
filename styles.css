@@ -303,17 +303,17 @@ h4 {
 .section h2 + .split,
 .section h2 + .segment-switch,
 .section h2 + .faq {
-  margin-top: 0.7rem;
+  margin-top: 1.35rem;
 }
 
 .section h2 {
-  margin-bottom: 1rem;
+  margin-bottom: 1.35rem;
 }
 
 .section > h2 + *,
 .section > .kicker + *,
 .section > .lead + * {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 
 p,
@@ -495,6 +495,7 @@ h2 {
   grid-template-columns: 1.05fr 0.95fr;
   gap: 1rem;
   align-items: stretch;
+  grid-auto-rows: 1fr;
 }
 
 .feature-grid {
@@ -502,24 +503,30 @@ h2 {
   grid-template-columns: repeat(3, 1fr);
   gap: 0.8rem;
   align-items: stretch;
+  grid-auto-rows: 1fr;
 }
 
 .testimonial-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.8rem;
+  grid-auto-rows: 1fr;
 }
 
 .card {
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 16px;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.02);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.55rem;
+  gap: 0.8rem;
   min-height: 100%;
+  height: 100%;
+  position: relative;
+  cursor: default;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card .tag {
@@ -540,14 +547,14 @@ h2 {
 }
 
 .card h3 {
-  margin: 0.1rem 0 0;
+  margin: 0;
 }
 
 .card h3 + p,
 .card p + p,
 .card p + .list,
 .card .tag + h3 {
-  margin-top: 0.6rem;
+  margin-top: 0.72rem;
 }
 
 .card .hero-cta {
@@ -566,22 +573,6 @@ h2 {
   font-weight: 600;
 }
 
-.card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255, 180, 93, 0.6);
-}
-
-.card {
-  position: relative;
-  cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card.is-active {
-  border-color: rgba(255, 184, 106, 0.9);
-  box-shadow: 0 14px 36px rgba(255, 152, 0, 0.2);
-}
-
 .card::after {
   content: "";
   position: absolute;
@@ -593,14 +584,7 @@ h2 {
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 0.35s ease;
-}
-
-.card.is-active::after {
-  transform: scaleX(1);
-}
-
-.card.click-pulse {
-  animation: card-pulse 420ms ease;
+  opacity: 0.45;
 }
 
 .timeline {
@@ -794,6 +778,7 @@ h2 {
   grid-template-columns: repeat(2, 1fr);
   gap: 0.9rem;
   align-items: stretch;
+  grid-auto-rows: 1fr;
 }
 
 .deep-dive .lead {
@@ -804,6 +789,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.9rem;
+  grid-auto-rows: 1fr;
 }
 
 .deep-card {
@@ -954,14 +940,14 @@ h2 {
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.42s ease, transform 0.42s ease;
-  will-change: transform, opacity;
+  transform: none;
+  transition: opacity 0.35s ease;
+  will-change: opacity;
 }
 
 [data-reveal].in {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 @media (max-width: 1080px) {

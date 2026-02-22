@@ -591,7 +591,7 @@ function ensureLongFormSections() {
             <p class="tag">Entscheidungslogik</p>
             <h3>Welche Signale zuerst bewertet werden</h3>
             <p>${model.signals[0]}, ${model.signals[1]}, ${model.signals[2]} und ${model.signals[3]} bilden die Priorisierung im Tagesgeschäft.</p>
-            <p class="interactive-note">Klicke die Karte an, um Fokusblöcke visuell zu markieren.</p>
+            <p class="interactive-note">Diese Perspektive zeigt, welche Signale in der Reihenfolge priorisiert werden.</p>
           </article>
         </div>
       </section>
@@ -643,7 +643,7 @@ function ensureLongFormSections() {
             <p class="tag">Ergebnisbild</p>
             <h3>Welcher Nutzen im Kundengeschäft entsteht</h3>
             <p>${model.outcome}</p>
-            <p class="interactive-note">So bleibt die Seite interaktiv: Karten anklicken und Fokusblöcke vergleichen.</p>
+            <p class="interactive-note">So bleibt der Nutzen klar: Wirkung, Priorität und Umsetzung sind sauber verbunden.</p>
           </article>
         </div>
       </section>
@@ -783,7 +783,7 @@ function ensureLongFormSections() {
             <p class="tag">Operativer Hebel</p>
             <h3>Wie der Block in der Agentur direkt genutzt wird</h3>
             <p>${model.steps[1]} und ${model.steps[3]} geben dem Team einen festen Ablauf für Umsetzung und Reporting.</p>
-            <p class="interactive-note">Klicke auf die Karte, um den Fokus zu markieren und im Team zu vergleichen.</p>
+            <p class="interactive-note">Der Ablauf ist dadurch im Team eindeutig und in Kundenreports konsistent nachvollziehbar.</p>
           </article>
         </div>
       </section>
@@ -824,10 +824,10 @@ function initRevealAnimations() {
   if (!revealItems.length) return;
 
   const baseTransforms = {
-    left: "translateX(-14px)",
-    right: "translateX(14px)",
-    up: "translateY(14px)",
-    zoom: "scale(.985) translateY(8px)"
+    left: "none",
+    right: "none",
+    up: "none",
+    zoom: "none"
   };
 
   revealItems.forEach((item, idx) => {
@@ -908,22 +908,6 @@ function initMouseGlow() {
   update(window.innerWidth * 0.5, window.innerHeight * 0.25);
 }
 
-function initClickInteractions() {
-  const interactiveCards = Array.from(document.querySelectorAll(".card, .panel.interactive-card"));
-  interactiveCards.forEach((card) => {
-    card.addEventListener("click", () => {
-      const container = card.closest(".content-grid, .feature-grid, .deep-grid, .split, .section") || document;
-      container.querySelectorAll(".card.is-active").forEach((active) => {
-        if (active !== card) active.classList.remove("is-active");
-      });
-      card.classList.add("is-active");
-      card.classList.remove("click-pulse");
-      void card.offsetWidth;
-      card.classList.add("click-pulse");
-    });
-  });
-}
-
 function initClickRevealModules() {
   const modules = Array.from(document.querySelectorAll("[data-click-reveal]"));
   modules.forEach((module) => {
@@ -955,7 +939,6 @@ initRevealAnimations();
 initDetailsAccordion();
 initScrollProgress();
 initMouseGlow();
-initClickInteractions();
 initClickRevealModules();
 
 const topbar = document.querySelector(".topbar");
