@@ -806,6 +806,28 @@ function initClickInteractions() {
   });
 }
 
+function initClickRevealModules() {
+  const modules = Array.from(document.querySelectorAll("[data-click-reveal]"));
+  modules.forEach((module) => {
+    const tabs = Array.from(module.querySelectorAll(".reveal-tab[data-reveal-target]"));
+    const panels = Array.from(module.querySelectorAll(".reveal-panel[data-reveal-panel]"));
+    if (!tabs.length || !panels.length) return;
+
+    const activate = (target) => {
+      tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.revealTarget === target));
+      panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.revealPanel === target));
+    };
+
+    const activeTab = tabs.find((tab) => tab.classList.contains("active"));
+    const initialTarget = activeTab ? activeTab.dataset.revealTarget : tabs[0].dataset.revealTarget;
+    activate(initialTarget);
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => activate(tab.dataset.revealTarget));
+    });
+  });
+}
+
 renderHeaderAndFooter();
 rewriteDemoLinks();
 setupTicker();
@@ -816,6 +838,7 @@ initDetailsAccordion();
 initScrollProgress();
 initMouseGlow();
 initClickInteractions();
+initClickRevealModules();
 
 const topbar = document.querySelector(".topbar");
 window.addEventListener("scroll", () => {
