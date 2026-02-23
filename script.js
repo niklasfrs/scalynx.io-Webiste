@@ -569,8 +569,8 @@ function ensureLongFormSections() {
   const model = getModelForPath(path);
   if (!model) return;
 
-  const minSections = path.includes("demo-anfragen") ? 12 : 14;
-  const minScrollableViewports = path.includes("demo-anfragen") ? 5.6 : 6.4;
+  const minSections = path.includes("demo-anfragen") ? 9 : 9;
+  const minScrollableViewports = path.includes("demo-anfragen") ? 4.6 : 4.8;
   const requiredScrollableHeight = Math.round(window.innerHeight * minScrollableViewports);
   const fx = ["left", "up", "right", "zoom"];
   const storyline = [
@@ -869,11 +869,12 @@ function ensureLongFormSections() {
 
   const orderedVariations = rotateArray(variations, hashString(path) % variations.length).map((render, idx) => ({
     id: idx,
-    layout: idx % 6,
+    layout: idx,
     render
   }));
 
   const seenSignatures = new Set();
+  const usedLayouts = new Set();
   const seenHeadings = new Set(
     Array.from(main.querySelectorAll(":scope > section h1, :scope > section h2, :scope > section h3"))
       .map((el) => normalizeComparableText(el.textContent || ""))
@@ -916,9 +917,10 @@ function ensureLongFormSections() {
       const tooSimilarRecent = recentTexts.some((existing) => textSimilarity(existing, candidateText) >= 0.72);
       const isKnownSignature = seenSignatures.has(candidateSignature);
       const sameLayoutAsLast = candidate.layout === lastLayout;
+      const layoutAlreadyUsed = usedLayouts.has(candidate.layout);
       const hasSeenHeading = candidateHeadings.some((h) => seenHeadings.has(h));
       const hasSeenKicker = candidateKickers.some((k) => seenKickers.has(k));
-      if (!tooSimilarRecent && !isKnownSignature && !sameLayoutAsLast && !hasSeenHeading && !hasSeenKicker) break;
+      if (!tooSimilarRecent && !isKnownSignature && !sameLayoutAsLast && !layoutAlreadyUsed && !hasSeenHeading && !hasSeenKicker) break;
       attempts += 1;
       const next = orderedVariations[(startIndex + attempts) % orderedVariations.length];
       candidate = next;
@@ -937,6 +939,7 @@ function ensureLongFormSections() {
 
     main.insertAdjacentHTML("beforeend", candidateHtml);
     seenSignatures.add(candidateSignature);
+    usedLayouts.add(candidate.layout);
     candidateHeadings.forEach((h) => seenHeadings.add(h));
     candidateKickers.forEach((k) => seenKickers.add(k));
     recentTexts.push(candidateText);

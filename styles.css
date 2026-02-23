@@ -267,7 +267,7 @@ body.has-mouse-glow::after {
 }
 
 .section {
-  padding: 5.4rem 0;
+  padding: 6.2rem 0;
 }
 
 .kicker {
@@ -868,8 +868,8 @@ h2 {
 }
 
 .longform-section {
-  padding-top: 4.4rem;
-  padding-bottom: 4.4rem;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
 }
 
 .longform-panel {
@@ -1075,12 +1075,12 @@ h2 {
 
 @media (max-width: 760px) {
   .section {
-    padding: 4.1rem 0;
+    padding: 4.9rem 0;
   }
 
   .longform-section {
-    padding-top: 3.4rem;
-    padding-bottom: 3.4rem;
+    padding-top: 5.4rem;
+    padding-bottom: 5.4rem;
   }
 
   .feature-grid,
