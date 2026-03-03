@@ -178,7 +178,33 @@ function renderHeaderAndFooter() {
       cta.href = "/demo-anfragen.html";
       cta.textContent = "Demo anfragen";
     }
+    if (!topbar.querySelector(".amazon-partner-badge")) {
+      const brand = topbar.querySelector(".brand");
+      if (brand) {
+        brand.insertAdjacentHTML("afterend",           `
+          <div class="amazon-partner-badge" aria-label="Amazon Partner">
+            <img src="/assets/amazon-partner.png" alt="Ein Partner von Amazon" loading="lazy" decoding="async" />
+          </div>
+        `
+        );
+      }
+    }
     initMobileMenu(topbar, currentPath);
+  }
+
+  if (currentPath === "/") {
+    const heroContent = document.querySelector(".hero > div");
+    if (heroContent && !heroContent.querySelector(".amazon-partner-hero")) {
+      const kicker = heroContent.querySelector(".kicker");
+      if (kicker) {
+        kicker.insertAdjacentHTML("afterend",           `
+          <div class="amazon-partner-hero panel" data-reveal>
+            <img src="/assets/amazon-partner.png" alt="Ein Partner von Amazon" loading="lazy" decoding="async" />
+          </div>
+        `
+        );
+      }
+    }
   }
 
   const footer = document.querySelector(".footer");
