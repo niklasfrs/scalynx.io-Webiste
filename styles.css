@@ -162,23 +162,6 @@ body.has-mouse-glow::after {
   color: #2b8cc7;
 }
 
-.amazon-partner-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.34rem 0.62rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 173, 71, 0.42);
-  background: linear-gradient(170deg, rgba(255, 166, 51, 0.12), rgba(9, 20, 31, 0.55));
-  box-shadow: 0 8px 18px rgba(255, 152, 0, 0.12);
-}
-
-.amazon-partner-badge img {
-  width: 132px;
-  height: auto;
-  display: block;
-}
-
 .amazon-partner-hero {
   display: inline-flex;
   align-items: center;
@@ -1003,10 +986,6 @@ h2 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .amazon-partner-badge {
-    display: none;
   }
 
   .amazon-partner-hero {

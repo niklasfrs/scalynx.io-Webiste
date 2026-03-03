@@ -178,17 +178,6 @@ function renderHeaderAndFooter() {
       cta.href = "/demo-anfragen.html";
       cta.textContent = "Demo anfragen";
     }
-    if (!topbar.querySelector(".amazon-partner-badge")) {
-      const brand = topbar.querySelector(".brand");
-      if (brand) {
-        brand.insertAdjacentHTML("afterend",           `
-          <div class="amazon-partner-badge" aria-label="Amazon Partner">
-            <img src="/assets/amazon-partner.png" alt="Ein Partner von Amazon" loading="lazy" decoding="async" />
-          </div>
-        `
-        );
-      }
-    }
     initMobileMenu(topbar, currentPath);
   }
 
