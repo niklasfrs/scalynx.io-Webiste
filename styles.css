@@ -162,25 +162,6 @@ body.has-mouse-glow::after {
   color: #2b8cc7;
 }
 
-.amazon-partner-hero {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: max-content;
-  padding: 0.68rem 0.92rem;
-  margin: 0.28rem 0 0.95rem;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 173, 71, 0.5);
-  background: linear-gradient(165deg, rgba(255, 153, 0, 0.16), rgba(10, 24, 37, 0.76));
-  box-shadow: 0 16px 30px rgba(255, 153, 0, 0.18);
-}
-
-.amazon-partner-hero img {
-  width: 220px;
-  height: auto;
-  display: block;
-}
-
 .nav {
   display: flex;
   gap: 1rem;
@@ -986,15 +967,6 @@ h2 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .amazon-partner-hero {
-    padding: 0.52rem 0.72rem;
-    margin-bottom: 0.78rem;
-  }
-
-  .amazon-partner-hero img {
-    width: 178px;
   }
 
   .nav {
