@@ -47,7 +47,7 @@ const NAV_CONFIG = [
       { label: "Agentur-FAQ", href: "/ressourcen/faq/agentur-faq.html" }
     ]
   },
-  { label: "Preise", href: "https://www.prices.scalynx.io" }
+  { label: "Preise", href: "https://prices.scalynx.io" }
 ];
 
 
