@@ -46,7 +46,8 @@ const NAV_CONFIG = [
       { label: "Onboarding-Checkliste", href: "/ressourcen/guides/onboarding-checkliste.html" },
       { label: "Agentur-FAQ", href: "/ressourcen/faq/agentur-faq.html" }
     ]
-  }
+  },
+  { label: "Preise", href: "https://www.prices.scalynx.io" }
 ];
 
 
