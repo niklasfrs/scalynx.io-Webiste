@@ -1133,107 +1133,107 @@ function initHeroModeCycle() {
 
   const configs = {
     dashboard: {
-      headline: "Amazon-Agentur. Ein System.",
-      live: "API-Sync aktiv",
+      headline: "Alle Kunden. Ein Cockpit.",
+      live: "Live",
       kpis: [
-        ["Report-Zeit", "7,3 h", "weniger pro Woche"],
-        ["Kritische Alerts", "2", "heute priorisiert"],
-        ["Reports", "3", "heute freigegeben"]
+        ["Umsatz", "324k", "+12%"],
+        ["Alerts", "2", "live"],
+        ["Reports", "3", "bereit"]
       ],
-      windowTitle: "Kunden-Dashboard · DE / UK / US",
-      stats: [["Ad Spend", "124.000 €"], ["ROAS", "4,9"], ["Buybox", "94%"]],
+      windowTitle: "Dashboard",
+      stats: [["Ad", "124k"], ["ROAS", "4,9"], ["BB", "94%"]],
       rail: [
-        ["Top-Priorität", "Buybox-Verlust · UK", "Heute"],
-        ["Nächster Report", "SellerSprint · Monatsreview", "Bereit"],
-        ["Content-Queue", "18 ASINs im Bulk-Flow", "Aktiv"]
+        ["UK", "Buybox", "live"],
+        ["Report", "Ready", "heute"],
+        ["Bulk", "18 ASIN", "aktiv"]
       ],
-      alert: ["Insights & Health", "Buybox-Risiko erkannt", "Priorisiert"],
-      report: ["Report-Automation", "Monatsreport in 7 Minuten", [
+      alert: ["Insight", "Buybox", "", "Priorisiert"],
+      report: ["Report", "7 Min", [
         "KPIs",
-        "Insights",
-        "Freigabe"
+        "PDF",
+        "Ready"
       ]],
-      content: ["Content Studio", "Bulk-Produktion läuft", ["Bild", "A+", "Text"]],
-      flow: ["Agentur-Workflow", ["Amazon API", "Insights", "Tasks", "Report"], ["11 priorisierte Tasks", "3 Reports heute", "2 kritische Alerts"]],
-      demoCopy: "Dashboard, Alerts, Reports und Content in einem Stack.",
+      content: ["Content", "18 ASIN", ["Bild", "A+", "Text"]],
+      flow: ["Flow", ["API", "Insights", "Tasks", "Report"], ["11 Tasks", "3 Reports", "2 Alerts"]],
+      demoCopy: "",
       bars: ["44%", "57%", "61%", "69%", "73%", "86%", "82%", "94%"]
     },
     insights: {
-      headline: "Frühwarnsystem. Täglich.",
-      live: "Insights-Lauf heute aktualisiert",
+      headline: "Probleme. Sofort sichtbar.",
+      live: "Insight-Lauf",
       kpis: [
-        ["Findings", "11", "neu erkannt"],
-        ["Health-Risiken", "3", "heute offen"],
-        ["Buybox-Warnungen", "5", "live verfolgt"]
+        ["Findings", "11", "neu"],
+        ["Risiken", "3", "kritisch"],
+        ["Chancen", "8", "offen"]
       ],
-      windowTitle: "Insights-Board · Prioritätenansicht",
-      stats: [["Findings", "11"], ["Health", "3 kritisch"], ["Potenziale", "8 offen"]],
+      windowTitle: "Insights",
+      stats: [["Find", "11"], ["Risk", "3"], ["Upside", "8"]],
       rail: [
-        ["Heute kritisch", "Conversion-Rückgang · DE", "Live"],
-        ["Nächster Hebel", "Budget-Shift auf Targets", "Priorisiert"],
-        ["Kundensignal", "Buybox-Stabilität sinkt", "Bereit"]
+        ["DE", "CVR down", "live"],
+        ["Ads", "Shift", "jetzt"],
+        ["Owner", "Notify", "ready"]
       ],
-      alert: ["Findings & Health", "Conversion-Einbruch erkannt", "Owner informiert"],
-      report: ["Empfehlungs-Logik", "Signal wird direkt zu To-do", [
+      alert: ["Health", "CVR Drop", "", "Owner"],
+      report: ["Actions", "Signal -> Task", [
         "Signal",
         "Owner",
-        "Deadline"
+        "Due"
       ]],
-      content: ["Content Studio", "Keywords mit Risiko gekoppelt", ["Cluster", "Bild", "A+"]],
-      flow: ["Insights-Flow", ["API-Sync", "Findings", "Health", "Tasks"], ["5 neue Risiken", "8 Chancen", "3 sofortige Maßnahmen"]],
-      demoCopy: "Findings, Health und Prioritäten ohne Zusatztool.",
+      content: ["Content", "Risk Map", ["Cluster", "Bild", "A+"]],
+      flow: ["Flow", ["API", "Find", "Health", "Task"], ["5 Risiken", "8 Chancen", "3 Actions"]],
+      demoCopy: "",
       bars: ["38%", "49%", "58%", "54%", "76%", "69%", "82%", "88%"]
     },
     reports: {
       headline: "Reports. Ohne Copy-Paste.",
-      live: "Report-Engine aktiv",
+      live: "Report live",
       kpis: [
         ["Reports", "12", "diese Woche"],
-        ["Review-Zeit", "5,1 h", "gespart"],
-        ["Nächster Termin", "Heute", "vorbereitet"]
+        ["Review", "5,1 h", "gespart"],
+        ["Termin", "Heute", "ready"]
       ],
-      windowTitle: "Report-Center · Monatsreview",
-      stats: [["Berichte", "12"], ["Offene Freigaben", "2"], ["Maßnahmenblöcke", "18"]],
+      windowTitle: "Reports",
+      stats: [["Docs", "12"], ["Signoff", "2"], ["Actions", "18"]],
       rail: [
-        ["Nächster Termin", "Conversion Studio · Monatsreview", "Bereit"],
-        ["Top-Story", "Werbekosten sinken", "Present"],
-        ["Report-Status", "Freigabe in 1 Klick", "Sauber"]
+        ["Call", "Ready", "heute"],
+        ["Story", "ACoS down", "present"],
+        ["Client", "Signoff", "1 click"]
       ],
-      alert: ["Kundenkommunikation", "Storyline vorbereitet", "Report priorisiert"],
-      report: ["Report-Automation", "Monatsreview inklusive Maßnahmenstruktur", [
+      alert: ["Client", "Storyline", "", "Ready"],
+      report: ["Report", "1 Klick", [
         "Summary",
         "KPI",
-        "Maßnahme"
+        "Action"
       ]],
-      content: ["Content Studio", "Creative-Output im Report verlinkt", ["Bild", "Video", "A+"]],
-      flow: ["Reporting-Flow", ["KPIs", "Insights", "Maßnahmen", "Freigabe"], ["12 Reports", "2 Freigaben", "18 Maßnahmenblöcke"]],
-      demoCopy: "KPIs, Insights und Maßnahmen im selben Report-Flow.",
+      content: ["Content", "Creative sync", ["Bild", "Video", "A+"]],
+      flow: ["Flow", ["KPIs", "Insights", "Action", "Signoff"], ["12 Reports", "2 Signoffs", "18 Actions"]],
+      demoCopy: "",
       bars: ["31%", "42%", "51%", "63%", "71%", "79%", "85%", "91%"]
     },
     content: {
       headline: "Content. In Serie.",
-      live: "Bulk-Content läuft",
+      live: "Bulk live",
       kpis: [
         ["ASINs", "18", "im Flow"],
-        ["A+ Pakete", "6", "heute vorbereitet"],
-        ["Keyword-Cluster", "24", "gebündelt"]
+        ["A+", "6", "heute"],
+        ["Cluster", "24", "ready"]
       ],
-      windowTitle: "Content-Studio · Bulk-Produktion",
-      stats: [["ASINs", "18"], ["A+ Inhalte", "6"], ["Keyword-Sets", "24"]],
+      windowTitle: "Content",
+      stats: [["ASIN", "18"], ["A+", "6"], ["Keys", "24"]],
       rail: [
-        ["Produktions-Queue", "A+ Basic + Premium", "Aktiv"],
-        ["Analyse", "Wettbewerber-Scan", "Fertig"],
-        ["Nächster Schritt", "Freigabe an Kunde", "Bereit"]
+        ["Queue", "A+ Pack", "aktiv"],
+        ["Scan", "Competitor", "done"],
+        ["Client", "Approval", "ready"]
       ],
-      alert: ["Content & Analyse", "Content-Backlog priorisiert", "Bulk aktiv"],
-      report: ["Content-Ausgabe", "Analyse direkt zu Auslieferung", [
+      alert: ["Queue", "Content", "", "Bulk"],
+      report: ["Output", "Ready", [
         "Keyword",
         "Creative",
-        "Freigabe"
+        "Approve"
       ]],
-      content: ["Content Studio", "Bulk-Produktion läuft", ["Bild", "A+", "Text"]],
-      flow: ["Content-Workflow", ["Analyse", "Keywords", "Produktion", "Freigabe"], ["18 ASINs", "24 Cluster", "6 Pakete"]],
-      demoCopy: "Bulk-Produktion für Bilder, Texte, A+ und Video.",
+      content: ["Content", "Bulk", ["Bild", "A+", "Text"]],
+      flow: ["Flow", ["Analyse", "Keys", "Build", "Approve"], ["18 ASIN", "24 Cluster", "6 Pakete"]],
+      demoCopy: "",
       bars: ["26%", "39%", "47%", "58%", "66%", "77%", "83%", "89%"]
     }
   };
