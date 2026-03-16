@@ -448,6 +448,15 @@ body[data-page="roi"] .footer {
   text-align: right;
 }
 
+.slider-header-costs {
+  align-items: flex-start;
+}
+
+.slider-value-costs {
+  min-width: 11.2rem;
+  white-space: nowrap;
+}
+
 .range-input {
   width: 100%;
   -webkit-appearance: none;
@@ -1320,6 +1329,10 @@ body[data-page="roi"] .footer {
     font-size: 1.9rem;
   }
 
+  .slider-value-costs {
+    min-width: 9.4rem;
+  }
+
   .exit-modal-dialog {
     width: calc(100vw - 1rem);
     margin-top: 2.2rem;
@@ -1382,5 +1395,9 @@ body[data-page="roi"] .footer {
   .slider-value {
     min-width: 6.2rem;
     font-size: 1.7rem;
+  }
+
+  .slider-value-costs {
+    min-width: 8.6rem;
   }
 }

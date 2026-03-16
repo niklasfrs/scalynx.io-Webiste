@@ -743,12 +743,12 @@
             </div>
 
             <div class="slider-block">
-              <div class="slider-header">
+              <div class="slider-header slider-header-costs">
                 <div>
                   <label for="roi-costs">Gesamte monatliche Kosten deiner Agentur</label>
                   <div class="help-line">Summe aller operativen Kosten für die Betreuung aller Kunden.</div>
                 </div>
-                <div class="slider-value" data-roi-costs-value>EUR 3.000</div>
+                <div class="slider-value slider-value-costs" data-roi-costs-value>EUR 3.000</div>
               </div>
               <input id="roi-costs" class="range-input" type="range" min="500" max="100000" step="500" value="3000">
             </div>
