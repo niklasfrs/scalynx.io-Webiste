@@ -99,6 +99,13 @@
           </div>
 
           <div class="hero-scene-shell">
+            <div class="hero-scene-shell-glow" aria-hidden="true"></div>
+            <div class="hero-scene-shell-grid" aria-hidden="true"></div>
+            <div class="hero-scene-statusbar" aria-hidden="true">
+              <span>API Sync live</span>
+              <span>Kundenansicht aktiv</span>
+              <span>Maßnahmen priorisiert</span>
+            </div>
             <section class="hero-scene-view active" data-hero-view="dashboard" aria-label="Dashboard-Ansicht">
               <div class="hero-scene-header">
                 <span class="hero-scene-chip">Umsatzsteuerung</span>
@@ -106,6 +113,10 @@
               </div>
               <div class="hero-scene-dashboard">
                 <article class="hero-scene-card hero-scene-card-chart">
+                  <div class="hero-scene-card-top">
+                    <span class="hero-scene-microtag">Live KPI Mix</span>
+                    <span class="hero-scene-microbadge">+12%</span>
+                  </div>
                   <div class="hero-scene-bars">
                     <span style="--h:48%"></span>
                     <span style="--h:56%"></span>
@@ -137,14 +148,17 @@
                 <article class="hero-scene-card hero-scene-alert critical">
                   <span class="hero-scene-dot"></span>
                   <div><em>Buybox</em><strong>UK drop detected</strong></div>
+                  <span class="hero-scene-severity">High</span>
                 </article>
                 <article class="hero-scene-card hero-scene-alert warning">
                   <span class="hero-scene-dot"></span>
                   <div><em>Conversion</em><strong>ASIN B0 down 12%</strong></div>
+                  <span class="hero-scene-severity">Watch</span>
                 </article>
                 <article class="hero-scene-card hero-scene-alert success">
                   <span class="hero-scene-dot"></span>
                   <div><em>Upside</em><strong>DE ads can scale</strong></div>
+                  <span class="hero-scene-severity">Upside</span>
                 </article>
                 <div class="hero-scene-taskline">
                   <span>Finding</span>
@@ -162,10 +176,10 @@
               </div>
               <div class="hero-scene-reports">
                 <article class="hero-scene-card hero-report-builder">
-                  <div class="hero-report-step active">KPI Snapshot</div>
-                  <div class="hero-report-step">Insight Story</div>
-                  <div class="hero-report-step">Empfehlung</div>
-                  <div class="hero-report-step">PDF Ready</div>
+                  <div class="hero-report-step active"><i></i>KPI Snapshot</div>
+                  <div class="hero-report-step"><i></i>Insight Story</div>
+                  <div class="hero-report-step"><i></i>Empfehlung</div>
+                  <div class="hero-report-step"><i></i>PDF Ready</div>
                 </article>
                 <article class="hero-scene-card hero-report-summary">
                   <div><em>Review-Zeit</em><strong>5,1h gespart</strong></div>
@@ -182,15 +196,16 @@
               </div>
               <div class="hero-scene-content">
                 <article class="hero-scene-card hero-content-grid-mini">
-                  <span>Bild</span>
-                  <span>A+</span>
-                  <span>Text</span>
-                  <span>Video</span>
+                  <span><i></i>Bild</span>
+                  <span><i></i>A+</span>
+                  <span><i></i>Text</span>
+                  <span><i></i>Video</span>
                 </article>
                 <article class="hero-scene-card hero-content-queue">
                   <div><em>Batch</em><strong>50 ASIN aktiv</strong></div>
                   <div><em>Keywords</em><strong>24 Cluster ready</strong></div>
                   <div><em>Approval</em><strong>6 Pakete offen</strong></div>
+                  <div class="hero-content-progress"><span></span></div>
                 </article>
               </div>
             </section>
