@@ -463,6 +463,7 @@ h2 {
 .hero-demo.is-cycling [data-hero-rail-title],
 .hero-demo.is-cycling [data-hero-rail-copy],
 .hero-demo.is-cycling [data-hero-report-item],
+.hero-demo.is-cycling [data-hero-content-item],
 .hero-demo.is-cycling [data-hero-flow-step],
 .hero-demo.is-cycling [data-hero-flow-metric] {
   opacity: 0;
@@ -479,8 +480,8 @@ h2 {
 }
 
 .hero-demo-topline h2 {
-  max-width: 15ch;
-  font-size: clamp(1.42rem, 1.72vw, 1.85rem);
+  max-width: 9ch;
+  font-size: clamp(1.46rem, 1.8vw, 1.95rem);
 }
 
 .hero-mode-strip {
@@ -521,7 +522,7 @@ h2 {
   display: grid;
   grid-template-columns: 1.3fr 1fr 1fr;
   gap: 0.8rem;
-  margin-top: 1.2rem;
+  margin-top: 1rem;
 }
 
 .hero-kpi-card {
@@ -549,6 +550,7 @@ h2 {
 [data-hero-rail-title],
 [data-hero-rail-copy],
 [data-hero-report-item],
+[data-hero-content-item],
 [data-hero-flow-step],
 [data-hero-flow-metric] {
   transition: opacity 0.28s ease, transform 0.28s ease, color 0.28s ease;
@@ -565,8 +567,8 @@ h2 {
   display: block;
   margin-top: 0.45rem;
   color: #b7cbdb;
-  font-size: 0.74rem;
-  line-height: 1.5;
+  font-size: 0.72rem;
+  line-height: 1.35;
 }
 
 .hero-kpi-primary {
@@ -588,7 +590,7 @@ h2 {
 
 .hero-scene {
   position: relative;
-  margin-top: 1.2rem;
+  margin-top: 1rem;
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(16rem, 0.95fr);
   gap: 0.95rem;
@@ -619,6 +621,7 @@ h2 {
 
 .hero-window-alert,
 .hero-window-report,
+.hero-window-content,
 .hero-window-flow {
   padding: 0.9rem;
 }
@@ -669,7 +672,7 @@ h2 {
 }
 
 .hero-main-rail article {
-  padding: 0.78rem 0.8rem;
+  padding: 0.68rem 0.74rem;
   border-radius: 0.95rem;
   border: 1px solid rgba(147, 188, 220, 0.1);
   background: rgba(255, 255, 255, 0.03);
@@ -685,14 +688,14 @@ h2 {
 .hero-main-rail strong {
   display: block;
   margin-top: 0.24rem;
-  font-size: 0.94rem;
+  font-size: 0.88rem;
 }
 
 .hero-main-rail small {
   display: block;
   margin-top: 0.28rem;
   color: #b8d0e0;
-  font-size: 0.73rem;
+  font-size: 0.68rem;
   line-height: 1.45;
 }
 
@@ -754,9 +757,10 @@ h2 {
 
 .hero-window-alert h3,
 .hero-window-flow h3,
-.hero-window-report h3 {
+.hero-window-report h3,
+.hero-window-content h3 {
   margin-top: 0.45rem;
-  font-size: 1.02rem;
+  font-size: 0.98rem;
 }
 
 .hero-window-alert p,
@@ -859,6 +863,52 @@ h2 {
   line-height: 1.45;
 }
 
+.hero-micro-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-micro-icon {
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 0.9rem;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 208, 138, 0.85), rgba(255, 149, 0, 0.18) 58%, rgba(255, 149, 0, 0) 74%),
+    rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 149, 0, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 149, 0, 0.05), 0 0 1.4rem rgba(255, 149, 0, 0.12);
+}
+
+.hero-micro-card::after {
+  content: "";
+  position: absolute;
+  right: -1rem;
+  bottom: -1rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 149, 0, 0.12), transparent 68%);
+}
+
+.hero-micro-pillset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.72rem;
+}
+
+.hero-micro-pillset span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.34rem 0.54rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(147, 188, 220, 0.1);
+  color: #d8e6f3;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .hero-flow-metrics {
   display: flex;
   flex-wrap: wrap;
@@ -877,8 +927,9 @@ h2 {
 
 .hero-demo-copy {
   max-width: none;
-  margin: 1rem 0 0;
-  font-size: 0.93rem;
+  margin: 0.85rem 0 0;
+  font-size: 0.84rem;
+  color: #afc3d5;
 }
 
 .live {
