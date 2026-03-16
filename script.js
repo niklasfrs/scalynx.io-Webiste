@@ -210,6 +210,70 @@ function rewriteDemoLinks() {
   });
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function splitHeadlineText(text) {
+  const normalized = (text || "").replace(/\s+/g, " ").trim();
+  if (!normalized) return null;
+
+  const separators = [": ", " – ", " — "];
+  for (const separator of separators) {
+    const index = normalized.indexOf(separator);
+    if (index > 0) {
+      const base = normalized.slice(0, index + separator.length).trim();
+      const accent = normalized.slice(index + separator.length).trim();
+      const accentWords = accent.split(" ").filter(Boolean);
+      if (accentWords.length >= 2 && accentWords.length <= 9) return { base, accent };
+    }
+  }
+
+  const words = normalized.split(" ").filter(Boolean);
+  if (words.length < 4) return null;
+
+  const accentCount = words.length >= 9 ? 4 : words.length >= 6 ? 3 : 2;
+  return {
+    base: words.slice(0, -accentCount).join(" "),
+    accent: words.slice(-accentCount).join(" ")
+  };
+}
+
+function decorateHeadlines() {
+  const pageType = document.body.dataset.page || "";
+  if (pageType === "preise" || pageType === "roi-rechner") return;
+
+  const selectors = [
+    ".hero h1",
+    ".page-hero h1",
+    "main.page-shell > section > h2",
+    ".segment-panel h2"
+  ];
+
+  const seen = new Set();
+  selectors.forEach((selector) => {
+    document.querySelectorAll(selector).forEach((element) => {
+      if (seen.has(element)) return;
+      seen.add(element);
+      if (element.dataset.headlineDecorated === "true") return;
+      if (element.querySelector(".accent, .headline-accent")) return;
+      if (Array.from(element.children).length) return;
+
+      const split = splitHeadlineText(element.textContent);
+      if (!split || !split.base || !split.accent) return;
+
+      element.innerHTML = `${escapeHtml(split.base)} <span class="headline-accent">${escapeHtml(split.accent)}</span>`;
+      element.dataset.headlineDecorated = "true";
+      element.classList.add("headline-split");
+    });
+  });
+}
+
 function setupTicker() {
   const ticker = document.querySelector(".trust-ticker");
   if (!ticker) return;
@@ -1068,6 +1132,7 @@ rewriteDemoLinks();
 setupTicker();
 initSegmentLanding();
 ensureLongFormSections();
+decorateHeadlines();
 initRevealAnimations();
 initDetailsAccordion();
 initScrollProgress();
