@@ -53,6 +53,15 @@
     }
   ];
 
+  const pricingTickerItems = [
+    { icon: "🚀", text: "All-in-One-Software für Amazon-Agenturen" },
+    { icon: "📉", text: "Ø 35% weniger operative Betreuungskosten" },
+    { icon: "🛡️", text: "DSGVO-konform & mandantenfähig" },
+    { icon: "🧾", text: "Jederzeit kündbar, keine Setup-Kosten" },
+    { icon: "🇪🇺", text: "Made in EU, Hosting in Europa" },
+    { icon: "🔌", text: "Direkter Amazon-Datenzugriff statt manueller Exporte" }
+  ];
+
   function formatCurrency(value, digits) {
     return new Intl.NumberFormat("de-DE", {
       minimumFractionDigits: digits,
@@ -168,12 +177,132 @@
     }, 1700);
   }
 
+  function buildTickerHTML(items) {
+    const chips = items.map((item) => `
+      <span class="pricing-ticker-chip">
+        <span class="ticker-icon">${item.icon}</span>
+        <span>${item.text}</span>
+      </span>
+    `).join("");
+    return `
+      <section class="section pricing-ticker-section" aria-label="Wichtige Vorteile">
+        <div class="pricing-ticker-shell">
+          <div class="pricing-ticker-track">
+            ${chips}
+            ${chips}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  function setupExitIntent(options) {
+    const pageKey = options?.pageKey || "preise";
+    const root = document.body;
+    let pendingHref = null;
+    let modalShown = false;
+
+    const modal = document.createElement("div");
+    modal.className = "exit-modal";
+    modal.setAttribute("aria-hidden", "true");
+    modal.innerHTML = `
+      <div class="exit-modal-backdrop" data-exit-close></div>
+      <div class="exit-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title-${pageKey}">
+        <button class="exit-modal-close" type="button" aria-label="Schließen" data-exit-close>×</button>
+        <div class="exit-modal-emoji">✋</div>
+        <div class="exit-modal-badge">Warte kurz!</div>
+        <h2 class="exit-modal-title" id="exit-modal-title-${pageKey}">Teste scalynx<br><span>14 Tage komplett kostenlos</span></h2>
+        <p class="exit-modal-copy">Kein Risiko, keine Setup-Kosten und sofort ein klarer Eindruck davon, wie viel Reporting-, Analyse- und Abstimmungszeit ihr im Team spart.</p>
+        <div class="exit-modal-actions">
+          <button class="pricing-btn exit-modal-cta" type="button" data-exit-trial>Jetzt kostenlos starten</button>
+          <button class="exit-modal-link" type="button" data-exit-leave>Nein danke, ich will weiter</button>
+        </div>
+      </div>
+    `;
+    root.appendChild(modal);
+
+    const leaveButton = modal.querySelector("[data-exit-leave]");
+    const trialButton = modal.querySelector("[data-exit-trial]");
+
+    function closeModal() {
+      modal.classList.remove("visible");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function openModal(nextHref) {
+      if (modalShown) return;
+      modalShown = true;
+      pendingHref = nextHref || null;
+      leaveButton.textContent = pendingHref ? "Seite trotzdem verlassen" : "Nein danke, ich brauche das nicht";
+      modal.classList.add("visible");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    modal.querySelectorAll("[data-exit-close]").forEach((button) => {
+      button.addEventListener("click", closeModal);
+    });
+
+    leaveButton.addEventListener("click", () => {
+      const target = pendingHref;
+      closeModal();
+      if (target) window.location.href = target;
+    });
+
+    trialButton.addEventListener("click", async () => {
+      trialButton.disabled = true;
+      const original = trialButton.textContent;
+      trialButton.textContent = "Wird verarbeitet...";
+      try {
+        await requestCheckout({ planId: "trial" });
+      } catch (error) {
+        trialButton.textContent = "Erneut versuchen";
+      } finally {
+        trialButton.disabled = false;
+        if (!modal.matches(".visible")) {
+          trialButton.textContent = original;
+        }
+      }
+    });
+
+    document.addEventListener("mouseout", (event) => {
+      if (modalShown) return;
+      if (event.relatedTarget || event.toElement) return;
+      if (typeof event.clientY === "number" && event.clientY <= 6) {
+        openModal(null);
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (modalShown) return;
+      if (modal.classList.contains("visible")) return;
+      const link = event.target.closest("a[href]");
+      if (!link) return;
+      if (link.target === "_blank" || link.hasAttribute("download")) return;
+      const href = link.getAttribute("href") || "";
+      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;
+      const targetUrl = new URL(link.href, window.location.origin);
+      const currentUrl = new URL(window.location.href);
+      if (targetUrl.origin !== currentUrl.origin) return;
+      if (targetUrl.pathname === currentUrl.pathname && targetUrl.search === currentUrl.search && targetUrl.hash === currentUrl.hash) return;
+      if (targetUrl.pathname.includes("/api/stripe-checkout")) return;
+      event.preventDefault();
+      openModal(targetUrl.toString());
+    }, true);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("visible")) {
+        closeModal();
+      }
+    });
+  }
+
   function renderPricingPage() {
     const root = document.getElementById("pricing-root");
     if (!root) return;
 
     root.innerHTML = `
       <div class="pricing-page">
+        ${buildTickerHTML(pricingTickerItems)}
         <section class="section pricing-hero">
           <div class="pricing-badge">Scalynx für Agenturen</div>
           <h1 class="pricing-title">Alle Features. Immer. <span class="accent">Mehr Kunden = günstiger.</span></h1>
@@ -389,7 +518,7 @@
         void elements.planFlash.offsetWidth;
         elements.planFlash.className = "flash-box visible";
         elements.planFlash.innerHTML = `<strong>Plan-Upgrade!</strong><span>Du sparst jetzt EUR ${formatCurrency(saved, 0)} pro Monat.</span>`;
-        launchConfetti({ particleCount: 26, spread: 200, originX: 0.5, originY: 0.36 });
+        launchConfetti({ particleCount: 16, spread: 180, originX: 0.5, originY: 0.36 });
         flashResetTimer = window.setTimeout(() => {
           elements.planFlash.className = "flash-box";
           elements.planFlash.textContent = "";
@@ -493,6 +622,7 @@
 
     setupFaqCards(root);
     updatePricing(false);
+    setupExitIntent({ pageKey: "preise" });
   }
 
   function renderRoiPage() {
@@ -720,7 +850,7 @@
       renderResult();
       els.step1.hidden = true;
       els.step2.hidden = false;
-      launchConfetti({ particleCount: 30, spread: 230, originX: 0.5, originY: 0.22 });
+      launchConfetti({ particleCount: 18, spread: 190, originX: 0.5, originY: 0.22 });
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
@@ -751,6 +881,7 @@
 
     updateInputs();
     setupTooltips(root);
+    setupExitIntent({ pageKey: "roi" });
   }
 
   if (page === "preise") renderPricingPage();
