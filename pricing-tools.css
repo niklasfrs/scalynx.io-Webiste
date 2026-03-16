@@ -669,14 +669,22 @@ body[data-page="roi"] .footer {
   display: flex;
   left: max(1rem, env(safe-area-inset-left));
   right: max(1rem, env(safe-area-inset-right));
-  bottom: max(0.85rem, env(safe-area-inset-bottom));
+  bottom: calc(max(0.85rem, env(safe-area-inset-bottom)) + var(--footer-safe-offset, 0px));
   border: 1px solid rgba(255, 149, 0, 0.16);
   border-radius: 1.1rem;
   box-shadow: 0 1.3rem 3rem rgba(0, 0, 0, 0.35);
 }
 
+.sticky-pricing-cta.footer-safe {
+  box-shadow: 0 0.9rem 2.1rem rgba(0, 0, 0, 0.24);
+}
+
 .sticky-pricing-cta .pricing-btn {
   min-width: 12.75rem;
+}
+
+.pricing-main-cta-row {
+  align-items: center;
 }
 
 .roi-page {
@@ -1123,7 +1131,7 @@ body[data-page="roi"] .footer {
   .sticky-pricing-cta {
     left: 0.75rem;
     right: 0.75rem;
-    bottom: max(0.55rem, env(safe-area-inset-bottom));
+    bottom: calc(max(0.55rem, env(safe-area-inset-bottom)) + var(--footer-safe-offset, 0px));
     padding: 0.8rem 0.85rem calc(0.8rem + env(safe-area-inset-bottom));
     border-radius: 1rem;
   }

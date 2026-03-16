@@ -366,9 +366,12 @@
             <div class="annual-savings" data-annual-savings hidden></div>
             <div class="price-error" data-price-error></div>
 
-            <div class="cta-row" style="margin-top: 1.2rem;">
+            <div class="cta-row pricing-main-cta-row" style="margin-top: 1.2rem;">
               <button class="pricing-btn" data-action="checkout">Jetzt starten</button>
-              <a class="pricing-btn secondary" href="/demo-anfragen.html">Fragen vorab klären</a>
+              <a class="pricing-btn secondary" href="/roi-rechner.html">ROI-Rechner öffnen</a>
+            </div>
+            <div class="hero-link-row" style="margin-top: 0.85rem;">
+              <a class="ghost-link" href="/demo-anfragen.html">Fragen vorab klären</a>
             </div>
 
             <div class="security-row" style="margin-top: 1rem;">
@@ -448,6 +451,7 @@
     let previousPlan = getPlanForCount(customerCount);
     let flashResetTimer = null;
     let hasAdjustedSlider = false;
+    let footerSafeHandler = null;
 
     function updateStickyCta(plan, total) {
       if (!elements.stickyButton) return;
@@ -462,6 +466,16 @@
       elements.stickyTotal.textContent = `EUR ${formatCurrency(total, 2)}`;
       elements.stickyButton.textContent = "Jetzt starten";
       elements.stickyButton.dataset.mode = "plan";
+    }
+
+    function applyStickyFooterOffset() {
+      if (!elements.stickyWrap) return;
+      const footer = document.querySelector(".footer");
+      if (!footer) return;
+      const footerRect = footer.getBoundingClientRect();
+      const overlap = Math.max(0, window.innerHeight - footerRect.top + 14);
+      elements.stickyWrap.style.setProperty("--footer-safe-offset", `${overlap}px`);
+      elements.stickyWrap.classList.toggle("footer-safe", overlap > 0);
     }
 
     function renderTiers(activePlan) {
@@ -518,7 +532,7 @@
         void elements.planFlash.offsetWidth;
         elements.planFlash.className = "flash-box visible";
         elements.planFlash.innerHTML = `<strong>Plan-Upgrade!</strong><span>Du sparst jetzt EUR ${formatCurrency(saved, 0)} pro Monat.</span>`;
-        launchConfetti({ particleCount: 16, spread: 180, originX: 0.5, originY: 0.36 });
+        launchConfetti({ particleCount: 24, spread: 205, originX: 0.5, originY: 0.36 });
         flashResetTimer = window.setTimeout(() => {
           elements.planFlash.className = "flash-box";
           elements.planFlash.textContent = "";
@@ -622,6 +636,10 @@
 
     setupFaqCards(root);
     updatePricing(false);
+    footerSafeHandler = () => applyStickyFooterOffset();
+    window.addEventListener("scroll", footerSafeHandler, { passive: true });
+    window.addEventListener("resize", footerSafeHandler);
+    applyStickyFooterOffset();
     setupExitIntent({ pageKey: "preise" });
   }
 
@@ -850,7 +868,7 @@
       renderResult();
       els.step1.hidden = true;
       els.step2.hidden = false;
-      launchConfetti({ particleCount: 18, spread: 190, originX: 0.5, originY: 0.22 });
+      launchConfetti({ particleCount: 28, spread: 215, originX: 0.5, originY: 0.22 });
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
