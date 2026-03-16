@@ -433,11 +433,19 @@ body[data-page="roi"] .footer {
   gap: 1rem;
 }
 
+.slider-header > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+
 .slider-value {
   font-size: 2.3rem;
   font-weight: 900;
   color: var(--pricing-orange);
   line-height: 1;
+  flex: none;
+  min-width: 9.5rem;
+  text-align: right;
 }
 
 .range-input {
@@ -467,6 +475,34 @@ body[data-page="roi"] .footer {
   margin-top: 0.5rem;
   font-size: 0.82rem;
   color: #66758b;
+}
+
+.manual-input-wrap {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.manual-input-wrap label {
+  color: var(--pricing-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.manual-input {
+  width: 100%;
+  padding: 0.82rem 0.95rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--pricing-border);
+  background: rgba(16, 22, 31, 0.92);
+  color: var(--pricing-white);
+  font: inherit;
+}
+
+.manual-input:focus {
+  outline: none;
+  border-color: rgba(255, 149, 0, 0.42);
+  box-shadow: 0 0 0 0.22rem rgba(255, 149, 0, 0.12);
 }
 
 .active-plan {
@@ -1235,6 +1271,11 @@ body[data-page="roi"] .footer {
     font-size: 0.98rem;
   }
 
+  .slider-value {
+    min-width: 7.4rem;
+    font-size: 1.9rem;
+  }
+
   .exit-modal-dialog {
     width: calc(100vw - 1rem);
     margin-top: 2.2rem;
@@ -1288,5 +1329,14 @@ body[data-page="roi"] .footer {
     min-width: 7.8rem;
     padding: 0.72rem 0.78rem;
     font-size: 0.9rem;
+  }
+
+  .slider-header {
+    align-items: flex-start;
+  }
+
+  .slider-value {
+    min-width: 6.2rem;
+    font-size: 1.7rem;
   }
 }

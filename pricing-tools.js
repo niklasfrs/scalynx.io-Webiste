@@ -389,6 +389,10 @@
               </div>
               <input id="customer-count" class="range-input" type="range" min="1" max="40" value="3">
               <div class="scale-row"><span>1</span><span>5</span><span>20</span><span>40+</span></div>
+              <div class="manual-input-wrap" data-manual-customer-wrap hidden>
+                <label for="manual-customer-count">Mehr als 40 Kunden? Exakte Zahl eingeben</label>
+                <input id="manual-customer-count" class="manual-input" type="number" min="41" max="999" step="1" value="41" inputmode="numeric">
+              </div>
             </div>
 
             <div class="flash-box" data-plan-flash></div>
@@ -470,6 +474,8 @@
       tierGrid: root.querySelector("[data-tier-grid]"),
       customerCount: root.querySelector("[data-customer-count]"),
       range: root.querySelector("#customer-count"),
+      manualCustomerWrap: root.querySelector("[data-manual-customer-wrap]"),
+      manualCustomerInput: root.querySelector("#manual-customer-count"),
       planFlash: root.querySelector("[data-plan-flash]"),
       planName: root.querySelector("[data-plan-name]"),
       planRange: root.querySelector("[data-plan-range]"),
@@ -550,7 +556,7 @@
 
       elements.customerCount.textContent = String(customerCount);
       elements.planName.textContent = plan.name + "-Plan";
-      elements.planRange.textContent = plan.max ? `bis zu ${plan.max} Kunden` : "unbegrenzte Kunden";
+      elements.planRange.textContent = plan.max ? `bis zu ${plan.max} Kunden` : customerCount > 40 ? `${customerCount} Kunden berechnet` : "unbegrenzte Kunden";
       elements.baseFee.textContent = `EUR ${formatCurrency(baseFee, 2)}`;
       elements.customerLabel.textContent = `${customerCount} Kunden x EUR ${formatCurrency(perCustomer, 2)}`;
       elements.customerTotal.textContent = `EUR ${formatCurrency(perCustomer * customerCount, 2)}`;
@@ -588,13 +594,35 @@
       elements.error.className = "price-error";
       elements.error.textContent = "";
       setRangeProgress(elements.range);
+      elements.manualCustomerWrap.hidden = customerCount <= 40;
+      if (customerCount > 40) {
+        elements.manualCustomerInput.value = String(customerCount);
+      }
     }
 
     elements.range.addEventListener("input", () => {
-      customerCount = Number(elements.range.value);
+      const sliderValue = Number(elements.range.value);
+      if (sliderValue >= 40 && customerCount > 40) {
+        customerCount = Math.max(41, Number(elements.manualCustomerInput.value || 41));
+      } else {
+        customerCount = sliderValue;
+      }
       hasAdjustedSlider = true;
       updatePricing(true);
     });
+
+    if (elements.manualCustomerInput) {
+      const syncManualCustomers = () => {
+        const nextCount = Math.max(41, Math.min(999, Number(elements.manualCustomerInput.value || 41)));
+        elements.manualCustomerInput.value = String(nextCount);
+        customerCount = nextCount;
+        elements.range.value = "40";
+        hasAdjustedSlider = true;
+        updatePricing(false);
+      };
+      elements.manualCustomerInput.addEventListener("input", syncManualCustomers);
+      elements.manualCustomerInput.addEventListener("change", syncManualCustomers);
+    }
 
     elements.billingButtons.forEach((button) => {
       button.addEventListener("click", () => {
@@ -720,9 +748,9 @@
                   <label for="roi-costs">Gesamte monatliche Kosten deiner Agentur</label>
                   <div class="help-line">Summe aller operativen Kosten für die Betreuung aller Kunden.</div>
                 </div>
-                <div class="slider-value" data-roi-costs-value>450</div>
+                <div class="slider-value" data-roi-costs-value>EUR 3.000</div>
               </div>
-              <input id="roi-costs" class="range-input" type="range" min="100" max="2000" value="450">
+              <input id="roi-costs" class="range-input" type="range" min="500" max="100000" step="500" value="3000">
             </div>
 
             <div class="slider-block">
@@ -805,7 +833,7 @@
 
     const state = {
       employees: 5,
-      totalCosts: 450,
+      totalCosts: 3000,
       clients: 15
     };
 
@@ -841,7 +869,7 @@
     }
 
     function computeRoi() {
-      const totalMonthlyCosts = state.totalCosts * state.clients;
+      const totalMonthlyCosts = state.totalCosts;
       const scalynxBaseFee = 49;
       const scalynxPerClient = state.clients <= 5 ? 149 : state.clients <= 20 ? 119 : 99;
       const scalynxTotalCost = scalynxBaseFee + scalynxPerClient * state.clients;
@@ -887,16 +915,21 @@
       els.percent.textContent = `${result.roiPercent}%`;
       els.currentCosts.textContent = `EUR ${formatCurrency(result.totalMonthlyCosts, 0)}`;
       els.monthlySavings.textContent = `EUR ${formatCurrency(result.monthlySavings, 0)}`;
-      els.netSavings.textContent = `EUR ${formatCurrency(result.netSavings, 0)}`;
-      els.sticky.textContent = `EUR ${formatCurrency(result.annualSavings, 0)}`;
+      els.netSavings.textContent = `${result.netSavings < 0 ? "- " : ""}EUR ${formatCurrency(Math.abs(result.netSavings), 0)}`;
+      els.sticky.textContent = `${result.annualSavings < 0 ? "- " : ""}EUR ${formatCurrency(Math.abs(result.annualSavings), 0)}`;
 
-      if (result.netSavings > 200) {
+      if (result.netSavings > 500) {
         els.summaryTitle.textContent = "Absoluter No-Brainer";
+        const monthsToPayback = Math.max(1, Math.ceil(result.scalynxTotalCost / result.netSavings));
+        els.summaryCopy.textContent = `Mit EUR ${formatCurrency(result.netSavings, 0)} Netto-Ersparnis pro Monat zahlt sich scalynx in rund ${monthsToPayback} Monat${monthsToPayback === 1 ? "" : "en"} selbst. Danach arbeitet jede weitere Optimierung direkt für eure Marge.`;
+      } else if (result.netSavings > 0) {
+        els.summaryTitle.textContent = "Wirtschaftlich sinnvoll";
+        const monthsToPayback = Math.max(1, Math.ceil(result.scalynxTotalCost / result.netSavings));
+        els.summaryCopy.textContent = `Mit EUR ${formatCurrency(result.netSavings, 0)} Netto-Ersparnis pro Monat amortisiert sich scalynx in rund ${monthsToPayback} Monat${monthsToPayback === 1 ? "" : "en"}. Besonders stark wird der Hebel, sobald euer Team mehr Kunden parallel steuert.`;
       } else {
-        els.summaryTitle.textContent = "Lohnt sich für dich";
+        els.summaryTitle.textContent = "Mit diesen Werten noch kein direkter Hebel";
+        els.summaryCopy.textContent = `Bei euren aktuellen Eingaben liegen die geschätzten operativen Einsparungen noch unter den Plattformkosten. Erhöhe die gesamten monatlichen Agenturkosten oder die Kundenzahl, um ein realistischeres Bild für euer Team zu bekommen.`;
       }
-      const monthsToPayback = Math.ceil(result.scalynxTotalCost / Math.max(result.netSavings, 1));
-      els.summaryCopy.textContent = `Mit EUR ${formatCurrency(result.netSavings, 0)} Netto-Ersparnis pro Monat zahlt sich scalynx in weniger als ${monthsToPayback} Monaten selbst. Danach arbeitet jede weitere Optimierung direkt für eure Marge.`;
       renderCharts(result);
     }
 
