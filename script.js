@@ -69,8 +69,9 @@ function buildNavHTML(currentPath) {
     const children = item.children || [];
     const childActive = children.some((child) => isActiveLink(child.href, currentPath));
     const active = isActiveLink(item.href, currentPath) || childActive;
+    const spotlight = item.label === "Preise" ? " nav-link-spotlight" : "";
     if (!children.length) {
-      return `<a class="${active ? "active" : ""}" href="${item.href}">${item.label}</a>`;
+      return `<a class="${active ? "active" : ""}${spotlight}" href="${item.href}">${item.label}${item.label === "Preise" ? '<span class="nav-badge">Plan</span>' : ""}</a>`;
     }
 
     const childrenHTML = children
@@ -80,7 +81,7 @@ function buildNavHTML(currentPath) {
       })
       .join("");
 
-    return `<div class="nav-item has-menu">
+    return `<div class="nav-item has-menu ${children.length > 5 ? "menu-wide" : ""}">
       <a class="${active ? "active" : ""}" href="${item.href}">${item.label}</a>
       <div class="submenu">${childrenHTML}</div>
     </div>`;
@@ -92,7 +93,7 @@ function buildMobileMenuHTML(currentPath) {
     const children = item.children || [];
     const active = isActiveLink(item.href, currentPath) || children.some((child) => isActiveLink(child.href, currentPath));
     if (!children.length) {
-      return `<a class="mobile-link ${active ? "active" : ""}" href="${item.href}">${item.label}</a>`;
+      return `<a class="mobile-link ${active ? "active" : ""}${item.label === "Preise" ? " nav-link-spotlight" : ""}" href="${item.href}">${item.label}</a>`;
     }
     const childrenHTML = children
       .map((child) => `<a class="mobile-sublink ${isActiveLink(child.href, currentPath) ? "active" : ""}" href="${child.href}">${child.label}</a>`)
@@ -195,6 +196,16 @@ function renderHeaderAndFooter() {
       <small>© ${currentYear} scalynx.io – gebaut für Amazon-Agenturen.</small>
     `;
   }
+}
+
+function initTopbarState() {
+  const topbar = document.querySelector(".topbar");
+  if (!topbar) return;
+  const sync = () => {
+    topbar.classList.toggle("is-compact", window.scrollY > 28);
+  };
+  sync();
+  window.addEventListener("scroll", sync, { passive: true });
 }
 
 function rewriteDemoLinks() {
@@ -1131,11 +1142,17 @@ function initHeroModeCycle() {
   const hero = document.querySelector(".hero-demo");
   if (!hero) return;
 
-  const order = ["dashboard", "insights", "reports", "content"];
+  const order = ["dashboard", "reports", "insights", "content"];
   const pills = Array.from(hero.querySelectorAll("[data-hero-mode]"));
   const views = Array.from(hero.querySelectorAll("[data-hero-view]"));
   let activeIndex = 0;
   let timer = null;
+  const modeDurations = {
+    dashboard: 5600,
+    reports: 5400,
+    insights: 4600,
+    content: 4300
+  };
 
   const applyMode = (mode, animate = true) => {
     order.forEach((item) => hero.classList.remove(`mode-${item}`));
@@ -1145,15 +1162,16 @@ function initHeroModeCycle() {
     views.forEach((view) => view.classList.toggle("active", view.dataset.heroView === mode));
     if (!animate) return;
     hero.classList.add("is-cycling");
-    window.setTimeout(() => hero.classList.remove("is-cycling"), 260);
+    window.setTimeout(() => hero.classList.remove("is-cycling"), 420);
   };
 
   const schedule = () => {
-    window.clearInterval(timer);
-    timer = window.setInterval(() => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => {
       activeIndex = (activeIndex + 1) % order.length;
       applyMode(order[activeIndex]);
-    }, 4200);
+      schedule();
+    }, modeDurations[order[activeIndex]] || 4800);
   };
 
   pills.forEach((pill) => {
@@ -1165,7 +1183,7 @@ function initHeroModeCycle() {
     });
   });
 
-  hero.addEventListener("mouseenter", () => window.clearInterval(timer));
+  hero.addEventListener("mouseenter", () => window.clearTimeout(timer));
   hero.addEventListener("mouseleave", schedule);
 
   applyMode(order[activeIndex], false);
@@ -1173,6 +1191,7 @@ function initHeroModeCycle() {
 }
 
 renderHeaderAndFooter();
+initTopbarState();
 rewriteDemoLinks();
 setupTicker();
 initSegmentLanding();
@@ -1184,9 +1203,3 @@ initScrollProgress();
 initMouseGlow();
 initClickRevealModules();
 initHeroModeCycle();
-
-const topbar = document.querySelector(".topbar");
-window.addEventListener("scroll", () => {
-  if (!topbar) return;
-  topbar.style.background = window.scrollY > 24 ? "rgba(8, 15, 24, 0.9)" : "rgba(8, 15, 24, 0.76)";
-});
