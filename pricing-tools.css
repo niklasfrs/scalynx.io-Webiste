@@ -1132,6 +1132,34 @@ body[data-page="roi"] .footer {
   .tier-grid {
     grid-template-columns: 1fr;
   }
+
+  .pricing-ticker-shell {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .pricing-ticker-shell::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pricing-ticker-shell::before,
+  .pricing-ticker-shell::after {
+    display: none;
+  }
+
+  .pricing-ticker-track {
+    width: auto;
+    min-width: max-content;
+    padding: 0.68rem 0.9rem;
+    animation: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .pricing-ticker-chip {
+    scroll-snap-align: start;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1190,37 +1218,13 @@ body[data-page="roi"] .footer {
     font-size: 0.95rem;
   }
 
-  .pricing-ticker-section {
-    padding-top: 0.35rem;
-  }
-
-  .pricing-ticker-shell {
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .pricing-ticker-shell::-webkit-scrollbar {
-    display: none;
-  }
-
-  .pricing-ticker-shell::before,
-  .pricing-ticker-shell::after {
-    display: none;
-  }
-
   .pricing-ticker-chip {
     font-size: 0.84rem;
     padding: 0.4rem 0.78rem;
-    scroll-snap-align: start;
   }
 
   .pricing-ticker-track {
-    width: auto;
     padding: 0.62rem 0.72rem;
-    animation: none;
-    scroll-snap-type: x proximity;
   }
 
   .sticky-mobile-cta .copy .subtle-text {
@@ -1251,5 +1255,38 @@ body[data-page="roi"] .footer {
   .roi-step-head {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .pricing-shell {
+    padding-bottom: 7.2rem;
+  }
+
+  body[data-page="preise"] .footer {
+    padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+  }
+
+  .sticky-pricing-cta {
+    left: 0.6rem;
+    right: 0.6rem;
+    padding: 0.52rem 0.58rem calc(0.52rem + env(safe-area-inset-bottom));
+    gap: 0.55rem;
+    border-radius: 0.82rem;
+  }
+
+  .sticky-mobile-cta .copy .subtle-text {
+    display: none;
+  }
+
+  .sticky-mobile-cta .price {
+    font-size: 0.9rem;
+    line-height: 1.15;
+  }
+
+  .sticky-pricing-cta .pricing-btn {
+    min-width: 7.8rem;
+    padding: 0.72rem 0.78rem;
+    font-size: 0.9rem;
   }
 }
