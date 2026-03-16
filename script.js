@@ -1127,6 +1127,205 @@ function initClickRevealModules() {
   });
 }
 
+function initHeroModeCycle() {
+  const hero = document.querySelector(".hero-demo");
+  if (!hero) return;
+
+  const configs = {
+    dashboard: {
+      headline: "Kundensteuerung, Alerts und Reports in einem System",
+      live: "API-Sync aktiv",
+      kpis: [
+        ["Report-Zeit gespart", "7,3 h", "Wöchentlich weniger Copy-Paste vor Kundencalls"],
+        ["Kritische Alerts", "2", "heute priorisiert"],
+        ["Reports heute", "3", "für Kunden freigegeben"]
+      ],
+      windowTitle: "Kunden-Dashboard · DE / UK / US",
+      stats: [["Ad Spend", "124.000 €"], ["ROAS", "4,9"], ["Buybox", "94%"]],
+      rail: [
+        ["Top-Priorität", "Buybox-Verlust · UK", "Owner: Performance Team · Deadline heute"],
+        ["Nächster Report", "SellerSprint · Monatsreview", "KPIs, Insights und Maßnahmen bereits verknüpft"],
+        ["Content-Queue", "18 ASINs im Bulk-Flow", "A+, Bilder und Texte parallel vorbereitet"]
+      ],
+      alert: ["Insights & Health", "Buybox-Risiko erkannt", "ASIN B0... verliert Sichtbarkeit in UK. Ursache, Owner und Maßnahme sind bereits für den Kundencall vorbereitet.", "Sofortmaßnahme priorisiert"],
+      report: ["Report-Automation", "Monatsreport in 7 Minuten fertig", [
+        "Umsatz, TACoS, ACoS und organischer Anteil automatisch gezogen",
+        "Insights und Maßnahmen direkt in den Report übernommen",
+        "Freigabe für den Kundentermin ohne Toolwechsel"
+      ]],
+      flow: ["Agentur-Workflow", ["Amazon API", "Insights", "Tasks", "Report"], ["11 priorisierte Tasks", "3 Reports heute", "2 kritische Alerts"]],
+      demoCopy: "Vergleichbar nach Monat, Quartal, Jahr, Land, B2B/B2C und ASIN-Ebene. Alerts, Tasks, Reports und Content laufen im selben System statt in fünf Tools. Genau das macht die Plattform für Amazon-Agenturen operativ attraktiv.",
+      bars: ["44%", "57%", "61%", "69%", "73%", "86%", "82%", "94%"]
+    },
+    insights: {
+      headline: "Frühwarnsysteme und Handlungsempfehlungen für jedes Kundenkonto",
+      live: "Insights-Lauf heute aktualisiert",
+      kpis: [
+        ["Neue Findings", "11", "seit dem letzten Sync erkannt"],
+        ["Health-Risiken", "3", "mit Owner und Deadline"],
+        ["Buybox-Warnungen", "5", "auf ASIN-Ebene verfolgt"]
+      ],
+      windowTitle: "Insights-Board · Prioritätenansicht",
+      stats: [["Findings", "11"], ["Health", "3 kritisch"], ["Potenziale", "8 offen"]],
+      rail: [
+        ["Heute kritisch", "Conversion-Rückgang · DE", "Ursache auf Produkt- und Kampagnenebene markiert"],
+        ["Nächster Hebel", "Budget-Shift auf profitable Targets", "direkt für das Team priorisiert"],
+        ["Kundensignal", "Buybox-Stabilität sinkt", "für den nächsten Call vorbereitet"]
+      ],
+      alert: ["Findings & Health", "Conversion-Einbruch erkannt", "Das System markiert das betroffene Produkt, zeigt die Entwicklung und schlägt direkt die nächste Maßnahme für das Team vor.", "Empfehlung an Account-Owner gesendet"],
+      report: ["Empfehlungs-Logik", "Erkenntnis wird direkt in To-do übersetzt", [
+        "Signal, Ursache und Priorität werden gemeinsam dargestellt",
+        "Owner und Termin landen ohne Zusatztool im Ablauf",
+        "Der Kunde sieht im Report nur die wirklich relevanten Punkte"
+      ]],
+      flow: ["Insights-Flow", ["API-Sync", "Findings", "Health", "Tasks"], ["5 neue Risiken", "8 Chancen", "3 sofortige Maßnahmen"]],
+      demoCopy: "Insights, Findings und Health Checks laufen täglich durch, damit das Team nicht erst im Monatsreport überrascht wird. Genau das reduziert Reaktionszeit und erhöht die wahrgenommene Agenturqualität.",
+      bars: ["38%", "49%", "58%", "54%", "76%", "69%", "82%", "88%"]
+    },
+    reports: {
+      headline: "Kundenreports mit KPI, Ursache und Maßnahme statt nur Zahlen",
+      live: "Report-Engine aktiv",
+      kpis: [
+        ["Reports diese Woche", "12", "davon 9 automatisiert vorbereitet"],
+        ["Review-Zeit gespart", "5,1 h", "pro Woche im Kundenteam"],
+        ["Nächster Termin", "heute", "Monatsreview vorbereitet"]
+      ],
+      windowTitle: "Report-Center · Monatsreview",
+      stats: [["Berichte", "12"], ["Offene Freigaben", "2"], ["Maßnahmenblöcke", "18"]],
+      rail: [
+        ["Nächster Termin", "Conversion Studio · Monatsreview", "Executive Summary und Maßnahmen sind bereits verknüpft"],
+        ["Top-Story", "Werbekosten sinken bei stabilem Umsatz", "ideal für das nächste Kundengespräch"],
+        ["Report-Status", "Freigabe in 1 Klick", "Agenturansicht und Kundensicht bleiben sauber getrennt"]
+      ],
+      alert: ["Kundenkommunikation", "Wichtige Storyline automatisch vorbereitet", "Die Plattform verbindet KPI-Entwicklung, Ursache und nächste Schritte so, dass dein Team nicht erst manuell argumentieren muss.", "Nächster Report priorisiert"],
+      report: ["Report-Automation", "Monatsreview inklusive Maßnahmenstruktur", [
+        "Executive Summary und KPI-Verlauf werden gemeinsam gebaut",
+        "Insights und Findings landen im richtigen Kontext",
+        "Die Kundensicht bleibt fokussiert, die Agentursicht tief"
+      ]],
+      flow: ["Reporting-Flow", ["KPIs", "Insights", "Maßnahmen", "Freigabe"], ["12 Reports", "2 Freigaben", "18 Maßnahmenblöcke"]],
+      demoCopy: "Reports werden nicht nachträglich aus fünf Quellen zusammenkopiert, sondern aus demselben Daten- und Maßnahmenmodell erstellt. Das spart Zeit und erhöht die Überzeugungskraft im Kundencall.",
+      bars: ["31%", "42%", "51%", "63%", "71%", "79%", "85%", "91%"]
+    },
+    content: {
+      headline: "Content-Produktion, Analyse und Bulk-Erstellung im selben Agenturstack",
+      live: "Bulk-Content läuft",
+      kpis: [
+        ["ASINs in Bearbeitung", "18", "parallel im Content-Flow"],
+        ["A+ Pakete", "6", "heute vorbereitet"],
+        ["Keyword-Cluster", "24", "für neue Listings gebündelt"]
+      ],
+      windowTitle: "Content-Studio · Bulk-Produktion",
+      stats: [["ASINs", "18"], ["A+ Inhalte", "6"], ["Keyword-Sets", "24"]],
+      rail: [
+        ["Produktions-Queue", "A+ Basic + Premium gebündelt", "für mehrere Kunden parallel geplant"],
+        ["Analyse", "Wettbewerber-Scan abgeschlossen", "Texte und Bildansatz daraus abgeleitet"],
+        ["Nächster Schritt", "Freigabe an Kunde senden", "ohne Wechsel in ein separates Tool"]
+      ],
+      alert: ["Content & Analyse", "Content-Backlog sauber priorisiert", "Statt Einzelerstellung pro Kunde bündelt das Team ASINs, Analysen und Freigaben in einer wiederholbaren Produktionslogik.", "Bulk-Flow aktiv"],
+      report: ["Content-Ausgabe", "Von Analyse direkt zur Auslieferung", [
+        "Keyword-Recherche und Wettbewerbsvergleich starten im selben Modul",
+        "Texte, Bilder, A+ und Videos werden als Produktionspaket vorbereitet",
+        "Freigabe und Versand an den Kunden bleiben im Agenturablauf"
+      ]],
+      flow: ["Content-Workflow", ["Analyse", "Keywords", "Produktion", "Freigabe"], ["18 ASINs", "24 Cluster", "6 Pakete"]],
+      demoCopy: "Das Content Studio bündelt Keyword-Recherche, Wettbewerbsanalyse und Bulk-Produktion für Bilder, Texte, A+ und Video. Genau das macht hohe Output-Mengen für Amazon-Agenturen wirtschaftlich.",
+      bars: ["26%", "39%", "47%", "58%", "66%", "77%", "83%", "89%"]
+    }
+  };
+
+  const order = ["dashboard", "insights", "reports", "content"];
+  const pills = Array.from(hero.querySelectorAll("[data-hero-mode]"));
+  let activeIndex = 0;
+  let timer = null;
+
+  const setText = (selector, value) => {
+    const el = hero.querySelector(selector);
+    if (el) el.textContent = value;
+  };
+
+  const setGroup = (selectorPrefix, values) => {
+    values.forEach((value, index) => setText(`[${selectorPrefix}=\"${index}\"]`, value));
+  };
+
+  const applyMode = (mode, animate = true) => {
+    const config = configs[mode];
+    if (!config) return;
+
+    const render = () => {
+      order.forEach((item) => hero.classList.remove(`mode-${item}`));
+      hero.classList.add(`mode-${mode}`);
+      hero.dataset.heroMode = mode;
+      pills.forEach((pill) => pill.classList.toggle("active", pill.dataset.heroMode === mode));
+
+      setText('[data-hero-copy="headline"]', config.headline);
+      setText('[data-hero-copy="live"]', config.live);
+      config.kpis.forEach((kpi, index) => {
+        setText(`[data-hero-kpi-label="${index}"]`, kpi[0]);
+        setText(`[data-hero-kpi-value="${index}"]`, kpi[1]);
+        setText(`[data-hero-kpi-copy="${index}"]`, kpi[2]);
+      });
+      setText('[data-hero-copy="window-title"]', config.windowTitle);
+      config.stats.forEach((stat, index) => {
+        setText(`[data-hero-stat-label="${index}"]`, stat[0]);
+        setText(`[data-hero-stat-value="${index}"]`, stat[1]);
+      });
+      config.rail.forEach((item, index) => {
+        setText(`[data-hero-rail-label="${index}"]`, item[0]);
+        setText(`[data-hero-rail-title="${index}"]`, item[1]);
+        setText(`[data-hero-rail-copy="${index}"]`, item[2]);
+      });
+      setText('[data-hero-copy="alert-label"]', config.alert[0]);
+      setText('[data-hero-copy="alert-title"]', config.alert[1]);
+      setText('[data-hero-copy="alert-body"]', config.alert[2]);
+      setText('[data-hero-copy="alert-status"]', config.alert[3]);
+      setText('[data-hero-copy="report-label"]', config.report[0]);
+      setText('[data-hero-copy="report-title"]', config.report[1]);
+      setGroup("data-hero-report-item", config.report[2]);
+      setText('[data-hero-copy="flow-label"]', config.flow[0]);
+      setGroup("data-hero-flow-step", config.flow[1]);
+      setGroup("data-hero-flow-metric", config.flow[2]);
+      setText('[data-hero-copy="demo-copy"]', config.demoCopy);
+      config.bars.forEach((height, index) => {
+        const bar = hero.querySelector(`[data-hero-bar="${index}"]`);
+        if (bar) bar.style.setProperty("--h", height);
+      });
+      if (animate) window.setTimeout(() => hero.classList.remove("is-cycling"), 320);
+    };
+
+    if (!animate) {
+      render();
+      return;
+    }
+
+    hero.classList.add("is-cycling");
+    window.setTimeout(render, 170);
+  };
+
+  const schedule = () => {
+    window.clearInterval(timer);
+    timer = window.setInterval(() => {
+      activeIndex = (activeIndex + 1) % order.length;
+      applyMode(order[activeIndex]);
+    }, 4200);
+  };
+
+  pills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      activeIndex = order.indexOf(pill.dataset.heroMode);
+      if (activeIndex < 0) activeIndex = 0;
+      applyMode(order[activeIndex]);
+      schedule();
+    });
+  });
+
+  hero.addEventListener("mouseenter", () => window.clearInterval(timer));
+  hero.addEventListener("mouseleave", schedule);
+
+  applyMode(order[activeIndex], false);
+  schedule();
+}
+
 renderHeaderAndFooter();
 rewriteDemoLinks();
 setupTicker();
@@ -1138,6 +1337,7 @@ initDetailsAccordion();
 initScrollProgress();
 initMouseGlow();
 initClickRevealModules();
+initHeroModeCycle();
 
 const topbar = document.querySelector(".topbar");
 window.addEventListener("scroll", () => {

@@ -453,6 +453,22 @@ h2 {
   gap: 1rem;
 }
 
+.hero-demo.is-cycling [data-hero-copy],
+.hero-demo.is-cycling [data-hero-kpi-label],
+.hero-demo.is-cycling [data-hero-kpi-value],
+.hero-demo.is-cycling [data-hero-kpi-copy],
+.hero-demo.is-cycling [data-hero-stat-label],
+.hero-demo.is-cycling [data-hero-stat-value],
+.hero-demo.is-cycling [data-hero-rail-label],
+.hero-demo.is-cycling [data-hero-rail-title],
+.hero-demo.is-cycling [data-hero-rail-copy],
+.hero-demo.is-cycling [data-hero-report-item],
+.hero-demo.is-cycling [data-hero-flow-step],
+.hero-demo.is-cycling [data-hero-flow-metric] {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
 .hero-demo-kicker {
   margin: 0 0 0.45rem;
   color: var(--orange-2);
@@ -463,8 +479,42 @@ h2 {
 }
 
 .hero-demo-topline h2 {
-  max-width: 13ch;
-  font-size: clamp(1.55rem, 2.05vw, 2.05rem);
+  max-width: 15ch;
+  font-size: clamp(1.42rem, 1.72vw, 1.85rem);
+}
+
+.hero-mode-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.hero-mode-pill {
+  appearance: none;
+  border: 1px solid rgba(147, 188, 220, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  color: #c8dbea;
+  border-radius: 999px;
+  padding: 0.44rem 0.74rem;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.hero-mode-pill:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 149, 0, 0.3);
+}
+
+.hero-mode-pill.active {
+  color: #0e1a28;
+  background: linear-gradient(120deg, var(--orange-3), var(--orange));
+  border-color: rgba(255, 209, 138, 0.7);
+  box-shadow: 0 0 0 1px rgba(255, 149, 0, 0.08), 0 0.65rem 1.4rem rgba(255, 149, 0, 0.18);
 }
 
 .hero-dashboard-grid {
@@ -489,6 +539,21 @@ h2 {
   font-size: 0.76rem;
 }
 
+[data-hero-copy],
+[data-hero-kpi-label],
+[data-hero-kpi-value],
+[data-hero-kpi-copy],
+[data-hero-stat-label],
+[data-hero-stat-value],
+[data-hero-rail-label],
+[data-hero-rail-title],
+[data-hero-rail-copy],
+[data-hero-report-item],
+[data-hero-flow-step],
+[data-hero-flow-metric] {
+  transition: opacity 0.28s ease, transform 0.28s ease, color 0.28s ease;
+}
+
 .hero-kpi-card strong {
   display: block;
   margin-top: 0.45rem;
@@ -511,6 +576,14 @@ h2 {
 
 .hero-kpi-primary strong {
   color: var(--orange);
+}
+
+.hero-demo.mode-insights .hero-window-alert,
+.hero-demo.mode-reports .hero-window-report,
+.hero-demo.mode-content .hero-window-flow,
+.hero-demo.mode-dashboard .hero-window-main {
+  border-color: rgba(255, 149, 0, 0.22);
+  box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(255, 149, 0, 0.08);
 }
 
 .hero-scene {
@@ -636,6 +709,7 @@ h2 {
   border-radius: 999px 999px 0.35rem 0.35rem;
   background: linear-gradient(180deg, rgba(255, 176, 64, 0.94), rgba(255, 149, 0, 0.34));
   box-shadow: 0 0 1rem rgba(255, 149, 0, 0.12);
+  transition: height 0.65s ease, opacity 0.4s ease, filter 0.4s ease;
   animation: chart-rise 2.2s ease-out both;
   animation-delay: var(--d);
 }
@@ -701,6 +775,10 @@ h2 {
   color: #8ae0ba;
   font-size: 0.78rem;
   font-weight: 700;
+}
+
+.hero-alert-status em {
+  font-style: normal;
 }
 
 .hero-alert-status span {
