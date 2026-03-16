@@ -574,6 +574,41 @@ body[data-page="roi"] .footer {
   font-weight: 700;
 }
 
+.plan-fit-strip {
+  margin-top: 1rem;
+  padding: 1rem 1.05rem;
+  border-radius: 1.05rem;
+  border: 1px solid rgba(255, 149, 0, 0.18);
+  background: linear-gradient(180deg, rgba(255, 149, 0, 0.09), rgba(17, 24, 34, 0.9));
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.plan-fit-strip.pulse {
+  transform: translateY(-2px);
+  border-color: rgba(255, 149, 0, 0.34);
+  box-shadow: 0 0 2rem rgba(255, 149, 0, 0.12);
+}
+
+.plan-fit-kicker {
+  color: #ffcc84;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.plan-fit-strip strong {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1rem;
+}
+
+.plan-fit-strip p {
+  margin: 0.55rem 0 0;
+  color: var(--pricing-muted);
+  line-height: 1.55;
+}
+
 .flash-box {
   display: none;
 }
@@ -1125,12 +1160,40 @@ body[data-page="roi"] .footer {
   margin-bottom: 1.5rem;
 }
 
+.roi-action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 .roi-explainer-card {
   padding: 1.25rem 1.2rem;
   border-radius: 1.2rem;
   border: 1px solid rgba(255, 149, 0, 0.18);
   background: linear-gradient(180deg, rgba(21, 29, 41, 0.94), rgba(11, 18, 28, 0.98));
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.18);
+}
+
+.roi-action-card {
+  padding: 1.15rem 1.2rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(147, 188, 220, 0.12);
+  background: linear-gradient(180deg, rgba(18, 26, 38, 0.95), rgba(11, 18, 28, 0.98));
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.16);
+}
+
+.roi-action-card strong {
+  display: block;
+  margin-top: 0.65rem;
+  font-size: 1.08rem;
+  line-height: 1.22;
+}
+
+.roi-action-card p {
+  margin: 0.7rem 0 0;
+  color: #dbe6ef;
+  line-height: 1.65;
 }
 
 .roi-explainer-head {
@@ -1273,7 +1336,8 @@ body[data-page="roi"] .footer {
   .testimonial-grid,
   .roi-grid,
   .roi-metrics,
-  .roi-explainer-grid {
+  .roi-explainer-grid,
+  .roi-action-grid {
     grid-template-columns: 1fr;
   }
 

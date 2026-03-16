@@ -412,6 +412,12 @@
               <div class="breakdown-total"><span>Gesamt pro Monat</span><div><strong data-month-total>EUR 496,00</strong><div class="pricing-note" data-year-total-note></div></div></div>
             </div>
 
+            <div class="plan-fit-strip" data-plan-fit-strip>
+              <div class="plan-fit-kicker">Best Fit</div>
+              <strong data-plan-fit-title>Starter-Setup für kleine Teams</strong>
+              <p data-plan-fit-copy>Ideal, wenn ihr erste Mandate sauber in einem System bündeln und Reports ohne Toolwechsel aufsetzen wollt.</p>
+            </div>
+
             <div class="annual-savings" data-annual-savings hidden></div>
             <div class="price-error" data-price-error></div>
 
@@ -487,6 +493,9 @@
       monthTotal: root.querySelector("[data-month-total]"),
       yearTotalNote: root.querySelector("[data-year-total-note]"),
       annualSavings: root.querySelector("[data-annual-savings]"),
+      planFitTitle: root.querySelector("[data-plan-fit-title]"),
+      planFitCopy: root.querySelector("[data-plan-fit-copy]"),
+      planFitStrip: root.querySelector("[data-plan-fit-strip]"),
       stickyWrap: root.querySelector("[data-sticky-pricing]"),
       stickyPlan: root.querySelector("[data-sticky-plan]"),
       stickyTotal: root.querySelector("[data-sticky-total]"),
@@ -566,6 +575,24 @@
       elements.yearSavingsLine.hidden = billingCycle !== "year";
       elements.annualSavings.hidden = billingCycle !== "year";
       elements.annualSavings.textContent = `Du sparst EUR ${formatCurrency(yearlySavings, 0)} im Jahr gegenüber monatlicher Zahlung.`;
+      const planFitMap = {
+        starter: {
+          title: "Starter-Setup für kleine Teams",
+          copy: "Für erste Mandate, saubere Reports und weniger Kontextwechsel. Der größte Hebel liegt meist in klaren KPI-Routinen und schnellerem Kunden-Reporting."
+        },
+        growth: {
+          title: "Growth-Plan für standardisierte Delivery",
+          copy: "Ab mehreren Kunden wird das Modell besonders stark: einheitliche KPI-Sprache, priorisierte Findings und deutlich weniger manuelle Report-Zeit im Team."
+        },
+        agency: {
+          title: "Agency-Plan für skalierte Mandantensteuerung",
+          copy: customerCount > 40
+            ? `${customerCount} Kunden werden exakt berechnet. Der Fokus liegt jetzt auf Governance, mandantenfähiger Qualität und einer operativen Struktur, die auch bei vielen Accounts stabil bleibt.`
+            : "Für viele Kundenkonten mit klarer Rollenlogik, sauberer Qualitätskontrolle und einer Delivery, die nicht mit jedem neuen Mandat unruhiger wird."
+        }
+      };
+      elements.planFitTitle.textContent = planFitMap[plan.id].title;
+      elements.planFitCopy.textContent = planFitMap[plan.id].copy;
       updateStickyCta(plan, total);
 
       elements.billingButtons.forEach((button) => {
@@ -590,6 +617,9 @@
           flashResetTimer = null;
         }, 3200);
       }
+      elements.planFitStrip.classList.remove("pulse");
+      void elements.planFitStrip.offsetWidth;
+      if (showFlash) elements.planFitStrip.classList.add("pulse");
       previousPlan = plan;
       elements.error.className = "price-error";
       elements.error.textContent = "";
@@ -869,6 +899,24 @@
             </article>
           </div>
 
+          <div class="roi-action-grid">
+            <article class="roi-action-card">
+              <div class="chart-card-title">Was ihr zuerst standardisieren solltet</div>
+              <strong data-roi-action-title>Reporting-Logik vereinheitlichen</strong>
+              <p data-roi-action-copy>Bei eurem Setup bringt zuerst die Vereinheitlichung von KPI-Logik, Insight-Interpretation und Report-Struktur den größten operativen Hebel.</p>
+            </article>
+            <article class="roi-action-card">
+              <div class="chart-card-title">Was ihr gegenüber Kunden schneller zeigen könnt</div>
+              <strong data-roi-visibility-title>Klare Entwicklung statt KPI-Rohdaten</strong>
+              <p data-roi-visibility-copy>Kunden sehen schneller, welche Entwicklung wichtig ist und welche Maßnahme daraus folgt, statt nur Einzeldaten zu bekommen.</p>
+            </article>
+            <article class="roi-action-card">
+              <div class="chart-card-title">Wo euer Team Zeit zurückgewinnt</div>
+              <strong data-roi-team-title>Weniger Abstimmungsschleifen im Alltag</strong>
+              <p data-roi-team-copy>Der Alltag wird ruhiger, weil Reports, Aufgaben und priorisierte Findings nicht mehr zwischen Tools und Personen springen.</p>
+            </article>
+          </div>
+
           <article class="roi-result-card result-summary">
             <div class="result-summary-title" data-roi-summary-title>Lohnt sich für dich</div>
             <p class="result-summary-copy" data-roi-summary-copy></p>
@@ -923,6 +971,12 @@
       explainerCopy: root.querySelector("[data-roi-explainer-copy]"),
       diagnosticCopy: root.querySelector("[data-roi-diagnostic-copy]"),
       impactList: root.querySelector("[data-roi-impact-list]"),
+      actionTitle: root.querySelector("[data-roi-action-title]"),
+      actionCopy: root.querySelector("[data-roi-action-copy]"),
+      visibilityTitle: root.querySelector("[data-roi-visibility-title]"),
+      visibilityCopy: root.querySelector("[data-roi-visibility-copy]"),
+      teamTitle: root.querySelector("[data-roi-team-title]"),
+      teamCopy: root.querySelector("[data-roi-team-copy]"),
       summaryTitle: root.querySelector("[data-roi-summary-title]"),
       summaryCopy: root.querySelector("[data-roi-summary-copy]"),
       barChart: root.querySelector("[data-roi-bar-chart]"),
@@ -1031,6 +1085,31 @@
       els.explainerCopy.textContent = biggestLever.copy;
       els.diagnosticCopy.textContent = diagnostic;
       els.impactList.innerHTML = impactItems.map((item) => `<li>${item}</li>`).join("");
+
+      if (state.clients >= 20) {
+        els.actionTitle.textContent = "Mandantensteuerung und Review-Qualität standardisieren";
+        els.actionCopy.textContent = "Mit vielen Kunden liegt euer größter Hebel darin, dass KPI-Snapshot, Findings und Report-Freigabe für alle Accounts derselben Logik folgen.";
+        els.visibilityTitle.textContent = "Kunden sehen Entwicklung und nächste Schritte ohne Zusatzschleife";
+        els.visibilityCopy.textContent = "Gerade bei vielen Mandaten spart ihr Zeit, weil Kunden sofort dieselbe Storyline aus Trend, Risiko und Maßnahme bekommen.";
+      } else if (state.employees >= 6) {
+        els.actionTitle.textContent = "Team-Übergaben und Priorisierung vereinheitlichen";
+        els.actionCopy.textContent = "Sobald mehrere Betreuer dieselben Accounts bewegen, spart euch eine gemeinsame Prioritäten- und Reporting-Logik am meisten Zeit.";
+        els.visibilityTitle.textContent = "Review-Termine werden strukturierter und schneller";
+        els.visibilityCopy.textContent = "Kundentermine profitieren direkt davon, dass KPIs, Findings und konkrete To-dos nicht mehr aus verschiedenen Quellen zusammengesetzt werden.";
+      } else {
+        els.actionTitle.textContent = "Klein starten, aber Reporting sauber aufsetzen";
+        els.actionCopy.textContent = "Bei kleineren Teams ist der größte Hebel, dass Reporting, KPI-Interpretation und Content-/Ads-Maßnahmen nicht mehr über Einzellisten laufen.";
+        els.visibilityTitle.textContent = "Kunden sehen schneller, wo Bewegung entsteht";
+        els.visibilityCopy.textContent = "Schon mit wenigen Mandaten hilft die klare Struktur dabei, aus einzelnen Zahlen eine verständliche Entwicklung zu machen.";
+      }
+
+      if (result.netSavings > 0) {
+        els.teamTitle.textContent = "Weniger operative Reibung im Team";
+        els.teamCopy.textContent = `Mit ${state.employees} Mitarbeitenden und ${state.clients} Kunden spart ihr vor allem dort Zeit, wo heute Reporting, Rückfragen und Priorisierung mehrfach abgestimmt werden müssen.`;
+      } else {
+        els.teamTitle.textContent = "Früher Prozessvorteil, später stärkerer ROI";
+        els.teamCopy.textContent = `Bei eurem aktuellen Setup ist der monetäre Hebel noch begrenzt. Der Vorteil liegt zunächst in saubereren Routinen, die mit mehr Kunden oder steigender Komplexität wirtschaftlich deutlich stärker werden.`;
+      }
     }
 
     function renderResult() {

@@ -1095,10 +1095,11 @@ function initRevealAnimations() {
   if (!revealItems.length) return;
 
   const baseTransforms = {
-    left: "none",
-    right: "none",
-    up: "none",
-    zoom: "none"
+    left: "translateX(-28px)",
+    right: "translateX(28px)",
+    up: "translateY(24px)",
+    down: "translateY(-24px)",
+    zoom: "scale(0.96)"
   };
 
   revealItems.forEach((item, idx) => {
@@ -1122,6 +1123,64 @@ function initRevealAnimations() {
   } else {
     revealItems.forEach((item) => item.classList.add("in"));
   }
+}
+
+function initHomeStory() {
+  const steps = Array.from(document.querySelectorAll(".story-step[data-story-step]"));
+  const screens = Array.from(document.querySelectorAll(".story-screen[data-story-panel]"));
+  if (!steps.length || !screens.length) return;
+
+  const activate = (key) => {
+    steps.forEach((step) => step.classList.toggle("active", step.dataset.storyStep === key));
+    screens.forEach((screen) => screen.classList.toggle("active", screen.dataset.storyPanel === key));
+  };
+
+  steps.forEach((step) => {
+    step.addEventListener("click", () => activate(step.dataset.storyStep));
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) activate(visible.target.dataset.storyStep);
+      },
+      { threshold: [0.35, 0.55, 0.75] }
+    );
+    steps.forEach((step) => observer.observe(step));
+  }
+
+  activate(steps[0].dataset.storyStep);
+}
+
+function initSubpageHeroSignals() {
+  const hero = document.querySelector(".page-hero");
+  if (!hero) return;
+
+  const path = window.location.pathname;
+  const signalMap = {
+    "/leistungen/dashboard-reporting.html": ["KPI Snapshot live", "Monatsreport in Minuten", "Kundencall vorbereitet"],
+    "/leistungen/insights-health.html": ["Buybox Watch", "Conversion Alert", "Health priorisiert"],
+    "/leistungen/content-studio.html": ["50 ASIN Batch", "A+ bereit", "Keywords geclustert"],
+    "/plattform/agentursicht.html": ["Admin-Tools aktiv", "Findings pro Kunde", "Aufgaben priorisiert"],
+    "/branchen/amazon-agenturen.html": ["1-5 Kunden", "6-20 Kunden", "20+ Governance"],
+    "/ressourcen/cases/sellersprint": ["Vorher: Tool-Chaos", "Nachher: klare Reports", "Leven Brandner"],
+    "/ressourcen/cases/sellersprint.html": ["Vorher: Tool-Chaos", "Nachher: klare Reports", "Leven Brandner"],
+    "/ressourcen/cases/conversion-studio": ["Vorher: Abstimmung", "Nachher: Delivery-Flow", "Florian Egger"],
+    "/ressourcen/cases/conversion-studio.html": ["Vorher: Abstimmung", "Nachher: Delivery-Flow", "Florian Egger"]
+  };
+
+  const signals = signalMap[path];
+  if (!signals || hero.querySelector(".page-hero-signals")) return;
+
+  hero.insertAdjacentHTML(
+    "beforeend",
+    `<div class="page-hero-signals" aria-hidden="true">
+      ${signals.map((signal, index) => `<span style="--signal-delay:${index * 0.8}s">${signal}</span>`).join("")}
+    </div>`
+  );
 }
 
 function initScrollProgress() {
@@ -1265,4 +1324,6 @@ initDetailsAccordion();
 initScrollProgress();
 initMouseGlow();
 initClickRevealModules();
+initHomeStory();
+initSubpageHeroSignals();
 initHeroModeCycle();
