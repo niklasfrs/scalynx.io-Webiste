@@ -198,9 +198,30 @@
 
   function setupExitIntent(options) {
     const pageKey = options?.pageKey || "preise";
+    const page = document.body?.dataset?.page;
+    if (!["preise", "roi"].includes(page) || page !== pageKey) return;
     const root = document.body;
     let pendingHref = null;
     let modalShown = false;
+    const modalContent = pageKey === "roi"
+      ? {
+          eyebrow: "Bevor du gehst",
+          badge: "ROI zuerst sichern",
+          title: "Hol dir erst euer Sparpotenzial.",
+          copy: "Ein Klick auf 14 Tage Test zeigt dir direkt, wie viel Reporting-, Analyse- und Abstimmungszeit euer Team zurückholt.",
+          proof: ["14 Tage kostenlos", "Keine Setup-Kosten", "Für Amazon-Agenturen"],
+          cta: "14 Tage kostenlos starten",
+          leave: "ROI-Seite verlassen"
+        }
+      : {
+          eyebrow: "Bevor du gehst",
+          badge: "14 Tage kostenlos",
+          title: "Teste scalynx mit echten Kundendaten.",
+          copy: "Starte ohne Setup-Kosten und prüfe direkt, wie Dashboard, Insights, Reports und Content in einem System zusammenlaufen.",
+          proof: ["Ohne Risiko", "DSGVO-konform", "Made in EU"],
+          cta: "Kostenlos starten",
+          leave: "Preisseite verlassen"
+        };
 
     const modal = document.createElement("div");
     modal.className = "exit-modal";
@@ -209,22 +230,16 @@
       <div class="exit-modal-backdrop" data-exit-close></div>
       <div class="exit-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title-${pageKey}">
         <button class="exit-modal-close" type="button" aria-label="Schließen" data-exit-close>×</button>
-        <div class="exit-modal-topline">Bevor du gehst</div>
-        <div class="exit-modal-orb" aria-hidden="true">
-          <span class="exit-orb-ring"></span>
-          <span class="exit-orb-core">14</span>
-        </div>
-        <div class="exit-modal-badge">14 Tage ohne Risiko</div>
-        <h2 class="exit-modal-title" id="exit-modal-title-${pageKey}">Teste scalynx jetzt kostenlos und prüfe euren Agentur-Workflow mit echten Daten.</h2>
-        <p class="exit-modal-copy">Keine Setup-Kosten, keine Bindung, keine manuelle Datenpflege. Du siehst sofort, wie viel Reporting-, Analyse- und Abstimmungsaufwand dein Team mit scalynx einsparen kann.</p>
+        <div class="exit-modal-topline">${modalContent.eyebrow}</div>
+        <div class="exit-modal-badge">${modalContent.badge}</div>
+        <h2 class="exit-modal-title" id="exit-modal-title-${pageKey}">${modalContent.title}</h2>
+        <p class="exit-modal-copy">${modalContent.copy}</p>
         <div class="exit-modal-proof">
-          <span>Für Amazon-Agenturen gebaut</span>
-          <span>DSGVO-konform</span>
-          <span>Made in EU</span>
+          ${modalContent.proof.map((item) => `<span>${item}</span>`).join("")}
         </div>
         <div class="exit-modal-actions">
-          <button class="pricing-btn exit-modal-cta" type="button" data-exit-trial>Jetzt kostenlos starten</button>
-          <button class="exit-modal-link" type="button" data-exit-leave>Nein danke, ich will weiter</button>
+          <button class="pricing-btn exit-modal-cta" type="button" data-exit-trial>${modalContent.cta}</button>
+          <button class="exit-modal-link" type="button" data-exit-leave>${modalContent.leave}</button>
         </div>
       </div>
     `;
@@ -242,7 +257,7 @@
       if (modalShown) return;
       modalShown = true;
       pendingHref = nextHref || null;
-      leaveButton.textContent = pendingHref ? "Seite trotzdem verlassen" : "Nein danke, ich brauche das nicht";
+      leaveButton.textContent = pendingHref ? modalContent.leave : "Ohne Test weiter";
       modal.classList.add("visible");
       modal.setAttribute("aria-hidden", "false");
     }
