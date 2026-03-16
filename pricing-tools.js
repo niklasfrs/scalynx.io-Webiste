@@ -209,10 +209,19 @@
       <div class="exit-modal-backdrop" data-exit-close></div>
       <div class="exit-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title-${pageKey}">
         <button class="exit-modal-close" type="button" aria-label="Schließen" data-exit-close>×</button>
-        <div class="exit-modal-emoji">✋</div>
-        <div class="exit-modal-badge">Warte kurz!</div>
-        <h2 class="exit-modal-title" id="exit-modal-title-${pageKey}">Teste scalynx<br><span>14 Tage komplett kostenlos</span></h2>
-        <p class="exit-modal-copy">Kein Risiko, keine Setup-Kosten und sofort ein klarer Eindruck davon, wie viel Reporting-, Analyse- und Abstimmungszeit ihr im Team spart.</p>
+        <div class="exit-modal-topline">Bevor du gehst</div>
+        <div class="exit-modal-orb" aria-hidden="true">
+          <span class="exit-orb-ring"></span>
+          <span class="exit-orb-core">14</span>
+        </div>
+        <div class="exit-modal-badge">14 Tage ohne Risiko</div>
+        <h2 class="exit-modal-title" id="exit-modal-title-${pageKey}">Teste scalynx jetzt kostenlos und prüfe euren Agentur-Workflow mit echten Daten.</h2>
+        <p class="exit-modal-copy">Keine Setup-Kosten, keine Bindung, keine manuelle Datenpflege. Du siehst sofort, wie viel Reporting-, Analyse- und Abstimmungsaufwand dein Team mit scalynx einsparen kann.</p>
+        <div class="exit-modal-proof">
+          <span>Für Amazon-Agenturen gebaut</span>
+          <span>DSGVO-konform</span>
+          <span>Made in EU</span>
+        </div>
         <div class="exit-modal-actions">
           <button class="pricing-btn exit-modal-cta" type="button" data-exit-trial>Jetzt kostenlos starten</button>
           <button class="exit-modal-link" type="button" data-exit-leave>Nein danke, ich will weiter</button>

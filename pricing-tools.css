@@ -711,13 +711,15 @@ body[data-page="roi"] .footer {
 
 .exit-modal-dialog {
   position: relative;
-  width: min(54rem, calc(100vw - 2rem));
+  width: min(52rem, calc(100vw - 2rem));
   margin: min(9vh, 4rem) auto 0;
-  padding: 2.5rem 2.5rem 2.1rem;
+  padding: 1.6rem 1.6rem 1.5rem;
   border-radius: 2rem;
-  border: 1px solid rgba(255, 149, 0, 0.24);
-  background: linear-gradient(180deg, rgba(24, 30, 39, 0.98), rgba(12, 18, 27, 0.98));
-  box-shadow: 0 0 6rem rgba(255, 149, 0, 0.1), 0 2rem 5rem rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 149, 0, 0.18);
+  background:
+    radial-gradient(circle at top, rgba(255, 149, 0, 0.08), transparent 38%),
+    linear-gradient(180deg, rgba(23, 29, 39, 0.985), rgba(11, 17, 26, 0.985));
+  box-shadow: 0 0 6rem rgba(255, 149, 0, 0.08), 0 2rem 5rem rgba(0, 0, 0, 0.48);
   text-align: center;
 }
 
@@ -736,51 +738,107 @@ body[data-page="roi"] .footer {
   cursor: pointer;
 }
 
-.exit-modal-emoji {
-  font-size: 3.2rem;
-  line-height: 1;
+.exit-modal-topline {
+  color: #9fb1c4;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.exit-modal-orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 5.3rem;
+  height: 5.3rem;
+  margin: 1.15rem auto 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 149, 0, 0.22), rgba(255, 149, 0, 0.04) 58%, transparent 70%);
+}
+
+.exit-orb-ring {
+  position: absolute;
+  inset: 0.35rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 149, 0, 0.18);
+}
+
+.exit-orb-core {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.35rem;
+  height: 3.35rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 179, 64, 0.24), rgba(255, 149, 0, 0.1));
+  border: 1px solid rgba(255, 149, 0, 0.24);
+  color: #ffd38d;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.45rem;
+  font-weight: 900;
+  box-shadow: inset 0 0 1.2rem rgba(255, 149, 0, 0.12);
 }
 
 .exit-modal-badge {
   display: inline-flex;
   margin-top: 1rem;
-  padding: 0.55rem 1.05rem;
+  padding: 0.5rem 0.95rem;
   border-radius: 999px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  background: rgba(16, 185, 129, 0.1);
-  color: var(--pricing-green);
+  border: 1px solid rgba(255, 149, 0, 0.18);
+  background: rgba(255, 149, 0, 0.08);
+  color: #ffcc84;
   font-weight: 800;
 }
 
 .exit-modal-title {
-  margin: 1.5rem 0 0;
+  max-width: 15ch;
+  margin: 1.35rem auto 0;
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(2.2rem, 5.2vw, 4rem);
-  line-height: 1.02;
+  font-size: clamp(2rem, 4.8vw, 3.55rem);
+  line-height: 1.04;
   letter-spacing: -0.04em;
 }
 
-.exit-modal-title span {
-  color: var(--pricing-orange);
-}
-
 .exit-modal-copy {
-  max-width: 34rem;
+  max-width: 36rem;
   margin: 1.2rem auto 0;
   color: var(--pricing-muted);
-  font-size: 1.08rem;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.exit-modal-proof {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.25rem;
+}
+
+.exit-modal-proof span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: #c8d5e3;
+  font-size: 0.86rem;
+  font-weight: 700;
 }
 
 .exit-modal-actions {
-  margin-top: 1.8rem;
+  margin-top: 1.55rem;
 }
 
 .exit-modal-cta {
-  min-width: min(100%, 28rem);
-  min-height: 4.6rem;
-  font-size: 1.35rem;
-  border-radius: 1.3rem;
+  min-width: min(100%, 30rem);
+  min-height: 4.3rem;
+  font-size: 1.22rem;
+  border-radius: 1.15rem;
+  box-shadow: 0 0 2.6rem rgba(255, 149, 0, 0.18);
 }
 
 .exit-modal-link {
@@ -1153,14 +1211,14 @@ body[data-page="roi"] .footer {
   .exit-modal-dialog {
     width: calc(100vw - 1rem);
     margin-top: 2.5rem;
-    padding: 2rem 1.1rem 1.6rem;
+    padding: 1.3rem 1rem 1.35rem;
     border-radius: 1.5rem;
   }
 
   .exit-modal-cta {
     min-width: 100%;
-    font-size: 1.15rem;
-    min-height: 4rem;
+    font-size: 1.08rem;
+    min-height: 3.85rem;
   }
 
   .line-chart {
