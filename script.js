@@ -47,7 +47,8 @@ const NAV_CONFIG = [
       { label: "Agentur-FAQ", href: "/ressourcen/faq/agentur-faq.html" }
     ]
   },
-  { label: "Preise", href: "https://prices.scalynx.io" }
+  { label: "ROI-Rechner", href: "/roi-rechner.html" },
+  { label: "Preise", href: "/preise.html" }
 ];
 
 
