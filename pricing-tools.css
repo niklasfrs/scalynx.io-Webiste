@@ -907,6 +907,65 @@ body[data-page="roi"] .footer {
   padding: 2rem;
 }
 
+.roi-profile-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-bottom: 1.4rem;
+}
+
+.roi-profile {
+  display: grid;
+  gap: 0.22rem;
+  align-content: start;
+  min-height: 4.5rem;
+  padding: 0.9rem 0.95rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(18, 28, 40, 0.85);
+  color: var(--pricing-white);
+  text-align: left;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.roi-profile strong {
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+
+.roi-profile span {
+  color: var(--pricing-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.roi-profile:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 163, 26, 0.35);
+  box-shadow: 0 0.9rem 1.8rem rgba(0, 0, 0, 0.16);
+}
+
+.roi-profile.active {
+  border-color: rgba(255, 163, 26, 0.55);
+  background: linear-gradient(180deg, rgba(255, 163, 26, 0.16), rgba(18, 28, 40, 0.96));
+  box-shadow: 0 0 1.6rem rgba(255, 149, 0, 0.11);
+}
+
+.roi-method-note {
+  margin-top: 1rem;
+  padding: 0.95rem 1rem;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(18, 28, 40, 0.72);
+  color: var(--pricing-muted);
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+
+.roi-method-note strong {
+  color: var(--pricing-white);
+}
+
 .help-line {
   display: flex;
   align-items: center;
@@ -1248,6 +1307,10 @@ body[data-page="roi"] .footer {
 
   .pricing-ticker-chip {
     scroll-snap-align: start;
+  }
+
+  .roi-profile-strip {
+    grid-template-columns: 1fr;
   }
 }
 

@@ -9,41 +9,77 @@ const NAV_CONFIG = [
   {
     label: "Leistungen",
     href: "/leistungen/",
-    children: [
-      { label: "Leistungsübersicht", href: "/leistungen/" },
-      { label: "Dashboard & Reporting", href: "/leistungen/dashboard-reporting.html" },
-      { label: "Werbung & Analytics", href: "/leistungen/werbung-analytics.html" },
-      { label: "Insights & Health", href: "/leistungen/insights-health.html" },
-      { label: "Promotion-Auswertung", href: "/leistungen/promotions-erfolgsmessung.html" },
-      { label: "Content Studio", href: "/leistungen/content-studio.html" },
-      { label: "Kundenmanagement", href: "/leistungen/kundenmanagement.html" },
-      { label: "Aufgaben & Reports", href: "/leistungen/aufgaben-reports.html" }
+    menuGroups: [
+      {
+        title: "Analyse & Steuerung",
+        description: "KPI-Transparenz, Werbeleistung und tägliche Entscheidungslogik.",
+        links: [
+          { label: "Leistungsübersicht", href: "/leistungen/" },
+          { label: "Dashboard & Reporting", href: "/leistungen/dashboard-reporting.html" },
+          { label: "Werbung & Analytics", href: "/leistungen/werbung-analytics.html" },
+          { label: "Insights & Health", href: "/leistungen/insights-health.html" },
+          { label: "Promotion-Auswertung", href: "/leistungen/promotions-erfolgsmessung.html" }
+        ]
+      },
+      {
+        title: "Operations & Auslieferung",
+        description: "Content, Kundenmanagement und Reports in derselben operativen Oberfläche.",
+        links: [
+          { label: "Content Studio", href: "/leistungen/content-studio.html" },
+          { label: "Kundenmanagement", href: "/leistungen/kundenmanagement.html" },
+          { label: "Aufgaben & Reports", href: "/leistungen/aufgaben-reports.html" }
+        ]
+      }
     ]
   },
   {
     label: "Ressourcen",
     href: "/ressourcen/",
-    children: [
-      { label: "Ressourcenübersicht", href: "/ressourcen/" },
-      { label: "Case Studies", href: "/ressourcen/case-studies.html" },
-      { label: "Reporting-Playbook", href: "/ressourcen/playbooks/reporting-playbook.html" },
-      { label: "Ads-Audit-Playbook", href: "/ressourcen/playbooks/ads-audit.html" },
-      { label: "KPI-Glossar", href: "/ressourcen/guides/kpi-glossar.html" },
-      { label: "Onboarding-Checkliste", href: "/ressourcen/guides/onboarding-checkliste.html" },
-      { label: "Agentur-FAQ", href: "/ressourcen/faq/agentur-faq.html" }
+    menuGroups: [
+      {
+        title: "Beweise & Cases",
+        description: "Wie Agenturen Reporting, Kommunikation und Delivery mit scalynx aufziehen.",
+        links: [
+          { label: "Ressourcenübersicht", href: "/ressourcen/" },
+          { label: "Case Studies", href: "/ressourcen/case-studies.html" }
+        ]
+      },
+      {
+        title: "Playbooks & Guides",
+        description: "Vorlagen für Audit, Reporting, Onboarding und KPI-Interpretation.",
+        links: [
+          { label: "Reporting-Playbook", href: "/ressourcen/playbooks/reporting-playbook.html" },
+          { label: "Ads-Audit-Playbook", href: "/ressourcen/playbooks/ads-audit.html" },
+          { label: "KPI-Glossar", href: "/ressourcen/guides/kpi-glossar.html" },
+          { label: "Onboarding-Checkliste", href: "/ressourcen/guides/onboarding-checkliste.html" },
+          { label: "Agentur-FAQ", href: "/ressourcen/faq/agentur-faq.html" }
+        ]
+      }
     ]
   },
   {
     label: "Plattform",
     href: "/plattform/",
-    children: [
-      { label: "Plattformübersicht", href: "/plattform/" },
-      { label: "Kundensicht", href: "/plattform/kundensicht.html" },
-      { label: "Agentursicht", href: "/plattform/agentursicht.html" },
-      { label: "Funktionsumfang", href: "/plattform/funktionsumfang.html" },
-      { label: "Datenquellen & Sync", href: "/plattform/datenquellen-sync.html" },
-      { label: "Rollen & Rechte", href: "/plattform/rollen-rechte.html" },
-      { label: "Werbeautomatisierung (Coming Soon)", href: "/plattform/automatisierung.html" }
+    menuGroups: [
+      {
+        title: "Ansichten",
+        description: "Was Agenturen sehen und was Kunden in der App wirklich bekommen.",
+        links: [
+          { label: "Plattformübersicht", href: "/plattform/" },
+          { label: "Kundensicht", href: "/plattform/kundensicht.html" },
+          { label: "Agentursicht", href: "/plattform/agentursicht.html" }
+        ]
+      },
+      {
+        title: "System & Roadmap",
+        description: "Architektur, Sync, Rollenmodell und kommende Automatisierung.",
+        links: [
+          { label: "Funktionsumfang", href: "/plattform/funktionsumfang.html" },
+          { label: "Datenquellen & Sync", href: "/plattform/datenquellen-sync.html" },
+          { label: "Rollen & Rechte", href: "/plattform/rollen-rechte.html" },
+          { label: "Werbeautomatisierung (Coming Soon)", href: "/plattform/automatisierung.html" }
+        ]
+      }
     ]
   },
   { label: "Für Agenturen", href: "/branchen/amazon-agenturen.html" },
@@ -64,9 +100,39 @@ function isActiveLink(target, current) {
   return current === target;
 }
 
+function flattenNavChildren(item) {
+  if (item.children?.length) return item.children;
+  if (item.menuGroups?.length) return item.menuGroups.flatMap((group) => group.links || []);
+  return [];
+}
+
+function buildMegaMenuHTML(item, currentPath) {
+  return item.menuGroups.map((group) => {
+    const links = (group.links || [])
+      .map((child) => `<a class="${isActiveLink(child.href, currentPath) ? "active" : ""}" href="${child.href}">${child.label}</a>`)
+      .join("");
+    return `
+      <section class="submenu-group">
+        <p class="submenu-group-title">${group.title}</p>
+        <p class="submenu-group-copy">${group.description}</p>
+        <div class="submenu-group-links">${links}</div>
+      </section>
+    `;
+  }).join("");
+}
+
+function buildFlatSubmenuHTML(children, currentPath) {
+  return children
+    .map((child) => {
+      const childClass = isActiveLink(child.href, currentPath) ? "active" : "";
+      return `<a class="${childClass}" href="${child.href}">${child.label}</a>`;
+    })
+    .join("");
+}
+
 function buildNavHTML(currentPath) {
   return NAV_CONFIG.map((item) => {
-    const children = item.children || [];
+    const children = flattenNavChildren(item);
     const childActive = children.some((child) => isActiveLink(child.href, currentPath));
     const active = isActiveLink(item.href, currentPath) || childActive;
     const spotlight = item.label === "Preise" ? " nav-link-spotlight" : "";
@@ -74,14 +140,11 @@ function buildNavHTML(currentPath) {
       return `<a class="${active ? "active" : ""}${spotlight}" href="${item.href}">${item.label}${item.label === "Preise" ? '<span class="nav-badge">Plan</span>' : ""}</a>`;
     }
 
-    const childrenHTML = children
-      .map((child) => {
-        const childClass = isActiveLink(child.href, currentPath) ? "active" : "";
-        return `<a class="${childClass}" href="${child.href}">${child.label}</a>`;
-      })
-      .join("");
+    const childrenHTML = item.menuGroups?.length
+      ? buildMegaMenuHTML(item, currentPath)
+      : buildFlatSubmenuHTML(children, currentPath);
 
-    return `<div class="nav-item has-menu ${children.length > 5 ? "menu-wide" : ""}">
+    return `<div class="nav-item has-menu ${item.menuGroups?.length ? "menu-wide menu-grouped" : children.length > 5 ? "menu-wide" : ""}">
       <a class="${active ? "active" : ""}" href="${item.href}">${item.label}</a>
       <div class="submenu">${childrenHTML}</div>
     </div>`;
@@ -90,7 +153,7 @@ function buildNavHTML(currentPath) {
 
 function buildMobileMenuHTML(currentPath) {
   return NAV_CONFIG.map((item) => {
-    const children = item.children || [];
+    const children = flattenNavChildren(item);
     const active = isActiveLink(item.href, currentPath) || children.some((child) => isActiveLink(child.href, currentPath));
     if (!children.length) {
       return `<a class="mobile-link ${active ? "active" : ""}${item.label === "Preise" ? " nav-link-spotlight" : ""}" href="${item.href}">${item.label}</a>`;

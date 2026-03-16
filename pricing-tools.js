@@ -731,6 +731,21 @@
             </div>
           </div>
           <article class="panel roi-input-card">
+            <div class="roi-profile-strip">
+              <button class="roi-profile active" type="button" data-roi-profile="small">
+                <strong>Kleine Agentur</strong>
+                <span>3 MA · 6 Kunden · EUR 8.000</span>
+              </button>
+              <button class="roi-profile" type="button" data-roi-profile="growth">
+                <strong>Wachstum</strong>
+                <span>6 MA · 15 Kunden · EUR 20.000</span>
+              </button>
+              <button class="roi-profile" type="button" data-roi-profile="scale">
+                <strong>Skalierte Agentur</strong>
+                <span>12 MA · 35 Kunden · EUR 45.000</span>
+              </button>
+            </div>
+
             <div class="slider-block">
               <div class="slider-header">
                 <label for="roi-employees">Wie viele Mitarbeiter?</label>
@@ -764,6 +779,10 @@
             <div class="cta-row" style="margin-top: 1.75rem;">
               <button class="roi-btn" data-roi-action="calculate">Ergebnis sehen</button>
               <a class="roi-btn secondary" href="/preise.html">Zu den Preisen</a>
+            </div>
+
+            <div class="roi-method-note">
+              <strong>Methodik:</strong> Der Rechner ist ein operativer Estimator für Amazon-Agenturen. Er kombiniert Teamgröße, Kundenzahl und Kostenbasis, um realistische Entlastung durch weniger Reporting-, Abstimmungs- und Toolaufwand zu schätzen.
             </div>
           </article>
         </section>
@@ -877,6 +896,12 @@
       clients: 15
     };
 
+    const roiProfiles = {
+      small: { employees: 3, totalCosts: 8000, clients: 6 },
+      growth: { employees: 6, totalCosts: 20000, clients: 15 },
+      scale: { employees: 12, totalCosts: 45000, clients: 35 }
+    };
+
     const els = {
       step1: root.querySelector('[data-roi-step="1"]'),
       step2: root.querySelector('[data-roi-step="2"]'),
@@ -903,7 +928,8 @@
       barChart: root.querySelector("[data-roi-bar-chart]"),
       lineChart: root.querySelector("[data-roi-line-chart]"),
       sticky: root.querySelector("[data-roi-sticky]"),
-      error: root.querySelector("[data-roi-error]")
+      error: root.querySelector("[data-roi-error]"),
+      profiles: Array.from(root.querySelectorAll("[data-roi-profile]"))
     };
 
     function updateInputs() {
@@ -911,6 +937,14 @@
       els.costsValue.textContent = `EUR ${formatCurrency(state.totalCosts, 0)}`;
       els.clientsValue.textContent = state.clients;
       [els.employeesInput, els.costsInput, els.clientsInput].forEach(setRangeProgress);
+      els.profiles.forEach((button) => {
+        const profile = roiProfiles[button.dataset.roiProfile];
+        const active = profile
+          && profile.employees === state.employees
+          && profile.totalCosts === state.totalCosts
+          && profile.clients === state.clients;
+        button.classList.toggle("active", active);
+      });
     }
 
     function calculateOperationalEfficiency() {
@@ -1032,6 +1066,20 @@
         state.employees = Number(els.employeesInput.value);
         state.totalCosts = Number(els.costsInput.value);
         state.clients = Number(els.clientsInput.value);
+        updateInputs();
+      });
+    });
+
+    els.profiles.forEach((button) => {
+      button.addEventListener("click", () => {
+        const profile = roiProfiles[button.dataset.roiProfile];
+        if (!profile) return;
+        state.employees = profile.employees;
+        state.totalCosts = profile.totalCosts;
+        state.clients = profile.clients;
+        els.employeesInput.value = String(profile.employees);
+        els.costsInput.value = String(profile.totalCosts);
+        els.clientsInput.value = String(profile.clients);
         updateInputs();
       });
     });
