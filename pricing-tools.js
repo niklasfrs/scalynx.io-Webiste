@@ -350,7 +350,7 @@
         ${buildTickerHTML(pricingTickerItems)}
         <section class="section pricing-hero">
           <div class="pricing-badge">Scalynx für Agenturen</div>
-          <h1 class="pricing-title">Alle Features. Immer. <span class="accent">Mehr Kunden = günstiger.</span></h1>
+          <div class="pricing-title" role="heading" aria-level="1">Alle Features. Immer. <span class="accent">Mehr Kunden = günstiger.</span></div>
           <p class="pricing-lead">Gib einfach die Anzahl deiner Kunden ein. Je mehr Kunden ihr betreut, desto niedriger wird euer Preis pro Kunde.</p>
           <div class="live-badge"><span class="live-dot"></span><span>16 Agenturen nutzen scalynx gerade aktiv</span></div>
           <div class="pricing-grid">
@@ -379,7 +379,7 @@
 
         <section class="section">
           <article class="panel config-card">
-            <h2 class="pricing-card-title">Wie viele Kunden habt ihr aktuell?</h2>
+              <h2 class="pricing-card-title">Wie viele Kunden habt ihr aktuell?</h2>
             <p class="pricing-subline">Plan und Preis werden automatisch auf Basis eurer Kundenzahl berechnet.</p>
 
             <div class="slider-block">
@@ -698,7 +698,7 @@
           <div class="roi-step-head">
             <div>
               <div class="roi-step-badge">ROI-Rechner</div>
-              <h1 class="roi-title">Wie viel sparst du <span class="accent">mit scalynx?</span></h1>
+              <div class="roi-title" role="heading" aria-level="1">Wie viel sparst du <span class="accent">mit scalynx?</span></div>
               <p class="roi-lead">Antworte auf drei einfache Fragen und sieh sofort dein monatliches und jährliches Sparpotenzial.</p>
             </div>
           </div>

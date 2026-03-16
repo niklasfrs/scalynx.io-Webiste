@@ -2,6 +2,18 @@
   padding-bottom: 7.5rem;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .pricing-page {
   --pricing-bg: #0d1117;
   --pricing-card: #161b22;
@@ -94,8 +106,9 @@ body[data-page="roi"] .footer {
   align-items: center;
   gap: 0.9rem;
   width: max-content;
-  padding: 0.7rem 0;
+  padding: 0.7rem 4.6rem;
   animation: pricing-ticker 34s linear infinite;
+  will-change: transform;
 }
 
 .pricing-ticker-chip {
@@ -647,8 +660,8 @@ body[data-page="roi"] .footer {
   z-index: 30;
   display: none;
   align-items: center;
-  gap: 0.9rem;
-  padding: 0.9rem 1rem calc(0.9rem + env(safe-area-inset-bottom));
+  gap: 0.7rem;
+  padding: 0.72rem 0.85rem calc(0.72rem + env(safe-area-inset-bottom));
   border-top: 1px solid var(--pricing-border);
   background: rgba(8, 15, 24, 0.95);
   backdrop-filter: blur(18px);
@@ -661,7 +674,7 @@ body[data-page="roi"] .footer {
 
 .sticky-mobile-cta .price {
   font-weight: 900;
-  font-size: 1.3rem;
+  font-size: 1.12rem;
   color: var(--pricing-white);
 }
 
@@ -671,8 +684,8 @@ body[data-page="roi"] .footer {
   right: max(1rem, env(safe-area-inset-right));
   bottom: calc(max(0.85rem, env(safe-area-inset-bottom)) + var(--footer-safe-offset, 0px));
   border: 1px solid rgba(255, 149, 0, 0.16);
-  border-radius: 1.1rem;
-  box-shadow: 0 1.3rem 3rem rgba(0, 0, 0, 0.35);
+  border-radius: 1rem;
+  box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.32);
 }
 
 .sticky-pricing-cta.footer-safe {
@@ -680,7 +693,8 @@ body[data-page="roi"] .footer {
 }
 
 .sticky-pricing-cta .pricing-btn {
-  min-width: 12.75rem;
+  min-width: 11rem;
+  padding: 0.9rem 1.1rem;
 }
 
 .pricing-main-cta-row {
@@ -1166,13 +1180,14 @@ body[data-page="roi"] .footer {
     left: 0.75rem;
     right: 0.75rem;
     bottom: calc(max(0.55rem, env(safe-area-inset-bottom)) + var(--footer-safe-offset, 0px));
-    padding: 0.8rem 0.85rem calc(0.8rem + env(safe-area-inset-bottom));
-    border-radius: 1rem;
+    padding: 0.62rem 0.72rem calc(0.62rem + env(safe-area-inset-bottom));
+    border-radius: 0.92rem;
   }
 
   .sticky-pricing-cta .pricing-btn {
-    min-width: 9.8rem;
-    padding: 0.9rem 1rem;
+    min-width: 8.7rem;
+    padding: 0.78rem 0.88rem;
+    font-size: 0.95rem;
   }
 
   .pricing-ticker-section {
@@ -1182,6 +1197,18 @@ body[data-page="roi"] .footer {
   .pricing-ticker-chip {
     font-size: 0.84rem;
     padding: 0.4rem 0.78rem;
+  }
+
+  .pricing-ticker-track {
+    padding-inline: 3.8rem;
+  }
+
+  .sticky-mobile-cta .copy .subtle-text {
+    font-size: 0.8rem;
+  }
+
+  .sticky-mobile-cta .price {
+    font-size: 0.98rem;
   }
 
   .exit-modal-dialog {
