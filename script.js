@@ -21,6 +21,19 @@ const NAV_CONFIG = [
     ]
   },
   {
+    label: "Ressourcen",
+    href: "/ressourcen/",
+    children: [
+      { label: "Ressourcenübersicht", href: "/ressourcen/" },
+      { label: "Case Studies", href: "/ressourcen/case-studies.html" },
+      { label: "Reporting-Playbook", href: "/ressourcen/playbooks/reporting-playbook.html" },
+      { label: "Ads-Audit-Playbook", href: "/ressourcen/playbooks/ads-audit.html" },
+      { label: "KPI-Glossar", href: "/ressourcen/guides/kpi-glossar.html" },
+      { label: "Onboarding-Checkliste", href: "/ressourcen/guides/onboarding-checkliste.html" },
+      { label: "Agentur-FAQ", href: "/ressourcen/faq/agentur-faq.html" }
+    ]
+  },
+  {
     label: "Plattform",
     href: "/plattform/",
     children: [
@@ -34,19 +47,6 @@ const NAV_CONFIG = [
     ]
   },
   { label: "Für Agenturen", href: "/branchen/amazon-agenturen.html" },
-  {
-    label: "Ressourcen",
-    href: "/ressourcen/",
-    children: [
-      { label: "Ressourcenübersicht", href: "/ressourcen/" },
-      { label: "Case Studies", href: "/ressourcen/case-studies.html" },
-      { label: "Reporting-Playbook", href: "/ressourcen/playbooks/reporting-playbook.html" },
-      { label: "Ads-Audit-Playbook", href: "/ressourcen/playbooks/ads-audit.html" },
-      { label: "KPI-Glossar", href: "/ressourcen/guides/kpi-glossar.html" },
-      { label: "Onboarding-Checkliste", href: "/ressourcen/guides/onboarding-checkliste.html" },
-      { label: "Agentur-FAQ", href: "/ressourcen/faq/agentur-faq.html" }
-    ]
-  },
   { label: "ROI-Rechner", href: "/roi-rechner.html" },
   { label: "Preise", href: "/preise.html" }
 ];
