@@ -55,7 +55,7 @@
 
   const pricingTickerItems = [
     { icon: "🚀", text: "All-in-One-Software für Amazon-Agenturen" },
-    { icon: "📉", text: "Ø 35% weniger operative Betreuungskosten" },
+    { icon: "📉", text: "Spürbar weniger operative Betreuungskosten" },
     { icon: "🛡️", text: "DSGVO-konform & mandantenfähig" },
     { icon: "🧾", text: "Jederzeit kündbar, keine Setup-Kosten" },
     { icon: "🇪🇺", text: "Made in EU, Hosting in Europa" },
@@ -801,7 +801,7 @@
               <div class="metric-value" data-roi-current-costs>EUR 0</div>
             </article>
             <article class="roi-metric-card">
-              <div class="metric-name">Einsparungen pro Monat (35%)</div>
+              <div class="metric-name" data-roi-savings-label>Geschätzte Entlastung pro Monat</div>
               <div class="metric-value positive" data-roi-monthly-savings>EUR 0</div>
             </article>
             <article class="roi-metric-card">
@@ -851,6 +851,7 @@
       clientsSummary: root.querySelector("[data-roi-clients-summary]"),
       percent: root.querySelector("[data-roi-percent]"),
       currentCosts: root.querySelector("[data-roi-current-costs]"),
+      savingsLabel: root.querySelector("[data-roi-savings-label]"),
       monthlySavings: root.querySelector("[data-roi-monthly-savings]"),
       netSavings: root.querySelector("[data-roi-net-savings]"),
       summaryTitle: root.querySelector("[data-roi-summary-title]"),
@@ -868,22 +869,32 @@
       [els.employeesInput, els.costsInput, els.clientsInput].forEach(setRangeProgress);
     }
 
+    function calculateOperationalEfficiency() {
+      const baseFactor = 0.07;
+      const teamFactor = Math.min(state.employees, 20) * 0.008;
+      const clientFactor = Math.min(state.clients, 80) * 0.0035;
+      const scaleFactor = Math.min(state.totalCosts / 40000, 1) * 0.05;
+      const lowScalePenalty = (state.clients <= 4 ? 0.02 : 0) + (state.totalCosts < 6000 ? 0.015 : 0);
+      return Math.max(0.08, Math.min(0.27, baseFactor + teamFactor + clientFactor + scaleFactor - lowScalePenalty));
+    }
+
     function computeRoi() {
       const totalMonthlyCosts = state.totalCosts;
       const scalynxBaseFee = 49;
       const scalynxPerClient = state.clients <= 5 ? 149 : state.clients <= 20 ? 119 : 99;
       const scalynxTotalCost = scalynxBaseFee + scalynxPerClient * state.clients;
-      const monthlySavings = totalMonthlyCosts * 0.35;
+      const operationalEfficiency = calculateOperationalEfficiency();
+      const monthlySavings = Math.round(totalMonthlyCosts * operationalEfficiency);
       const netSavings = monthlySavings - scalynxTotalCost;
       const annualSavings = netSavings * 12;
       const roiPercent = Math.round((netSavings / Math.max(scalynxTotalCost, 1)) * 100);
-      return { totalMonthlyCosts, scalynxTotalCost, monthlySavings, netSavings, annualSavings, roiPercent };
+      return { totalMonthlyCosts, scalynxTotalCost, monthlySavings, netSavings, annualSavings, roiPercent, operationalEfficiency };
     }
 
     function renderCharts(result) {
       const breakdown = [
         { name: "Aktuelle Kosten", value: result.totalMonthlyCosts, color: MUTED },
-        { name: "Einsparungen (35%)", value: result.monthlySavings, color: GREEN },
+        { name: `Entlastung (${Math.round(result.operationalEfficiency * 100)}%)`, value: result.monthlySavings, color: GREEN },
         { name: "Scalynx Kosten", value: result.scalynxTotalCost, color: RED },
         { name: "Netto Ersparnis", value: result.netSavings, color: ORANGE }
       ];
@@ -914,6 +925,7 @@
       els.clientsSummary.textContent = state.clients;
       els.percent.textContent = `${result.roiPercent}%`;
       els.currentCosts.textContent = `EUR ${formatCurrency(result.totalMonthlyCosts, 0)}`;
+      els.savingsLabel.textContent = `Geschätzte Entlastung pro Monat (${Math.round(result.operationalEfficiency * 100)}%)`;
       els.monthlySavings.textContent = `EUR ${formatCurrency(result.monthlySavings, 0)}`;
       els.netSavings.textContent = `${result.netSavings < 0 ? "- " : ""}EUR ${formatCurrency(Math.abs(result.netSavings), 0)}`;
       els.sticky.textContent = `${result.annualSavings < 0 ? "- " : ""}EUR ${formatCurrency(Math.abs(result.annualSavings), 0)}`;
@@ -921,14 +933,14 @@
       if (result.netSavings > 500) {
         els.summaryTitle.textContent = "Absoluter No-Brainer";
         const monthsToPayback = Math.max(1, Math.ceil(result.scalynxTotalCost / result.netSavings));
-        els.summaryCopy.textContent = `Mit EUR ${formatCurrency(result.netSavings, 0)} Netto-Ersparnis pro Monat zahlt sich scalynx in rund ${monthsToPayback} Monat${monthsToPayback === 1 ? "" : "en"} selbst. Danach arbeitet jede weitere Optimierung direkt für eure Marge.`;
+        els.summaryCopy.textContent = `Mit geschätzt ${Math.round(result.operationalEfficiency * 100)}% operativer Entlastung spart ihr netto rund EUR ${formatCurrency(result.netSavings, 0)} pro Monat. Damit trägt sich scalynx in etwa ${monthsToPayback} Monat${monthsToPayback === 1 ? "" : "en"} selbst und verbessert danach direkt eure Marge.`;
       } else if (result.netSavings > 0) {
         els.summaryTitle.textContent = "Wirtschaftlich sinnvoll";
         const monthsToPayback = Math.max(1, Math.ceil(result.scalynxTotalCost / result.netSavings));
-        els.summaryCopy.textContent = `Mit EUR ${formatCurrency(result.netSavings, 0)} Netto-Ersparnis pro Monat amortisiert sich scalynx in rund ${monthsToPayback} Monat${monthsToPayback === 1 ? "" : "en"}. Besonders stark wird der Hebel, sobald euer Team mehr Kunden parallel steuert.`;
+        els.summaryCopy.textContent = `Mit geschätzt ${Math.round(result.operationalEfficiency * 100)}% operativer Entlastung bleibt euch netto rund EUR ${formatCurrency(result.netSavings, 0)} pro Monat. Die Plattform amortisiert sich damit in etwa ${monthsToPayback} Monat${monthsToPayback === 1 ? "" : "en"} und gewinnt mit mehr Kunden deutlich an Hebel.`;
       } else {
         els.summaryTitle.textContent = "Mit diesen Werten noch kein direkter Hebel";
-        els.summaryCopy.textContent = `Bei euren aktuellen Eingaben liegen die geschätzten operativen Einsparungen noch unter den Plattformkosten. Erhöhe die gesamten monatlichen Agenturkosten oder die Kundenzahl, um ein realistischeres Bild für euer Team zu bekommen.`;
+        els.summaryCopy.textContent = `Bei euren aktuellen Eingaben liegen die geschätzten Einsparungen von rund ${Math.round(result.operationalEfficiency * 100)}% noch unter den Plattformkosten. Das ist vor allem bei sehr kleinen Setups normal. Mit mehr Kunden, höheren Betreuungskosten oder komplexeren Abläufen kippt die Rechnung meist deutlich schneller ins Positive.`;
       }
       renderCharts(result);
     }
