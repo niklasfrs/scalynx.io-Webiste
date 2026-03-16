@@ -200,6 +200,22 @@
     const pageKey = options?.pageKey || "preise";
     const page = document.body?.dataset?.page;
     if (!["preise", "roi"].includes(page) || page !== pageKey) return;
+    const dismissKey = "scalynx-exit-intent-dismissed";
+    const isDismissed = () => {
+      try {
+        return window.sessionStorage.getItem(dismissKey) === "1";
+      } catch (error) {
+        return false;
+      }
+    };
+    const setDismissed = () => {
+      try {
+        window.sessionStorage.setItem(dismissKey, "1");
+      } catch (error) {
+        // ignore storage restrictions
+      }
+    };
+    if (isDismissed()) return;
     const root = document.body;
     let pendingHref = null;
     let modalShown = false;
@@ -263,11 +279,15 @@
     }
 
     modal.querySelectorAll("[data-exit-close]").forEach((button) => {
-      button.addEventListener("click", closeModal);
+      button.addEventListener("click", () => {
+        setDismissed();
+        closeModal();
+      });
     });
 
     leaveButton.addEventListener("click", () => {
       const target = pendingHref;
+      setDismissed();
       closeModal();
       if (target) window.location.href = target;
     });
@@ -315,6 +335,7 @@
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && modal.classList.contains("visible")) {
+        setDismissed();
         closeModal();
       }
     });
