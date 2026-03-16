@@ -593,12 +593,6 @@
   display: flex;
 }
 
-.sticky-pricing-cta.is-hidden {
-  opacity: 0;
-  transform: translateY(120%);
-  pointer-events: none;
-}
-
 .roi-page {
   padding: 2rem 0 3rem;
 }

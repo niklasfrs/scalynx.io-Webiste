@@ -335,17 +335,6 @@
       elements.stickyButton.dataset.mode = "plan";
     }
 
-    function syncStickyWithFooter() {
-      if (!elements.stickyWrap) return;
-      const footer = document.querySelector(".footer");
-      if (!footer || !("IntersectionObserver" in window)) return;
-      const observer = new IntersectionObserver((entries) => {
-        const entry = entries[0];
-        elements.stickyWrap.classList.toggle("is-hidden", Boolean(entry?.isIntersecting));
-      }, { threshold: 0.02 });
-      observer.observe(footer);
-    }
-
     function renderTiers(activePlan) {
       elements.tierGrid.innerHTML = TIERS.map((tier) => {
         const yearlyPrice = tier.pricePerCustomer * 0.8;
@@ -504,7 +493,6 @@
 
     setupFaqCards(root);
     updatePricing(false);
-    syncStickyWithFooter();
   }
 
   function renderRoiPage() {
