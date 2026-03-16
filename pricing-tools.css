@@ -1194,13 +1194,33 @@ body[data-page="roi"] .footer {
     padding-top: 0.35rem;
   }
 
+  .pricing-ticker-shell {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .pricing-ticker-shell::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pricing-ticker-shell::before,
+  .pricing-ticker-shell::after {
+    display: none;
+  }
+
   .pricing-ticker-chip {
     font-size: 0.84rem;
     padding: 0.4rem 0.78rem;
+    scroll-snap-align: start;
   }
 
   .pricing-ticker-track {
-    padding-inline: 3.8rem;
+    width: auto;
+    padding: 0.62rem 0.72rem;
+    animation: none;
+    scroll-snap-type: x proximity;
   }
 
   .sticky-mobile-cta .copy .subtle-text {
