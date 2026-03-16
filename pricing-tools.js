@@ -279,12 +279,12 @@
           </div>
         </section>
 
-        <div class="sticky-mobile-cta" data-sticky-pricing>
+        <div class="sticky-mobile-cta sticky-pricing-cta" data-sticky-pricing>
           <div class="copy">
-            <div class="subtle-text" data-sticky-plan>Starter-Plan</div>
-            <div class="price" data-sticky-total>EUR 496,00</div>
+            <div class="subtle-text" data-sticky-plan>14 Tage kostenlos</div>
+            <div class="price" data-sticky-total>Kostenlos testen</div>
           </div>
-          <button class="pricing-btn" data-action="checkout-mobile">Jetzt starten</button>
+          <button class="pricing-btn" data-action="sticky-cta">Kostenlos testen</button>
         </div>
       </div>
     `;
@@ -304,18 +304,47 @@
       monthTotal: root.querySelector("[data-month-total]"),
       yearTotalNote: root.querySelector("[data-year-total-note]"),
       annualSavings: root.querySelector("[data-annual-savings]"),
+      stickyWrap: root.querySelector("[data-sticky-pricing]"),
       stickyPlan: root.querySelector("[data-sticky-plan]"),
       stickyTotal: root.querySelector("[data-sticky-total]"),
       error: root.querySelector("[data-price-error]"),
       billingButtons: Array.from(root.querySelectorAll("[data-billing]")),
       trialButtons: Array.from(root.querySelectorAll('[data-action="trial"]')),
-      checkoutButtons: Array.from(root.querySelectorAll('[data-action="checkout"], [data-action="checkout-mobile"]'))
+      checkoutButtons: Array.from(root.querySelectorAll('[data-action="checkout"]')),
+      stickyButton: root.querySelector('[data-action="sticky-cta"]')
     };
 
     let billingCycle = "month";
     let customerCount = 3;
     let previousPlan = getPlanForCount(customerCount);
     let flashResetTimer = null;
+    let hasAdjustedSlider = false;
+
+    function updateStickyCta(plan, total) {
+      if (!elements.stickyButton) return;
+      if (!hasAdjustedSlider) {
+        elements.stickyPlan.textContent = "14 Tage kostenlos";
+        elements.stickyTotal.textContent = "Kostenlos testen";
+        elements.stickyButton.textContent = "Kostenlos testen";
+        elements.stickyButton.dataset.mode = "trial";
+        return;
+      }
+      elements.stickyPlan.textContent = `${plan.name}-Plan`;
+      elements.stickyTotal.textContent = `EUR ${formatCurrency(total, 2)}`;
+      elements.stickyButton.textContent = "Jetzt starten";
+      elements.stickyButton.dataset.mode = "plan";
+    }
+
+    function syncStickyWithFooter() {
+      if (!elements.stickyWrap) return;
+      const footer = document.querySelector(".footer");
+      if (!footer || !("IntersectionObserver" in window)) return;
+      const observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        elements.stickyWrap.classList.toggle("is-hidden", Boolean(entry?.isIntersecting));
+      }, { threshold: 0.02 });
+      observer.observe(footer);
+    }
 
     function renderTiers(activePlan) {
       elements.tierGrid.innerHTML = TIERS.map((tier) => {
@@ -354,8 +383,7 @@
       elements.yearSavingsLine.hidden = billingCycle !== "year";
       elements.annualSavings.hidden = billingCycle !== "year";
       elements.annualSavings.textContent = `Du sparst EUR ${formatCurrency(yearlySavings, 0)} im Jahr gegenüber monatlicher Zahlung.`;
-      elements.stickyPlan.textContent = plan.name + "-Plan";
-      elements.stickyTotal.textContent = `EUR ${formatCurrency(total, 2)}`;
+      updateStickyCta(plan, total);
 
       elements.billingButtons.forEach((button) => {
         button.classList.toggle("active", button.dataset.billing === billingCycle);
@@ -387,6 +415,7 @@
 
     elements.range.addEventListener("input", () => {
       customerCount = Number(elements.range.value);
+      hasAdjustedSlider = true;
       updatePricing(true);
     });
 
@@ -435,8 +464,47 @@
       });
     });
 
+    if (elements.stickyButton) {
+      elements.stickyButton.addEventListener("click", async () => {
+        if (elements.stickyButton.dataset.mode === "trial") {
+          elements.stickyButton.disabled = true;
+          const original = elements.stickyButton.textContent;
+          elements.stickyButton.textContent = "Wird verarbeitet...";
+          try {
+            await requestCheckout({ planId: "trial" });
+          } catch (error) {
+            elements.error.className = "price-error visible";
+            elements.error.textContent = error.message;
+          } finally {
+            elements.stickyButton.disabled = false;
+            elements.stickyButton.textContent = original;
+          }
+          return;
+        }
+
+        const plan = getPlanForCount(customerCount);
+        elements.stickyButton.disabled = true;
+        const original = elements.stickyButton.textContent;
+        elements.stickyButton.textContent = "Wird verarbeitet...";
+        try {
+          await requestCheckout({
+            planId: plan.id,
+            numberOfCustomers: customerCount,
+            billingCycle
+          });
+        } catch (error) {
+          elements.error.className = "price-error visible";
+          elements.error.textContent = error.message;
+        } finally {
+          elements.stickyButton.disabled = false;
+          elements.stickyButton.textContent = original;
+        }
+      });
+    }
+
     setupFaqCards(root);
     updatePricing(false);
+    syncStickyWithFooter();
   }
 
   function renderRoiPage() {

@@ -185,6 +185,7 @@
   padding: 2rem;
   border-color: rgba(255, 149, 0, 0.28);
   box-shadow: 0 0 4rem rgba(255, 149, 0, 0.12), 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+  animation: trial-heartbeat 2.8s ease-in-out infinite;
 }
 
 .trial-title,
@@ -483,6 +484,10 @@
   box-shadow: 0 0 2rem rgba(255, 149, 0, 0.18);
 }
 
+.trial-card .pricing-btn:not(.secondary) {
+  animation: trial-heartbeat-button 2.8s ease-in-out infinite;
+}
+
 .pricing-btn.secondary,
 .roi-btn.secondary {
   background: transparent;
@@ -571,6 +576,7 @@
   border-top: 1px solid var(--pricing-border);
   background: rgba(8, 15, 24, 0.95);
   backdrop-filter: blur(18px);
+  transition: transform 220ms ease, opacity 220ms ease;
 }
 
 .sticky-mobile-cta .copy {
@@ -581,6 +587,16 @@
   font-weight: 900;
   font-size: 1.3rem;
   color: var(--pricing-white);
+}
+
+.sticky-pricing-cta {
+  display: flex;
+}
+
+.sticky-pricing-cta.is-hidden {
+  opacity: 0;
+  transform: translateY(120%);
+  pointer-events: none;
 }
 
 .roi-page {
@@ -802,6 +818,48 @@
 @keyframes pricing-pop {
   0% { opacity: 0; transform: translateY(0.4rem) scale(0.96); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes trial-heartbeat {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 4rem rgba(255, 149, 0, 0.12), 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+  }
+  12% {
+    transform: scale(1.012);
+    box-shadow: 0 0 4.6rem rgba(255, 149, 0, 0.2), 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+  }
+  20% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.02);
+    box-shadow: 0 0 5rem rgba(255, 149, 0, 0.24), 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+@keyframes trial-heartbeat-button {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 2rem rgba(255, 149, 0, 0.18);
+  }
+  12% {
+    transform: scale(1.03);
+    box-shadow: 0 0 2.5rem rgba(255, 149, 0, 0.28);
+  }
+  20% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.045);
+    box-shadow: 0 0 2.8rem rgba(255, 149, 0, 0.34);
+  }
+  40% {
+    transform: scale(1);
+  }
 }
 
 @keyframes confetti-burst {
