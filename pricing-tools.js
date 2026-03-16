@@ -810,6 +810,46 @@
             </article>
           </div>
 
+          <div class="roi-explainer-grid">
+            <article class="roi-explainer-card">
+              <div class="roi-explainer-head">
+                <div class="chart-card-title">Größter Hebel</div>
+                <div class="tooltip-wrap">
+                  <button class="tooltip-btn" type="button" aria-label="Info zum größten Hebel">i</button>
+                  <div class="tooltip-box">Hier siehst du, welcher operative Bereich bei euren Eingaben den größten wirtschaftlichen Unterschied macht.</div>
+                </div>
+              </div>
+              <h3 data-roi-explainer-title>Report- und KPI-Logik bündeln</h3>
+              <p data-roi-explainer-copy>Scalynx reduziert vor allem Reporting- und Analyseaufwand, weil Daten, Insights und Maßnahmen nicht mehr auf mehrere Tools verteilt sind.</p>
+            </article>
+
+            <article class="roi-explainer-card">
+              <div class="roi-explainer-head">
+                <div class="chart-card-title">Warum diese Rechnung so ausfällt</div>
+                <div class="tooltip-wrap">
+                  <button class="tooltip-btn" type="button" aria-label="Info zur Rechnung">i</button>
+                  <div class="tooltip-box">Die Heuristik kombiniert Teamgröße, Kundenzahl und operative Kostenbasis, um eine realistische Entlastung statt einer pauschalen Fantasiezahl zu schätzen.</div>
+                </div>
+              </div>
+              <p data-roi-diagnostic-copy>Mit eurem Setup ist die operative Reibung bereits hoch genug, dass Reporting, Priorisierung und Kundenkommunikation spürbar standardisiert werden können.</p>
+            </article>
+
+            <article class="roi-explainer-card">
+              <div class="roi-explainer-head">
+                <div class="chart-card-title">Was scalynx konkret spart</div>
+                <div class="tooltip-wrap">
+                  <button class="tooltip-btn" type="button" aria-label="Info zu eingesparter Zeit">i</button>
+                  <div class="tooltip-box">Die Erklärung wird auf Basis deiner drei Angaben formuliert und zeigt, wo Zeit und Abstimmung im Agenturalltag wegfallen.</div>
+                </div>
+              </div>
+              <ul class="pricing-info-list roi-info-list" data-roi-impact-list>
+                <li>Weniger manuelle KPI-Zusammenstellung für Kundentermine</li>
+                <li>Weniger Abstimmung zwischen Ads, Reporting und To-dos</li>
+                <li>Mehr Klarheit, welche Maßnahme als Nächstes umgesetzt wird</li>
+              </ul>
+            </article>
+          </div>
+
           <article class="roi-result-card result-summary">
             <div class="result-summary-title" data-roi-summary-title>Lohnt sich für dich</div>
             <p class="result-summary-copy" data-roi-summary-copy></p>
@@ -854,6 +894,10 @@
       savingsLabel: root.querySelector("[data-roi-savings-label]"),
       monthlySavings: root.querySelector("[data-roi-monthly-savings]"),
       netSavings: root.querySelector("[data-roi-net-savings]"),
+      explainerTitle: root.querySelector("[data-roi-explainer-title]"),
+      explainerCopy: root.querySelector("[data-roi-explainer-copy]"),
+      diagnosticCopy: root.querySelector("[data-roi-diagnostic-copy]"),
+      impactList: root.querySelector("[data-roi-impact-list]"),
       summaryTitle: root.querySelector("[data-roi-summary-title]"),
       summaryCopy: root.querySelector("[data-roi-summary-copy]"),
       barChart: root.querySelector("[data-roi-bar-chart]"),
@@ -918,6 +962,43 @@
       `).join("");
     }
 
+    function renderExplainers(result) {
+      const biggestLever = state.clients >= 20
+        ? {
+            title: "Standardisierte Kundensteuerung statt Report-Handarbeit",
+            copy: "Bei vielen Kunden steigt der Hebel vor allem dort, wo Teams dieselben KPI-, Insight- und Maßnahmenroutinen immer wieder sauber wiederholen müssen."
+          }
+        : state.employees >= 6
+          ? {
+              title: "Weniger Abstimmung im Team, mehr klare nächste Schritte",
+              copy: "Mit mehreren Betreuern zahlt sich vor allem aus, dass Reporting, Findings und To-dos nicht mehr zwischen Personen und Tools verloren gehen."
+            }
+          : {
+              title: "Reporting und Analyse in einem festen Wochenablauf bündeln",
+              copy: "Bei kleineren Setups entsteht der Mehrwert primär dadurch, dass Reports, KPI-Interpretation und Kundenkommunikation in einem System zusammenlaufen."
+            };
+
+      const diagnostic = result.netSavings > 0
+        ? `Mit ${state.employees} Mitarbeitenden, ${state.clients} Kunden und EUR ${formatCurrency(state.totalCosts, 0)} operativen Kosten ist euer Setup bereits komplex genug, dass Standardisierung und klare Priorisierung direkt wirtschaftlich wirken.`
+        : `Mit ${state.employees} Mitarbeitenden, ${state.clients} Kunden und EUR ${formatCurrency(state.totalCosts, 0)} operativen Kosten ist euer Setup noch eher klein. Der Hebel steigt typischerweise, sobald mehr Kunden parallel betreut werden oder mehr manuelle Abstimmung im Reporting entsteht.`;
+
+      const impactItems = [];
+      impactItems.push(state.clients >= 15
+        ? "Monats- und Kundenreports müssen nicht mehr je Mandant neu zusammengesucht werden."
+        : "Kundenreports und KPI-Updates laufen zentral statt über mehrere Tabellen und Tools.");
+      impactItems.push(state.employees >= 6
+        ? "Team-Übergaben werden sauberer, weil Findings, Aufgaben und Report-Status an einem Ort liegen."
+        : "Weniger Rückfragen im Tagesgeschäft, weil Zahlen, Insights und nächste Schritte in derselben Oberfläche liegen.");
+      impactItems.push(result.operationalEfficiency >= 0.2
+        ? "Das größte Potenzial liegt in standardisierten Routinen für Reporting, Priorisierung und Kundenkommunikation."
+        : "Der Haupthebel liegt in saubereren Prozessen, damit kleine Teams nicht in manueller Nacharbeit hängen bleiben.");
+
+      els.explainerTitle.textContent = biggestLever.title;
+      els.explainerCopy.textContent = biggestLever.copy;
+      els.diagnosticCopy.textContent = diagnostic;
+      els.impactList.innerHTML = impactItems.map((item) => `<li>${item}</li>`).join("");
+    }
+
     function renderResult() {
       const result = computeRoi();
       els.annual.textContent = `EUR ${formatCurrency(result.annualSavings, 0)}`;
@@ -943,6 +1024,7 @@
         els.summaryCopy.textContent = `Bei euren aktuellen Eingaben liegen die geschätzten Einsparungen von rund ${Math.round(result.operationalEfficiency * 100)}% noch unter den Plattformkosten. Das ist vor allem bei sehr kleinen Setups normal. Mit mehr Kunden, höheren Betreuungskosten oder komplexeren Abläufen kippt die Rechnung meist deutlich schneller ins Positive.`;
       }
       renderCharts(result);
+      renderExplainers(result);
     }
 
     [els.employeesInput, els.costsInput, els.clientsInput].forEach((input) => {

@@ -1050,6 +1050,49 @@ body[data-page="roi"] .footer {
   margin-bottom: 1.5rem;
 }
 
+.roi-explainer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.roi-explainer-card {
+  padding: 1.25rem 1.2rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(255, 149, 0, 0.18);
+  background: linear-gradient(180deg, rgba(21, 29, 41, 0.94), rgba(11, 18, 28, 0.98));
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.18);
+}
+
+.roi-explainer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.roi-explainer-card h3 {
+  font-size: 1.15rem;
+  line-height: 1.18;
+  margin-bottom: 0.7rem;
+}
+
+.roi-explainer-card p {
+  color: #dbe6ef;
+  line-height: 1.68;
+  margin: 0;
+}
+
+.roi-info-list {
+  margin-top: 0;
+}
+
+.roi-info-list li {
+  color: #dbe6ef;
+}
+
 .metric-value {
   margin-top: 0.9rem;
   font-size: 2.1rem;
@@ -1161,7 +1204,8 @@ body[data-page="roi"] .footer {
   .pricing-grid,
   .testimonial-grid,
   .roi-grid,
-  .roi-metrics {
+  .roi-metrics,
+  .roi-explainer-grid {
     grid-template-columns: 1fr;
   }
 
