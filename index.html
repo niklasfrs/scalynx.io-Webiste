@@ -85,11 +85,8 @@
       <aside class="hero-panel panel" data-reveal>
         <div class="hero-demo">
           <div class="hero-demo-topline">
-            <div>
-              <p class="hero-demo-kicker">Live-Agenturansicht</p>
-              <h2 class="hero-demo-headline" data-hero-copy="headline">Agentur OS</h2>
-            </div>
-            <span class="live" data-hero-copy="live">Live</span>
+            <p class="hero-demo-kicker">Produkt-Preview</p>
+            <span class="live">4 Kernmodule</span>
           </div>
 
           <div class="hero-mode-strip" aria-label="Produktmodi">
@@ -99,115 +96,102 @@
             <button class="hero-mode-pill" type="button" data-hero-mode="content">Content</button>
           </div>
 
-          <div class="hero-dashboard-grid">
-            <article class="hero-kpi-card hero-kpi-primary">
-              <span data-hero-kpi-label="0">Umsatz</span>
-              <strong data-hero-kpi-value="0">324k</strong>
-              <small data-hero-kpi-copy="0">+12%</small>
-            </article>
-            <article class="hero-kpi-card">
-              <span data-hero-kpi-label="1">Alerts</span>
-              <strong data-hero-kpi-value="1">2</strong>
-              <small data-hero-kpi-copy="1">live</small>
-            </article>
-            <article class="hero-kpi-card">
-              <span data-hero-kpi-label="2">Reports</span>
-              <strong data-hero-kpi-value="2">3</strong>
-              <small data-hero-kpi-copy="2">bereit</small>
-            </article>
-          </div>
-
-          <div class="hero-scene">
-            <article class="hero-window hero-window-main">
-                <div class="hero-window-head">
-                  <div class="hero-window-dots"><span></span><span></span><span></span></div>
-                  <div class="hero-window-title" data-hero-copy="window-title">Dashboard</div>
-                </div>
-                <div class="hero-main-grid">
-                <div class="hero-main-chart-wrap">
-                  <div class="hero-chart">
-                    <span data-hero-bar="0" style="--h:44%; --d:0s;"></span>
-                    <span data-hero-bar="1" style="--h:57%; --d:.08s;"></span>
-                    <span data-hero-bar="2" style="--h:61%; --d:.16s;"></span>
-                    <span data-hero-bar="3" style="--h:69%; --d:.24s;"></span>
-                    <span data-hero-bar="4" style="--h:73%; --d:.32s;"></span>
-                    <span data-hero-bar="5" style="--h:86%; --d:.4s;"></span>
-                    <span data-hero-bar="6" style="--h:82%; --d:.48s;"></span>
-                    <span data-hero-bar="7" style="--h:94%; --d:.56s;"></span>
+          <div class="hero-scene-shell">
+            <section class="hero-scene-view active" data-hero-view="dashboard" aria-label="Dashboard-Ansicht">
+              <div class="hero-scene-header">
+                <span class="hero-scene-chip">Umsatzsteuerung</span>
+                <strong>Alle Kunden im Blick</strong>
+              </div>
+              <div class="hero-scene-dashboard">
+                <article class="hero-scene-card hero-scene-card-chart">
+                  <div class="hero-scene-bars">
+                    <span style="--h:48%"></span>
+                    <span style="--h:56%"></span>
+                    <span style="--h:63%"></span>
+                    <span style="--h:70%"></span>
+                    <span style="--h:78%"></span>
+                    <span style="--h:88%"></span>
                   </div>
-                  <div class="hero-chart-line"></div>
-                  <div class="hero-window-stats">
-                    <div><span data-hero-stat-label="0">Ad</span><strong data-hero-stat-value="0">124k</strong></div>
-                    <div><span data-hero-stat-label="1">ROAS</span><strong data-hero-stat-value="1">4,9</strong></div>
-                    <div><span data-hero-stat-label="2">BB</span><strong data-hero-stat-value="2">94%</strong></div>
+                  <div class="hero-scene-metrics">
+                    <span>320k Umsatz</span>
+                    <span>ROAS 4,9</span>
+                    <span>Buybox 94%</span>
                   </div>
-                </div>
-                <div class="hero-main-rail">
-                  <article>
-                    <span data-hero-rail-label="0">UK</span>
-                    <strong data-hero-rail-title="0">Buybox</strong>
-                    <small data-hero-rail-copy="0">live</small>
-                  </article>
-                  <article>
-                    <span data-hero-rail-label="1">Report</span>
-                    <strong data-hero-rail-title="1">Ready</strong>
-                    <small data-hero-rail-copy="1">heute</small>
-                  </article>
-                  <article>
-                    <span data-hero-rail-label="2">Bulk</span>
-                    <strong data-hero-rail-title="2">18 ASIN</strong>
-                    <small data-hero-rail-copy="2">aktiv</small>
-                  </article>
+                </article>
+                <article class="hero-scene-card hero-scene-card-stack">
+                  <div class="hero-scene-mini"><em>DE</em><strong>Werbedruck stabil</strong></div>
+                  <div class="hero-scene-mini"><em>UK</em><strong>Buybox recovered</strong></div>
+                  <div class="hero-scene-mini"><em>B2B</em><strong>+18% organisch</strong></div>
+                </article>
+              </div>
+            </section>
+
+            <section class="hero-scene-view" data-hero-view="insights" aria-label="Insights-Ansicht">
+              <div class="hero-scene-header">
+                <span class="hero-scene-chip">Health & Findings</span>
+                <strong>Risiken priorisieren</strong>
+              </div>
+              <div class="hero-scene-insights">
+                <article class="hero-scene-card hero-scene-alert critical">
+                  <span class="hero-scene-dot"></span>
+                  <div><em>Buybox</em><strong>UK drop detected</strong></div>
+                </article>
+                <article class="hero-scene-card hero-scene-alert warning">
+                  <span class="hero-scene-dot"></span>
+                  <div><em>Conversion</em><strong>ASIN B0 down 12%</strong></div>
+                </article>
+                <article class="hero-scene-card hero-scene-alert success">
+                  <span class="hero-scene-dot"></span>
+                  <div><em>Upside</em><strong>DE ads can scale</strong></div>
+                </article>
+                <div class="hero-scene-taskline">
+                  <span>Finding</span>
+                  <span>Owner</span>
+                  <span>Action</span>
+                  <span>Review</span>
                 </div>
               </div>
-            </article>
+            </section>
 
-            <div class="hero-side-stack">
-              <article class="hero-window hero-micro-card hero-window-alert">
-                <div class="hero-micro-icon"></div>
-                <div class="hero-mini-label" data-hero-copy="alert-label">Insight</div>
-                <h3 data-hero-copy="alert-title">Buybox</h3>
-                <div class="hero-alert-status"><span></span><em data-hero-copy="alert-status">Priorisiert</em></div>
-              </article>
-
-              <article class="hero-window hero-micro-card hero-window-report">
-                <div class="hero-micro-icon"></div>
-                <div class="hero-mini-label" data-hero-copy="report-label">Report</div>
-                <h3 data-hero-copy="report-title">7 Min</h3>
-                <div class="hero-micro-pillset">
-                  <span data-hero-report-item="0">KPIs</span>
-                  <span data-hero-report-item="1">PDF</span>
-                  <span data-hero-report-item="2">Ready</span>
-                </div>
-              </article>
-
-              <article class="hero-window hero-micro-card hero-window-content">
-                <div class="hero-micro-icon"></div>
-                <div class="hero-mini-label" data-hero-copy="content-label">Content</div>
-                <h3 data-hero-copy="content-title">18 ASIN</h3>
-                <div class="hero-micro-pillset">
-                  <span data-hero-content-item="0">Bild</span>
-                  <span data-hero-content-item="1">A+</span>
-                  <span data-hero-content-item="2">Text</span>
-                </div>
-              </article>
-            </div>
-
-            <article class="hero-window hero-window-flow">
-              <div class="hero-mini-label" data-hero-copy="flow-label">Flow</div>
-              <div class="hero-flow-steps">
-                <span data-hero-flow-step="0">API</span>
-                <span data-hero-flow-step="1">Insights</span>
-                <span data-hero-flow-step="2">Tasks</span>
-                <span data-hero-flow-step="3">Report</span>
+            <section class="hero-scene-view" data-hero-view="reports" aria-label="Reports-Ansicht">
+              <div class="hero-scene-header">
+                <span class="hero-scene-chip">Reporting</span>
+                <strong>Vom KPI direkt in den Kundenreport</strong>
               </div>
-              <div class="hero-flow-track"><i></i></div>
-              <div class="hero-flow-metrics">
-                <span data-hero-flow-metric="0">11 Tasks</span>
-                <span data-hero-flow-metric="1">3 Reports</span>
-                <span data-hero-flow-metric="2">2 Alerts</span>
+              <div class="hero-scene-reports">
+                <article class="hero-scene-card hero-report-builder">
+                  <div class="hero-report-step active">KPI Snapshot</div>
+                  <div class="hero-report-step">Insight Story</div>
+                  <div class="hero-report-step">Empfehlung</div>
+                  <div class="hero-report-step">PDF Ready</div>
+                </article>
+                <article class="hero-scene-card hero-report-summary">
+                  <div><em>Review-Zeit</em><strong>5,1h gespart</strong></div>
+                  <div><em>Nächster Termin</em><strong>Heute 15:00</strong></div>
+                  <div><em>Status</em><strong>1 Klick fertig</strong></div>
+                </article>
               </div>
-            </article>
+            </section>
+
+            <section class="hero-scene-view" data-hero-view="content" aria-label="Content-Ansicht">
+              <div class="hero-scene-header">
+                <span class="hero-scene-chip">Content Studio</span>
+                <strong>Bulk-Produktion für ASINs</strong>
+              </div>
+              <div class="hero-scene-content">
+                <article class="hero-scene-card hero-content-grid-mini">
+                  <span>Bild</span>
+                  <span>A+</span>
+                  <span>Text</span>
+                  <span>Video</span>
+                </article>
+                <article class="hero-scene-card hero-content-queue">
+                  <div><em>Batch</em><strong>50 ASIN aktiv</strong></div>
+                  <div><em>Keywords</em><strong>24 Cluster ready</strong></div>
+                  <div><em>Approval</em><strong>6 Pakete offen</strong></div>
+                </article>
+              </div>
+            </section>
           </div>
         </div>
       </aside>

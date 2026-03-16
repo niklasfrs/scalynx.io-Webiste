@@ -1131,182 +1131,21 @@ function initHeroModeCycle() {
   const hero = document.querySelector(".hero-demo");
   if (!hero) return;
 
-  const configs = {
-    dashboard: {
-      headline: "Alle Kunden. Ein Cockpit.",
-      live: "Live",
-      kpis: [
-        ["Umsatz", "324k", "+12%"],
-        ["Alerts", "2", "live"],
-        ["Reports", "3", "bereit"]
-      ],
-      windowTitle: "Dashboard",
-      stats: [["Ad", "124k"], ["ROAS", "4,9"], ["BB", "94%"]],
-      rail: [
-        ["UK", "Buybox", "live"],
-        ["Report", "Ready", "heute"],
-        ["Bulk", "18 ASIN", "aktiv"]
-      ],
-      alert: ["Insight", "Buybox", "", "Priorisiert"],
-      report: ["Report", "7 Min", [
-        "KPIs",
-        "PDF",
-        "Ready"
-      ]],
-      content: ["Content", "18 ASIN", ["Bild", "A+", "Text"]],
-      flow: ["Flow", ["API", "Insights", "Tasks", "Report"], ["11 Tasks", "3 Reports", "2 Alerts"]],
-      demoCopy: "",
-      bars: ["44%", "57%", "61%", "69%", "73%", "86%", "82%", "94%"]
-    },
-    insights: {
-      headline: "Probleme. Sofort sichtbar.",
-      live: "Insight-Lauf",
-      kpis: [
-        ["Findings", "11", "neu"],
-        ["Risiken", "3", "kritisch"],
-        ["Chancen", "8", "offen"]
-      ],
-      windowTitle: "Insights",
-      stats: [["Find", "11"], ["Risk", "3"], ["Upside", "8"]],
-      rail: [
-        ["DE", "CVR down", "live"],
-        ["Ads", "Shift", "jetzt"],
-        ["Owner", "Notify", "ready"]
-      ],
-      alert: ["Health", "CVR Drop", "", "Owner"],
-      report: ["Actions", "Signal -> Task", [
-        "Signal",
-        "Owner",
-        "Due"
-      ]],
-      content: ["Content", "Risk Map", ["Cluster", "Bild", "A+"]],
-      flow: ["Flow", ["API", "Find", "Health", "Task"], ["5 Risiken", "8 Chancen", "3 Actions"]],
-      demoCopy: "",
-      bars: ["38%", "49%", "58%", "54%", "76%", "69%", "82%", "88%"]
-    },
-    reports: {
-      headline: "Reports. Ohne Copy-Paste.",
-      live: "Report live",
-      kpis: [
-        ["Reports", "12", "diese Woche"],
-        ["Review", "5,1 h", "gespart"],
-        ["Termin", "Heute", "ready"]
-      ],
-      windowTitle: "Reports",
-      stats: [["Docs", "12"], ["Signoff", "2"], ["Actions", "18"]],
-      rail: [
-        ["Call", "Ready", "heute"],
-        ["Story", "ACoS down", "present"],
-        ["Client", "Signoff", "1 click"]
-      ],
-      alert: ["Client", "Storyline", "", "Ready"],
-      report: ["Report", "1 Klick", [
-        "Summary",
-        "KPI",
-        "Action"
-      ]],
-      content: ["Content", "Creative sync", ["Bild", "Video", "A+"]],
-      flow: ["Flow", ["KPIs", "Insights", "Action", "Signoff"], ["12 Reports", "2 Signoffs", "18 Actions"]],
-      demoCopy: "",
-      bars: ["31%", "42%", "51%", "63%", "71%", "79%", "85%", "91%"]
-    },
-    content: {
-      headline: "Content. In Serie.",
-      live: "Bulk live",
-      kpis: [
-        ["ASINs", "18", "im Flow"],
-        ["A+", "6", "heute"],
-        ["Cluster", "24", "ready"]
-      ],
-      windowTitle: "Content",
-      stats: [["ASIN", "18"], ["A+", "6"], ["Keys", "24"]],
-      rail: [
-        ["Queue", "A+ Pack", "aktiv"],
-        ["Scan", "Competitor", "done"],
-        ["Client", "Approval", "ready"]
-      ],
-      alert: ["Queue", "Content", "", "Bulk"],
-      report: ["Output", "Ready", [
-        "Keyword",
-        "Creative",
-        "Approve"
-      ]],
-      content: ["Content", "Bulk", ["Bild", "A+", "Text"]],
-      flow: ["Flow", ["Analyse", "Keys", "Build", "Approve"], ["18 ASIN", "24 Cluster", "6 Pakete"]],
-      demoCopy: "",
-      bars: ["26%", "39%", "47%", "58%", "66%", "77%", "83%", "89%"]
-    }
-  };
-
   const order = ["dashboard", "insights", "reports", "content"];
   const pills = Array.from(hero.querySelectorAll("[data-hero-mode]"));
+  const views = Array.from(hero.querySelectorAll("[data-hero-view]"));
   let activeIndex = 0;
   let timer = null;
 
-  const setText = (selector, value) => {
-    const el = hero.querySelector(selector);
-    if (el) el.textContent = value;
-  };
-
-  const setGroup = (selectorPrefix, values) => {
-    values.forEach((value, index) => setText(`[${selectorPrefix}=\"${index}\"]`, value));
-  };
-
   const applyMode = (mode, animate = true) => {
-    const config = configs[mode];
-    if (!config) return;
-
-    const render = () => {
-      order.forEach((item) => hero.classList.remove(`mode-${item}`));
-      hero.classList.add(`mode-${mode}`);
-      hero.dataset.heroMode = mode;
-      pills.forEach((pill) => pill.classList.toggle("active", pill.dataset.heroMode === mode));
-
-      setText('[data-hero-copy="headline"]', config.headline);
-      setText('[data-hero-copy="live"]', config.live);
-      config.kpis.forEach((kpi, index) => {
-        setText(`[data-hero-kpi-label="${index}"]`, kpi[0]);
-        setText(`[data-hero-kpi-value="${index}"]`, kpi[1]);
-        setText(`[data-hero-kpi-copy="${index}"]`, kpi[2]);
-      });
-      setText('[data-hero-copy="window-title"]', config.windowTitle);
-      config.stats.forEach((stat, index) => {
-        setText(`[data-hero-stat-label="${index}"]`, stat[0]);
-        setText(`[data-hero-stat-value="${index}"]`, stat[1]);
-      });
-      config.rail.forEach((item, index) => {
-        setText(`[data-hero-rail-label="${index}"]`, item[0]);
-        setText(`[data-hero-rail-title="${index}"]`, item[1]);
-        setText(`[data-hero-rail-copy="${index}"]`, item[2]);
-      });
-      setText('[data-hero-copy="alert-label"]', config.alert[0]);
-      setText('[data-hero-copy="alert-title"]', config.alert[1]);
-      setText('[data-hero-copy="alert-body"]', config.alert[2]);
-      setText('[data-hero-copy="alert-status"]', config.alert[3]);
-      setText('[data-hero-copy="report-label"]', config.report[0]);
-      setText('[data-hero-copy="report-title"]', config.report[1]);
-      setGroup("data-hero-report-item", config.report[2]);
-      setText('[data-hero-copy="content-label"]', config.content[0]);
-      setText('[data-hero-copy="content-title"]', config.content[1]);
-      setGroup("data-hero-content-item", config.content[2]);
-      setText('[data-hero-copy="flow-label"]', config.flow[0]);
-      setGroup("data-hero-flow-step", config.flow[1]);
-      setGroup("data-hero-flow-metric", config.flow[2]);
-      setText('[data-hero-copy="demo-copy"]', config.demoCopy);
-      config.bars.forEach((height, index) => {
-        const bar = hero.querySelector(`[data-hero-bar="${index}"]`);
-        if (bar) bar.style.setProperty("--h", height);
-      });
-      if (animate) window.setTimeout(() => hero.classList.remove("is-cycling"), 320);
-    };
-
-    if (!animate) {
-      render();
-      return;
-    }
-
+    order.forEach((item) => hero.classList.remove(`mode-${item}`));
+    hero.classList.add(`mode-${mode}`);
+    hero.dataset.heroMode = mode;
+    pills.forEach((pill) => pill.classList.toggle("active", pill.dataset.heroMode === mode));
+    views.forEach((view) => view.classList.toggle("active", view.dataset.heroView === mode));
+    if (!animate) return;
     hero.classList.add("is-cycling");
-    window.setTimeout(render, 170);
+    window.setTimeout(() => hero.classList.remove("is-cycling"), 260);
   };
 
   const schedule = () => {
