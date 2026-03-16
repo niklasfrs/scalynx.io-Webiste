@@ -126,6 +126,48 @@
     input.style.setProperty("--slider-progress", progress + "%");
   }
 
+  let confettiBurstId = 0;
+
+  function launchConfetti(options) {
+    const settings = {
+      particleCount: options?.particleCount || 24,
+      spread: options?.spread || 220,
+      originX: options?.originX ?? 0.5,
+      originY: options?.originY ?? 0.3
+    };
+    const container = document.createElement("div");
+    const burstId = ++confettiBurstId;
+    container.className = "confetti-layer";
+    container.dataset.burstId = String(burstId);
+    document.body.appendChild(container);
+
+    for (let index = 0; index < settings.particleCount; index += 1) {
+      const particle = document.createElement("span");
+      const angle = (-settings.spread / 2) + (settings.spread / Math.max(settings.particleCount - 1, 1)) * index;
+      const distance = 120 + Math.random() * 180;
+      const driftX = Math.cos((angle * Math.PI) / 180) * distance;
+      const driftY = Math.sin((angle * Math.PI) / 180) * distance * -1;
+      const hue = [ORANGE, "#ffd166", "#10b981", "#50b4ff", "#f97316"][index % 5];
+      particle.className = "confetti-piece";
+      particle.style.left = `${settings.originX * 100}%`;
+      particle.style.top = `${settings.originY * 100}%`;
+      particle.style.setProperty("--confetti-x", `${driftX}px`);
+      particle.style.setProperty("--confetti-y", `${driftY}px`);
+      particle.style.setProperty("--confetti-rotate", `${180 + Math.random() * 360}deg`);
+      particle.style.setProperty("--confetti-color", hue);
+      particle.style.width = `${6 + Math.random() * 6}px`;
+      particle.style.height = `${8 + Math.random() * 10}px`;
+      particle.style.animationDelay = `${Math.random() * 120}ms`;
+      container.appendChild(particle);
+    }
+
+    window.setTimeout(() => {
+      if (container.parentNode && container.dataset.burstId === String(burstId)) {
+        container.remove();
+      }
+    }, 1700);
+  }
+
   function renderPricingPage() {
     const root = document.getElementById("pricing-root");
     if (!root) return;
@@ -273,6 +315,7 @@
     let billingCycle = "month";
     let customerCount = 3;
     let previousPlan = getPlanForCount(customerCount);
+    let flashResetTimer = null;
 
     function renderTiers(activePlan) {
       elements.tierGrid.innerHTML = TIERS.map((tier) => {
@@ -321,11 +364,19 @@
 
       if (showFlash && previousPlan.id !== plan.id && plan.pricePerCustomer < previousPlan.pricePerCustomer) {
         const saved = (previousPlan.pricePerCustomer - plan.pricePerCustomer) * customerCount;
+        if (flashResetTimer) {
+          window.clearTimeout(flashResetTimer);
+        }
+        elements.planFlash.className = "flash-box";
+        elements.planFlash.textContent = "";
+        void elements.planFlash.offsetWidth;
         elements.planFlash.className = "flash-box visible";
         elements.planFlash.innerHTML = `<strong>Plan-Upgrade!</strong><span>Du sparst jetzt EUR ${formatCurrency(saved, 0)} pro Monat.</span>`;
-        window.setTimeout(() => {
+        launchConfetti({ particleCount: 26, spread: 200, originX: 0.5, originY: 0.36 });
+        flashResetTimer = window.setTimeout(() => {
           elements.planFlash.className = "flash-box";
           elements.planFlash.textContent = "";
+          flashResetTimer = null;
         }, 3200);
       }
       previousPlan = plan;
@@ -613,6 +664,7 @@
       renderResult();
       els.step1.hidden = true;
       els.step2.hidden = false;
+      launchConfetti({ particleCount: 30, spread: 230, originX: 0.5, originY: 0.22 });
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 

@@ -16,6 +16,25 @@
   color: var(--pricing-white);
 }
 
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 120;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  display: block;
+  border-radius: 0.2rem;
+  background: var(--confetti-color);
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(0deg) scale(0.9);
+  animation: confetti-burst 1400ms cubic-bezier(0.18, 0.8, 0.24, 1) forwards;
+  box-shadow: 0 0 1rem rgba(255, 149, 0, 0.18);
+}
+
 .pricing-page .section {
   position: relative;
 }
@@ -783,6 +802,20 @@
 @keyframes pricing-pop {
   0% { opacity: 0; transform: translateY(0.4rem) scale(0.96); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes confetti-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.4);
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--confetti-x)), calc(-50% + var(--confetti-y) + 180px)) rotate(var(--confetti-rotate)) scale(1);
+  }
 }
 
 @media (max-width: 1100px) {
