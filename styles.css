@@ -597,6 +597,24 @@ h2 {
   margin-top: 0.82rem;
 }
 
+.hero-mode-progress {
+  position: relative;
+  margin-top: 0.7rem;
+  height: 0.28rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.hero-mode-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--orange-2), var(--orange));
+  box-shadow: 0 0 1rem rgba(255, 149, 0, 0.22);
+}
+
 .hero-mode-pill {
   appearance: none;
   border: 1px solid rgba(147, 188, 220, 0.14);
@@ -636,6 +654,27 @@ h2 {
   padding: 0.82rem;
   min-height: 25.2rem;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 1.6rem 3.6rem rgba(0, 0, 0, 0.28);
+}
+
+.hero-proofline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.82rem;
+}
+
+.hero-proofline span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.34rem 0.72rem;
+  border-radius: 999px;
+  border: 1px solid rgba(147, 188, 220, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  color: #dceaf6;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .hero-scene-shell-grid,
@@ -1138,12 +1177,17 @@ h2 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
+  align-items: stretch;
 }
 
 .proof-card {
   padding: 1.15rem;
   border-radius: 1.4rem;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   background:
     radial-gradient(circle at top right, rgba(255, 149, 0, 0.12), transparent 35%),
     linear-gradient(180deg, rgba(22, 30, 42, 0.96), rgba(11, 18, 27, 0.96));
@@ -1155,6 +1199,7 @@ h2 {
   line-height: 1.25;
   color: #f4f8fd;
   margin-bottom: 0.55rem;
+  text-wrap: balance;
 }
 
 .proof-card p {
@@ -1433,6 +1478,7 @@ h2 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.1;
+  text-wrap: balance;
 }
 
 .card h3 + p,
@@ -1724,7 +1770,7 @@ h2 {
 
 .page-shell > .section > h2,
 .segment-panel h2 {
-  max-width: 14ch;
+  max-width: 17ch;
 }
 
 .headline-split .headline-accent,
@@ -1746,6 +1792,10 @@ h2 {
   gap: 1.1rem;
   align-items: stretch;
   grid-auto-rows: 1fr;
+}
+
+.content-grid-thirds {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .case-compare {
@@ -1987,6 +2037,10 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .content-grid-thirds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .feature-grid,
   .kpi-band,
   .testimonial-grid,
@@ -2170,7 +2224,8 @@ h2 {
   .pain-grid,
   .testimonial-grid,
   .deep-grid,
-  .proof-rail {
+  .proof-rail,
+  .content-grid-thirds {
     grid-template-columns: 1fr;
   }
 
@@ -2181,6 +2236,14 @@ h2 {
   .hero-demo-topline {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .hero-proofline {
+    gap: 0.45rem;
+  }
+
+  .hero-proofline span {
+    white-space: normal;
   }
 
   .hero-scene-shell {

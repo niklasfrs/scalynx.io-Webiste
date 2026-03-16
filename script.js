@@ -1267,6 +1267,7 @@ function initHeroModeCycle() {
   const order = ["dashboard", "reports", "insights", "content"];
   const pills = Array.from(hero.querySelectorAll("[data-hero-mode]"));
   const views = Array.from(hero.querySelectorAll("[data-hero-view]"));
+  const progress = hero.querySelector(".hero-mode-progress span");
   let activeIndex = 0;
   let timer = null;
   const modeDurations = {
@@ -1282,6 +1283,13 @@ function initHeroModeCycle() {
     hero.dataset.heroMode = mode;
     pills.forEach((pill) => pill.classList.toggle("active", pill.dataset.heroMode === mode));
     views.forEach((view) => view.classList.toggle("active", view.dataset.heroView === mode));
+    if (progress) {
+      progress.style.transition = "none";
+      progress.style.width = "0%";
+      progress.getBoundingClientRect();
+      progress.style.transition = `width ${modeDurations[mode] || 4800}ms linear`;
+      progress.style.width = "100%";
+    }
     if (!animate) return;
     hero.classList.add("is-cycling");
     window.setTimeout(() => hero.classList.remove("is-cycling"), 420);
