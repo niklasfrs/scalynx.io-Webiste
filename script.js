@@ -137,7 +137,7 @@ function buildNavHTML(currentPath) {
     const active = isActiveLink(item.href, currentPath) || childActive;
     const spotlight = item.label === "Preise" ? " nav-link-spotlight" : "";
     if (!children.length) {
-      return `<a class="${active ? "active" : ""}${spotlight}" href="${item.href}">${item.label}${item.label === "Preise" ? '<span class="nav-badge">Plan</span>' : ""}</a>`;
+      return `<a class="${active ? "active" : ""}${spotlight}" href="${item.href}">${item.label}</a>`;
     }
 
     const childrenHTML = item.menuGroups?.length
